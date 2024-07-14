@@ -1,47 +1,41 @@
+import { useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
+import axiosInstance from '@/services/axios-instance'
+import { useAuth } from '@/hooks/use-auth'
 import { useCart } from '@/hooks/use-cart-state'
-import List from '@/components/cart/list'
 import Link from 'next/link'
-import { useState, useEffect } from 'react'
 import toast, { Toaster } from 'react-hot-toast'
+import List from '@/components/cart/list'
+import Image from 'next/image'
 
 // 範例資料
 // type: 'amount'相減，'percent'折扣
 const coupons = [
   { id: 1, name: '折100元', value: 100, type: 'amount' },
   { id: 2, name: '折300元', value: 300, type: 'amount' },
-  { id: 3, name: '折550元', value: 300, type: 'amount' },
+  { id: 2, name: '折550元', value: 300, type: 'amount' },
   { id: 3, name: '8折券', value: 0.2, type: 'percent' },
 ]
 
 export default function Coupon() {
-  //可從useCart中獲取的各方法與屬性，參考README檔中說明
-  const {
-    cart,
-    // items,
-    addItem,
-    removeItem,
-    // updateItem,
-    updateItemQty,
-    clearCart,
-    isInCart,
-    // increment,
-    // decrement,
-  } = useCart()
+  const router = useRouter()
+  const { auth } = useAuth()
+  const { cart, addItem, removeItem, updateItemQty, clearCart, isInCart } =
+    useCart()
 
   const [couponOptions, setCouponOptions] = useState(coupons)
   const [selectedCouponId, setSelectedCouponId] = useState(0)
   const [netTotal, setNetTotal] = useState(0)
+  const [order, setOrder] = useState({})
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
-    // 一開始沒套用折價券，netTotal和cart.totalPrice一樣
     if (!selectedCouponId) {
       setNetTotal(cart.totalPrice)
       return
     }
 
     const coupon = couponOptions.find((v) => v.id === selectedCouponId)
-
-    // type: 'amount'相減，'percent'折扣
     const newNetTotal =
       coupon.type === 'amount'
         ? cart.totalPrice - coupon.value
@@ -49,6 +43,95 @@ export default function Coupon() {
 
     setNetTotal(newNetTotal)
   }, [cart.totalPrice, selectedCouponId])
+
+  const createOrder = async () => {
+    try {
+      const products = cart.items.map((item) => ({
+        id: item.id,
+        name: item.name,
+        quantity: item.quantity,
+        price: item.price,
+      }))
+
+      // 计算商品总价
+      const originalTotal = cart.items.reduce(
+        (acc, item) => acc + item.quantity * item.price,
+        0
+      )
+
+      // 计算折扣后的总价
+      const coupon = couponOptions.find((v) => v.id === selectedCouponId)
+      const discountedTotal = coupon
+        ? coupon.type === 'amount'
+          ? originalTotal - coupon.value
+          : Math.round(originalTotal * (1 - coupon.value))
+        : originalTotal
+
+      // 确保订单总价与产品总价一致，但同时记录实际支付总价
+      const orderData = {
+        amount: originalTotal, // 订单总价与产品总价一致
+        discountedAmount: discountedTotal, // 实际支付总价
+        products,
+      }
+
+      const res = await axiosInstance.post('/line-pay/create-order', orderData)
+
+      if (res.data.status === 'success') {
+        setOrder(res.data.data.order)
+        toast.success('已成功建立订单')
+      } else {
+        toast.error('建立订单失败')
+      }
+    } catch (error) {
+      toast.error('建立订单时发生错误')
+      console.error(error)
+    }
+  }
+
+  const goLinePay = () => {
+    if (window.confirm('確認要導向至LINE Pay進行付款?')) {
+      window.location.href = `http://localhost:3005/api/line-pay/reserve?orderId=${order.orderId}`
+    }
+  }
+
+  const handleConfirm = async (transactionId) => {
+    setIsLoading(true)
+    try {
+      const res = await axiosInstance.get(
+        `/line-pay/confirm?transactionId=${transactionId}`
+      )
+
+      if (res.data.status === 'success') {
+        toast.success('付款成功')
+        clearCart()
+      } else {
+        toast.error('付款失敗')
+      }
+
+      if (res.data.data) {
+        setResult(res.data.data)
+      }
+
+      setIsLoading(false)
+    } catch (error) {
+      toast.error('確認交易時發生錯誤')
+      console.error(error)
+      setIsLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    if (router.isReady) {
+      const { transactionId, orderId } = router.query
+
+      if (!transactionId || !orderId) {
+        setIsLoading(false)
+        return
+      }
+
+      handleConfirm(transactionId)
+    }
+  }, [router.isReady])
 
   return (
     <>
@@ -157,25 +240,22 @@ export default function Coupon() {
           className="btn btn-outline-secondary"
           onClick={() => {
             clearCart()
-            toast.success('已清除整個購物車')
+            toast.success('已清空購物車')
           }}
         >
-          清除整個購物車
+          清空購物車
+        </button>
+        <button className="btn btn-outline-secondary" onClick={createOrder}>
+          產生訂單
         </button>
         <button
           className="btn btn-outline-secondary"
-          onClick={() => {
-            if (isInCart('222')) {
-              toast.success('有id=222在購物車中')
-            } else {
-              toast.error('沒有id=222在購物車中')
-            }
-          }}
+          onClick={goLinePay}
+          disabled={!order.orderId}
         >
-          檢查id=222是否有在購物車中
+          前往付款
         </button>
       </div>
-      {/* 土司訊息視窗用 */}
       <Toaster />
     </>
   )
