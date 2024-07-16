@@ -34,7 +34,7 @@ const menuItems = [
     children: [
       { id: 41, label: '列表', href: '/product/list' },
       { id: 42, label: '詳細', href: '/product/01' },
-      { id: 43, label: '購物車', href: '/cart' },
+      { id: 43, label: '購物車', href: '/test/cart' },
     ],
   },
   {

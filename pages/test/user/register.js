@@ -1,8 +1,14 @@
 import { useState } from 'react'
 import { register } from '@/services/user'
 import toast, { Toaster } from 'react-hot-toast'
+import { useAuth } from '@/hooks/use-auth'
 
 export default function Register() {
+  const { auth } = useAuth()
+
+  // 未登入時，不會出現頁面內容
+  if (auth.isAuth) return <></>
+
   const [user, setUser] = useState({
     name: '',
     email: '',

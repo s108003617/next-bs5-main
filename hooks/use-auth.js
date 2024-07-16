@@ -78,6 +78,8 @@ export const AuthProvider = ({ children }) => {
     '/test/user/profile-password',
   ]
 
+  const NoprotectedRoutes = ['/test/user/register']
+
   // 檢查會員認証用
   // 每次重新到網站中，或重新整理，都會執行這個函式，用於向伺服器查詢取回原本登入會員的資料
   const handleCheckAuth = async () => {
@@ -101,6 +103,8 @@ export const AuthProvider = ({ children }) => {
 
       // 在這裡實作隱私頁面路由的跳轉
       if (protectedRoutes.includes(router.pathname)) {
+        router.push(loginRoute)
+      } else if (NoprotectedRoutes.includes(!router.pathname)) {
         router.push(loginRoute)
       }
     }

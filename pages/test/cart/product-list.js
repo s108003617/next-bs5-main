@@ -4,6 +4,8 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { useCart } from '@/hooks/use-cart-state'
 import Image from 'next/image'
+import ProductCard from '@/components/fav-test/product-card'
+import { Toaster } from 'react-hot-toast'
 
 // 商品範例
 import products from '@/data/product/Product.json'
@@ -89,11 +91,13 @@ export default function ProductList() {
                 >
                   加入購物車
                 </button>
+                <ProductCard key={v.id} id={v.id} />
               </div>
             </div>
           </div>
         )
       })}
+      <Toaster />
     </div>
   )
 
