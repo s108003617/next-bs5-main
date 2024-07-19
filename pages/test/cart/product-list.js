@@ -19,8 +19,12 @@ export default function ProductList() {
   const [perPage, setPerPage] = useState(20)
   const [total, setTotal] = useState(0)
   const [pageCount, setPageCount] = useState(0)
-  const [products, setProducts] = useState([])
-  const [searchCriteria, setSearchCriteria] = useState({})
+  const [allProducts, setAllProducts] = useState([])
+  const [displayedProducts, setDisplayedProducts] = useState([])
+  const [searchTerm, setSearchTerm] = useState('')
+  const [priceRange, setPriceRange] = useState({ min: 0, max: Infinity })
+  const [selectedCategory, setSelectedCategory] = useState('')
+  const [categories, setCategories] = useState([])
 
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
@@ -31,12 +35,38 @@ export default function ProductList() {
   }
 
   const handleGetProducts = async () => {
-    const res = await getProducts(searchCriteria, pageNow, perPage)
+    const res = await getProducts({}, 1, 1000) // 獲取所有產品
     if (res.data.status === 'success') {
+      setAllProducts(res.data.data.products)
       setTotal(res.data.data.total)
-      setPageCount(res.data.data.pageCount)
-      setProducts(res.data.data.products)
+      setPageCount(Math.ceil(res.data.data.total / perPage))
+      updateDisplayedProducts(res.data.data.products, searchTerm, priceRange, selectedCategory)
+      
+      // 提取所有唯一的類別
+      const uniqueCategories = [...new Set(res.data.data.products.map(p => p.category))]
+      setCategories(uniqueCategories)
     }
+  }
+
+  const updateDisplayedProducts = (products, term, price, category) => {
+    let filtered = products;
+
+    if (term) {
+      filtered = filtered.filter(product => product.name.toLowerCase().includes(term.toLowerCase()))
+    }
+
+    filtered = filtered.filter(product => 
+      product.price >= price.min && product.price <= price.max
+    )
+
+    if (category) {
+      filtered = filtered.filter(product => product.category === category)
+    }
+
+    setDisplayedProducts(filtered)
+    setTotal(filtered.length)
+    setPageCount(Math.ceil(filtered.length / perPage))
+    setPageNow(1)
   }
 
   const handlePageClick = (event) => {
@@ -45,7 +75,24 @@ export default function ProductList() {
 
   useEffect(() => {
     handleGetProducts()
-  }, [pageNow, searchCriteria])
+  }, [])
+
+  useEffect(() => {
+    updateDisplayedProducts(allProducts, searchTerm, priceRange, selectedCategory)
+  }, [searchTerm, priceRange, selectedCategory, allProducts, perPage])
+
+  const handleSearch = (e) => {
+    setSearchTerm(e.target.value)
+  }
+
+  const handlePriceChange = (e) => {
+    const { name, value } = e.target
+    setPriceRange(prev => ({ ...prev, [name]: value ? Number(value) : name === 'min' ? 0 : Infinity }))
+  }
+
+  const handleCategoryChange = (e) => {
+    setSelectedCategory(e.target.value)
+  }
 
   const messageModal = (
     <Modal show={show} onHide={handleClose} backdrop="static" keyboard={false}>
@@ -64,9 +111,11 @@ export default function ProductList() {
     </Modal>
   )
 
+  const paginatedProducts = displayedProducts.slice((pageNow - 1) * perPage, pageNow * perPage)
+
   const display = (
     <div className="row row-cols-1 row-cols-md-4 g-4">
-      {products.map((v) => (
+      {paginatedProducts.map((v) => (
         <div className="col" key={v.id}>
           <div className="card">
             <Image
@@ -110,6 +159,49 @@ export default function ProductList() {
       <p>
         <Link href="/test/cart">購物車</Link>
       </p>
+      <div className="my-3">
+        <input
+          type="text"
+          className="form-control"
+          placeholder="搜尋商品名稱"
+          value={searchTerm}
+          onChange={handleSearch}
+        />
+      </div>
+      <div className="my-3 row">
+        <div className="col">
+          <input
+            type="number"
+            className="form-control"
+            placeholder="最低價格"
+            name="min"
+            value={priceRange.min === 0 ? '' : priceRange.min}
+            onChange={handlePriceChange}
+          />
+        </div>
+        <div className="col">
+          <input
+            type="number"
+            className="form-control"
+            placeholder="最高價格"
+            name="max"
+            value={priceRange.max === Infinity ? '' : priceRange.max}
+            onChange={handlePriceChange}
+          />
+        </div>
+        <div className="col">
+          <select
+            className="form-control"
+            value={selectedCategory}
+            onChange={handleCategoryChange}
+          >
+            <option value="">所有類別</option>
+            {categories.map(category => (
+              <option key={category} value={category}>{category}</option>
+            ))}
+          </select>
+        </div>
+      </div>
       <div className="my-3">
         <span>目前頁面: {pageNow} / 總頁數: {pageCount} / 總項目數: {total}</span>
       </div>
