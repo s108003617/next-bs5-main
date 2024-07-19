@@ -25,6 +25,8 @@ export default function ProductList() {
   const [priceRange, setPriceRange] = useState({ min: 0, max: Infinity })
   const [selectedCategory, setSelectedCategory] = useState('')
   const [categories, setCategories] = useState([])
+  const [sort, setSort] = useState('id')
+  const [order, setOrder] = useState('asc')
 
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
@@ -40,7 +42,7 @@ export default function ProductList() {
       setAllProducts(res.data.data.products)
       setTotal(res.data.data.total)
       setPageCount(Math.ceil(res.data.data.total / perPage))
-      updateDisplayedProducts(res.data.data.products, searchTerm, priceRange, selectedCategory)
+      updateDisplayedProducts(res.data.data.products, searchTerm, priceRange, selectedCategory, sort, order)
       
       // 提取所有唯一的類別
       const uniqueCategories = [...new Set(res.data.data.products.map(p => p.category))]
@@ -48,7 +50,7 @@ export default function ProductList() {
     }
   }
 
-  const updateDisplayedProducts = (products, term, price, category) => {
+  const updateDisplayedProducts = (products, term, price, category, sortBy, orderBy) => {
     let filtered = products;
 
     if (term) {
@@ -62,6 +64,13 @@ export default function ProductList() {
     if (category) {
       filtered = filtered.filter(product => product.category === category)
     }
+
+    // 排序
+    filtered.sort((a, b) => {
+      if (a[sortBy] < b[sortBy]) return orderBy === 'asc' ? -1 : 1;
+      if (a[sortBy] > b[sortBy]) return orderBy === 'asc' ? 1 : -1;
+      return 0;
+    });
 
     setDisplayedProducts(filtered)
     setTotal(filtered.length)
@@ -78,8 +87,8 @@ export default function ProductList() {
   }, [])
 
   useEffect(() => {
-    updateDisplayedProducts(allProducts, searchTerm, priceRange, selectedCategory)
-  }, [searchTerm, priceRange, selectedCategory, allProducts, perPage])
+    updateDisplayedProducts(allProducts, searchTerm, priceRange, selectedCategory, sort, order)
+  }, [searchTerm, priceRange, selectedCategory, allProducts, perPage, sort, order])
 
   const handleSearch = (e) => {
     setSearchTerm(e.target.value)
@@ -92,6 +101,12 @@ export default function ProductList() {
 
   const handleCategoryChange = (e) => {
     setSelectedCategory(e.target.value)
+  }
+
+  const handleSortChange = (e) => {
+    const [newSort, newOrder] = e.target.value.split(',')
+    setSort(newSort)
+    setOrder(newOrder)
   }
 
   const messageModal = (
@@ -118,18 +133,22 @@ export default function ProductList() {
       {paginatedProducts.map((v) => (
         <div className="col" key={v.id}>
           <div className="card">
-            <Image
-              className="card-img-top"
-              src={`/images/product/thumb/${v.photos?.split(',')[0]}`}
-              alt={v.name}
-              width={300}
-              height={200}
-              placeholder="blur"
-              blurDataURL={`/images/product/thumb/${v.photos?.split(',')[0]}`}
-              style={{ width: '100%', height: 'auto' }}
-            />
+            <Link href={`/product/${v.id}`}>
+              <Image
+                className="card-img-top"
+                src={`/images/product/thumb/${v.photos?.split(',')[0]}`}
+                alt={v.name}
+                width={300}
+                height={200}
+                placeholder="blur"
+                blurDataURL={`/images/product/thumb/${v.photos?.split(',')[0]}`}
+                style={{ width: '100%', height: 'auto' }}
+              />
+            </Link>
             <div className="card-body">
-              <h5 className="card-title">{v.name}</h5>
+              <Link href={`/product/${v.id}`}>
+                <h5 className="card-title">{v.name}</h5>
+              </Link>
               <p className="card-text">{v.info}</p>
               <p className="card-text text-danger">NTD {v.price}元</p>
             </div>
@@ -199,6 +218,19 @@ export default function ProductList() {
             {categories.map(category => (
               <option key={category} value={category}>{category}</option>
             ))}
+          </select>
+        </div>
+        <div className="col">
+          排序
+          <select
+            className="form-control"
+            value={`${sort},${order}`}
+            onChange={handleSortChange}
+          >
+            <option value="id,asc">ID排序(由小至大)</option>
+            <option value="id,desc">ID排序(由大至小)</option>
+            <option value="price,asc">價格排序(由低至高)</option>
+            <option value="price,desc">價格排序(由高至低)</option>
           </select>
         </div>
       </div>
