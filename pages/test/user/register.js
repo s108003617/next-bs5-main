@@ -19,10 +19,17 @@ export default function Register() {
     confirmPassword: '',
   });
 
-  const [showPassword, setShowPassword] = useState(false);
+  const [showPasswords, setShowPasswords] = useState({
+    password: false,
+    confirmPassword: false,
+  });
 
   const handleFieldChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
+  };
+
+  const togglePasswordVisibility = (field) => {
+    setShowPasswords(prev => ({ ...prev, [field]: !prev[field] }));
   };
 
   const handleSubmit = async (e) => {
@@ -36,8 +43,8 @@ export default function Register() {
     if (res.data.status === 'success') {
       toast.success('會員註冊成功');
       setTimeout(() => {
-        router.push('/test/user'); // 假設登入頁面的路徑是 '/login'
-      }, 2000); // 2秒後跳轉
+        router.push('/test/user');
+      }, 2000);
     } else {
       toast.error('會員註冊失敗');
     }
@@ -81,12 +88,12 @@ export default function Register() {
                   </div>
                 </div>
                 <div className="mb-3">
-                  <div className="input-group">
+                  <div className="input-group position-relative">
                     <span className="input-group-text">
                       <FaLock />
                     </span>
                     <input
-                      type={showPassword ? "text" : "password"}
+                      type={showPasswords.password ? "text" : "password"}
                       className="form-control"
                       placeholder="密碼"
                       name="password"
@@ -94,15 +101,23 @@ export default function Register() {
                       onChange={handleFieldChange}
                       required
                     />
+                    <button
+                      type="button"
+                      className="btn btn-link position-absolute end-0 top-50 translate-middle-y"
+                      onClick={() => togglePasswordVisibility('password')}
+                      style={{ zIndex: 10 }}
+                    >
+                      {showPasswords.password ? <FaEye /> : <FaEyeSlash />}
+                    </button>
                   </div>
                 </div>
                 <div className="mb-3">
-                  <div className="input-group">
+                  <div className="input-group position-relative">
                     <span className="input-group-text">
                       <FaLock />
                     </span>
                     <input
-                      type={showPassword ? "text" : "password"}
+                      type={showPasswords.confirmPassword ? "text" : "password"}
                       className="form-control"
                       placeholder="確認密碼"
                       name="confirmPassword"
@@ -110,18 +125,15 @@ export default function Register() {
                       onChange={handleFieldChange}
                       required
                     />
+                    <button
+                      type="button"
+                      className="btn btn-link position-absolute end-0 top-50 translate-middle-y"
+                      onClick={() => togglePasswordVisibility('confirmPassword')}
+                      style={{ zIndex: 10 }}
+                    >
+                      {showPasswords.confirmPassword ? <FaEye /> : <FaEyeSlash />}
+                    </button>
                   </div>
-                </div>
-                <div className="mb-3 form-check">
-                  <input
-                    type="checkbox"
-                    className="form-check-input"
-                    id="showPassword"
-                    onChange={() => setShowPassword(!showPassword)}
-                  />
-                  <label className="form-check-label" htmlFor="showPassword">
-                    顯示密碼
-                  </label>
                 </div>
                 <div className="mb-3">
                   <div className="input-group">

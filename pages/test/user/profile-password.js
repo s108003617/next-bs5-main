@@ -3,6 +3,7 @@ import Link from 'next/link';
 import toast, { Toaster } from 'react-hot-toast';
 import { updatePassword } from '@/services/user';
 import { useAuth } from '@/hooks/use-auth';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 const initUserPassword = {
   origin: '',
@@ -13,9 +14,18 @@ const initUserPassword = {
 export default function PasswordChange() {
   const { auth } = useAuth();
   const [userPassword, setUserPassword] = useState(initUserPassword);
+  const [showPasswords, setShowPasswords] = useState({
+    origin: false,
+    new: false,
+    confirm: false,
+  });
 
   const handleFieldChange = (e) => {
     setUserPassword({ ...userPassword, [e.target.name]: e.target.value });
+  };
+
+  const togglePasswordVisibility = (field) => {
+    setShowPasswords(prev => ({ ...prev, [field]: !prev[field] }));
   };
 
   const handleSubmit = async (e) => {
@@ -36,7 +46,7 @@ export default function PasswordChange() {
 
     if (res.data.status === 'success') {
       toast.success('會員密碼修改成功');
-      setUserPassword(initUserPassword); // Reset form after successful change
+      setUserPassword(initUserPassword);
     } else {
       toast.error('會員密碼修改失敗');
     }
@@ -85,36 +95,66 @@ export default function PasswordChange() {
           <form onSubmit={handleSubmit} className="mt-4 flex-grow-1">
             <div className="mb-3">
               <label htmlFor="origin" className="form-label">目前密碼</label>
-              <input
-                type="password"
-                className="form-control"
-                id="origin"
-                name="origin"
-                value={userPassword.origin}
-                onChange={handleFieldChange}
-              />
+              <div className="position-relative">
+                <input
+                  type={showPasswords.origin ? "text" : "password"}
+                  className="form-control"
+                  id="origin"
+                  name="origin"
+                  value={userPassword.origin}
+                  onChange={handleFieldChange}
+                />
+                <button
+                  type="button"
+                  className="btn btn-link position-absolute end-0 top-50 translate-middle-y"
+                  onClick={() => togglePasswordVisibility('origin')}
+                  style={{ zIndex: 10 }}
+                >
+                  {showPasswords.origin ? <FaEye /> : <FaEyeSlash />}
+                </button>
+              </div>
             </div>
             <div className="mb-3">
               <label htmlFor="new" className="form-label">新密碼</label>
-              <input
-                type="password"
-                className="form-control"
-                id="new"
-                name="new"
-                value={userPassword.new}
-                onChange={handleFieldChange}
-              />
+              <div className="position-relative">
+                <input
+                  type={showPasswords.new ? "text" : "password"}
+                  className="form-control"
+                  id="new"
+                  name="new"
+                  value={userPassword.new}
+                  onChange={handleFieldChange}
+                />
+                <button
+                  type="button"
+                  className="btn btn-link position-absolute end-0 top-50 translate-middle-y"
+                  onClick={() => togglePasswordVisibility('new')}
+                  style={{ zIndex: 10 }}
+                >
+                  {showPasswords.new ? <FaEye /> : <FaEyeSlash />}
+                </button>
+              </div>
             </div>
             <div className="mb-3">
               <label htmlFor="confirm" className="form-label">新密碼確認</label>
-              <input
-                type="password"
-                className="form-control"
-                id="confirm"
-                name="confirm"
-                value={userPassword.confirm}
-                onChange={handleFieldChange}
-              />
+              <div className="position-relative">
+                <input
+                  type={showPasswords.confirm ? "text" : "password"}
+                  className="form-control"
+                  id="confirm"
+                  name="confirm"
+                  value={userPassword.confirm}
+                  onChange={handleFieldChange}
+                />
+                <button
+                  type="button"
+                  className="btn btn-link position-absolute end-0 top-50 translate-middle-y"
+                  onClick={() => togglePasswordVisibility('confirm')}
+                  style={{ zIndex: 10 }}
+                >
+                  {showPasswords.confirm ? <FaEye /> : <FaEyeSlash />}
+                </button>
+              </div>
             </div>
 
             <button type="submit" className="btn btn-primary">修改</button>

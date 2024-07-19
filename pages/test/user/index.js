@@ -82,7 +82,7 @@ export default function UserTest() {
                   <input
                     type="text"
                     className="form-control"
-                    placeholder="電子郵件地址"
+                    placeholder="帳號"
                     name="username"
                     value={user.username}
                     onChange={handleFieldChange}
