@@ -83,22 +83,27 @@ export default function Profile() {
   return (
     <div className="container-fluid">
       <div className="row">
-        <nav id="sidebar" className="col-md-3 col-lg-2 d-md-block bg-light sidebar">
+      <nav id="sidebar" className="col-md-3 col-lg-2 d-md-block bg-light sidebar">
           <div className="position-sticky">
             <ul className="nav flex-column">
               <li className="nav-item">
-                <Link href="/dashboard" className="nav-link active">
-                  Dashboard
+                <Link href="/dashboard" className="nav-link">
+                  會員中心
                 </Link>
               </li>
               <li className="nav-item">
                 <Link href="/test/user/profile" className="nav-link">
-                  Profile
+                  會員資料
                 </Link>
               </li>
               <li className="nav-item">
                 <Link href="/test/user/profile-password" className="nav-link">
-                  Change Password
+                  密碼更換
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link href="/test/user/order" className="nav-link active">
+                  我的訂單
                 </Link>
               </li>
             </ul>
