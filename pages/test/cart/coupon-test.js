@@ -8,68 +8,116 @@ import toast, { Toaster } from 'react-hot-toast'
 import List from '@/components/cart/list'
 import Image from 'next/image'
 
+// 範例資料
+// type: 'amount'相減，'percent'折扣
 const coupons = [
   { id: 1, name: '折100元', value: 100, type: 'amount' },
   { id: 2, name: '折300元', value: 300, type: 'amount' },
-  { id: 3, name: '折550元', value: 550, type: 'amount' },
-  { id: 4, name: '8折券', value: 0.2, type: 'percent' },
+  { id: 2, name: '折550元', value: 300, type: 'amount' },
+  { id: 3, name: '8折券', value: 0.2, type: 'percent' },
 ]
 
 export default function Coupon() {
   const router = useRouter()
   const { auth } = useAuth()
-  const { cart, addItem, removeItem, updateItemQty, clearCart, isInCart } = useCart()
+  const { cart, addItem, removeItem, updateItemQty, clearCart, isInCart } =
+    useCart()
 
   const [couponOptions, setCouponOptions] = useState(coupons)
   const [selectedCouponId, setSelectedCouponId] = useState(0)
   const [netTotal, setNetTotal] = useState(0)
   const [order, setOrder] = useState({})
   const [isLoading, setIsLoading] = useState(false)
-  const [selectedItems, setSelectedItems] = useState({})
-  const [selectAll, setSelectAll] = useState(false)
-
-  useEffect(() => {
-    const initialSelectedItems = cart.items.reduce((acc, item) => {
-      acc[item.id] = false
-      return acc
-    }, {})
-    setSelectedItems(initialSelectedItems)
-  }, [cart.items])
 
   useEffect(() => {
     if (!selectedCouponId) {
-      setNetTotal(calculateSelectedTotal())
+      setNetTotal(cart.totalPrice)
       return
     }
 
     const coupon = couponOptions.find((v) => v.id === selectedCouponId)
     const newNetTotal =
       coupon.type === 'amount'
-        ? calculateSelectedTotal() - coupon.value
-        : Math.round(calculateSelectedTotal() * (1 - coupon.value))
+        ? cart.totalPrice - coupon.value
+        : Math.round(cart.totalPrice * (1 - coupon.value))
 
     setNetTotal(newNetTotal)
-  }, [cart.items, selectedCouponId, selectedItems])
-
-  const calculateSelectedTotal = () => {
-    return cart.items.reduce((total, item) => {
-      if (selectedItems[item.id]) {
-        return total + item.quantity * item.price
-      }
-      return total
-    }, 0)
-  }
+  }, [cart.totalPrice, selectedCouponId])
 
   const createOrder = async () => {
-    // ... (保持原有的 createOrder 邏輯不變)
+    try {
+      const products = cart.items.map((item) => ({
+        id: item.id,
+        name: item.name,
+        quantity: item.quantity,
+        price: item.price,
+      }))
+
+      // 计算商品总价
+      const originalTotal = cart.items.reduce(
+        (acc, item) => acc + item.quantity * item.price,
+        0
+      )
+
+      // 计算折扣后的总价
+      const coupon = couponOptions.find((v) => v.id === selectedCouponId)
+      const discountedTotal = coupon
+        ? coupon.type === 'amount'
+          ? originalTotal - coupon.value
+          : Math.round(originalTotal * (1 - coupon.value))
+        : originalTotal
+
+      // 确保订单总价与产品总价一致，但同时记录实际支付总价
+      const orderData = {
+        amount: originalTotal, // 订单总价与产品总价一致
+        discountedAmount: discountedTotal, // 实际支付总价
+        products,
+      }
+
+      const res = await axiosInstance.post('/line-pay/create-order', orderData)
+
+      if (res.data.status === 'success') {
+        setOrder(res.data.data.order)
+        toast.success('已成功建立订单')
+      } else {
+        toast.error('建立订单失败')
+      }
+    } catch (error) {
+      toast.error('建立订单时发生错误')
+      console.error(error)
+    }
   }
 
   const goLinePay = () => {
-    // ... (保持原有的 goLinePay 邏輯不變)
+    if (window.confirm('確認要導向至LINE Pay進行付款?')) {
+      window.location.href = `http://localhost:3005/api/line-pay/reserve?orderId=${order.orderId}`
+    }
   }
 
   const handleConfirm = async (transactionId) => {
-    // ... (保持原有的 handleConfirm 邏輯不變)
+    setIsLoading(true)
+    try {
+      const res = await axiosInstance.get(
+        `/line-pay/confirm?transactionId=${transactionId}`
+      )
+
+      if (res.data.status === 'success') {
+        toast.success('付款成功')
+        clearCart()
+      } else {
+        toast.error('付款失敗')
+      }
+
+      if (res.data.data) {
+        setResult(res.data.data)
+      }
+
+      setIsLoading(false)
+    } catch (error) {
+      toast.error('確認交易時發生錯誤')
+      console.error(error)
+      setIsLoading(false)
+    }
   }
 
   useEffect(() => {
@@ -86,108 +134,129 @@ export default function Coupon() {
   }, [router.isReady])
 
   return (
-    <div className="container mt-5">
-      <h1 className="mb-4">購物車範例</h1>
-      <div className="row">
-        <div className="col-md-8">
-          <List 
-            selectedItems={selectedItems} 
-            setSelectedItems={setSelectedItems}
-            selectAll={selectAll}
-            setSelectAll={setSelectAll}
-            calculateSelectedTotal={calculateSelectedTotal}
-          />
-        </div>
-        <div className="col-md-4">
-          <div className="card shadow-sm">
-            <div className="card-body">
-              <h5 className="card-title">折價券</h5>
-              <select
-                className="form-select mb-3"
-                value={selectedCouponId}
-                onChange={(e) => {
-                  setSelectedCouponId(Number(e.target.value))
-                }}
-              >
-                <option value="0">選擇折價券</option>
-                {couponOptions.map((v) => (
-                  <option key={v.id} value={v.id}>
-                    {v.name}
-                  </option>
-                ))}
-              </select>
-              <p><strong>選中商品總價:</strong> ${calculateSelectedTotal()}</p>
-              <p><strong>最後折價金額:</strong> ${netTotal}</p>
-              <button className="btn btn-primary w-100" onClick={createOrder}>
-                產生訂單
-              </button>
-              <button
-                className="btn btn-success w-100 mt-2"
-                onClick={goLinePay}
-                disabled={!order.orderId}
-              >
-                前往付款
-              </button>
-            </div>
-          </div>
-        </div>
+    <>
+      <h1>購物車範例</h1>
+      <p>
+        <Link href="/test/cart/product-list">商品列表頁範例</Link>
+      </p>
+
+      {/* 列出cart中清單 */}
+      <h4>購物車列表</h4>
+      <List />
+      <h4>折價券</h4>
+      <div className="mb-3">
+        <select
+          className="form-select"
+          value={selectedCouponId}
+          onChange={(e) => {
+            setSelectedCouponId(Number(e.target.value))
+          }}
+        >
+          <option value="0">選擇折價券</option>
+          {couponOptions.map((v) => {
+            return (
+              <option key={v.id} value={v.id}>
+                {v.name}
+              </option>
+            )
+          })}
+        </select>
+        <hr />
+        <p>最後折價金額: {netTotal}</p>
       </div>
-      <div className="mt-4">
-        <h4>測試按鈕</h4>
-        <div className="btn-group">
-          <button
-            className="btn btn-outline-secondary"
-            onClick={() => {
-              console.log(cart)
-              toast.success('已在主控台記錄cart狀態')
-            }}
-          >
-            主控台記錄cart狀態
-          </button>
-          <button
-            className="btn btn-outline-secondary"
-            onClick={() => {
-              addItem({
-                id: '111',
-                quantity: 5,
-                name: 'iphone',
-                price: 15000,
-                color: 'red',
-                size: '',
-              })
-              toast.success('新增項目 id=111')
-            }}
-          >
-            新增項目(id=111, x5)
-          </button>
-          <button
-            className="btn btn-outline-secondary"
-            onClick={() => {
-              addItem({
-                id: '222',
-                quantity: 1,
-                name: 'ipad',
-                price: 19000,
-                color: '',
-                size: '',
-              })
-              toast.success('新增項目 id=222')
-            }}
-          >
-            新增項目(id=222, x1)
-          </button>
-          <button
-            className="btn btn-outline-secondary"
-            onClick={() => {
-              clearCart()
-              toast.success('已清空購物車')
-            }}
-          >
-            清空購物車
-          </button>
-        </div>
+      {/* 以下為測試按鈕 */}
+      <h4>測試按鈕</h4>
+      <div className="btn-group-vertical">
+        <button
+          className="btn btn-outline-secondary"
+          onClick={() => {
+            console.log(cart)
+            toast.success('已在主控台記錄cart狀態')
+          }}
+        >
+          主控台記錄cart狀態
+        </button>
+
+        <button
+          className="btn btn-outline-secondary"
+          onClick={() => {
+            addItem({
+              id: '111',
+              quantity: 5,
+              name: 'iphone',
+              price: 15000,
+              color: 'red',
+              size: '',
+            })
+            toast.success('新增項目 id=111')
+          }}
+        >
+          新增項目(id=111, x5)
+        </button>
+        <button
+          className="btn btn-outline-secondary"
+          onClick={() => {
+            addItem({
+              id: '222',
+              quantity: 1,
+              name: 'ipad',
+              price: 19000,
+              color: '',
+              size: '',
+            })
+            toast.success('新增項目 id=222')
+          }}
+        >
+          新增項目(id=222, x1)
+        </button>
+        <button
+          className="btn btn-outline-secondary"
+          onClick={() => {
+            removeItem('222')
+            toast.success('移除項目 id=222')
+          }}
+        >
+          移除項目(id=222)
+        </button>
+        <button
+          className="btn btn-outline-secondary"
+          onClick={() => {
+            updateItemQty(222, 7)
+            toast.success('更新項目 id=222 的數量為 7')
+          }}
+        >
+          更新項目 id=222 的數量為 7
+        </button>
+        <button
+          className="btn btn-outline-secondary"
+          onClick={() => {
+            updateItemQty(111, 99)
+            toast.success('更新項目 id=111 的數量為 99')
+          }}
+        >
+          更新項目 id=111 的數量為 99
+        </button>
+        <button
+          className="btn btn-outline-secondary"
+          onClick={() => {
+            clearCart()
+            toast.success('已清空購物車')
+          }}
+        >
+          清空購物車
+        </button>
+        <button className="btn btn-outline-secondary" onClick={createOrder}>
+          產生訂單
+        </button>
+        <button
+          className="btn btn-outline-secondary"
+          onClick={goLinePay}
+          disabled={!order.orderId}
+        >
+          前往付款
+        </button>
       </div>
       <Toaster />
-    </div>
+    </>
   )
 }
