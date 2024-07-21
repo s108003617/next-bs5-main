@@ -31,14 +31,14 @@ export default function Coupon() {
 
   useEffect(() => {
     if (!selectedCouponId) {
-      setNetTotal(cart.totalPrice)
+      setNetTotal(Math.round(cart.totalPrice))
       return
     }
 
     const coupon = couponOptions.find((v) => v.id === selectedCouponId)
     const newNetTotal =
       coupon.type === 'amount'
-        ? cart.totalPrice - coupon.value
+        ? Math.round(cart.totalPrice - coupon.value)
         : Math.round(cart.totalPrice * (1 - coupon.value))
 
     setNetTotal(newNetTotal)
@@ -50,20 +50,20 @@ export default function Coupon() {
         id: item.id,
         name: item.name,
         quantity: item.quantity,
-        price: item.price,
+        price: Math.round(item.price),
       }))
 
       // 计算商品总价
-      const originalTotal = cart.items.reduce(
+      const originalTotal = Math.round(cart.items.reduce(
         (acc, item) => acc + item.quantity * item.price,
         0
-      )
+      ))
 
       // 计算折扣后的总价
       const coupon = couponOptions.find((v) => v.id === selectedCouponId)
       const discountedTotal = coupon
         ? coupon.type === 'amount'
-          ? originalTotal - coupon.value
+          ? Math.round(originalTotal - coupon.value)
           : Math.round(originalTotal * (1 - coupon.value))
         : originalTotal
 
@@ -140,7 +140,6 @@ export default function Coupon() {
         <Link href="/test/cart/product-list">商品列表頁範例</Link>
       </p>
 
-      {/* 列出cart中清單 */}
       <h4>購物車列表</h4>
       <List />
       <h4>折價券</h4>
@@ -164,7 +163,6 @@ export default function Coupon() {
         <hr />
         <p>最後折價金額: {netTotal}</p>
       </div>
-      {/* 以下為測試按鈕 */}
       <h4>測試按鈕</h4>
       <div className="btn-group-vertical">
         <button
