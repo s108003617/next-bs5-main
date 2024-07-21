@@ -5,133 +5,149 @@ import { useAuth } from '@/hooks/use-auth'
 import { useCart } from '@/hooks/use-cart-state'
 import Link from 'next/link'
 import toast, { Toaster } from 'react-hot-toast'
-import List from '@/components/cart/list'
-import Image from 'next/image'
+import CartList from '@/components/cart/list'
+import { useShip711StoreOpener } from '@/hooks/use-ship-711-store'
 
-// 範例資料
-// type: 'amount'相減，'percent'折扣
 const coupons = [
   { id: 1, name: '折100元', value: 100, type: 'amount' },
   { id: 2, name: '折300元', value: 300, type: 'amount' },
-  { id: 2, name: '折550元', value: 300, type: 'amount' },
-  { id: 3, name: '8折券', value: 0.2, type: 'percent' },
+  { id: 3, name: '折550元', value: 550, type: 'amount' },
+  { id: 4, name: '8折券', value: 0.2, type: 'percent' },
 ]
 
 export default function Coupon() {
   const router = useRouter()
   const { auth } = useAuth()
-  const { cart, addItem, removeItem, updateItemQty, clearCart, isInCart } =
-    useCart()
+  const { cart, addItem, removeItem, updateItemQty, clearCart, isInCart } = useCart()
 
   const [couponOptions, setCouponOptions] = useState(coupons)
   const [selectedCouponId, setSelectedCouponId] = useState(0)
-  const [netTotal, setNetTotal] = useState(0)
+  const [finalPrice, setFinalPrice] = useState(0)
   const [order, setOrder] = useState({})
   const [isLoading, setIsLoading] = useState(false)
+  const [checkedItems, setCheckedItems] = useState({})
+
+  const { store711, openWindow, closeWindow } = useShip711StoreOpener(
+    'http://localhost:3005/api/shipment/711',
+    { autoCloseMins: 3 }
+  )
 
   useEffect(() => {
-    if (!selectedCouponId) {
-      setNetTotal(Math.round(cart.totalPrice))
-      return
+    setCheckedItems({});
+  }, [cart.items]);
+
+  useEffect(() => {
+    const checkedTotal = cart.items.reduce((total, item) => {
+      if (checkedItems[item.id]) {
+        return total + (item.quantity * item.price);
+      }
+      return total;
+    }, 0);
+    
+    const calculatedOriginalPrice = Math.round(checkedTotal);
+    setFinalPrice(calculatedOriginalPrice);
+    
+    if (selectedCouponId) {
+      const coupon = couponOptions.find((v) => v.id === selectedCouponId);
+      const discountedTotal = coupon.type === 'amount'
+        ? Math.max(0, calculatedOriginalPrice - coupon.value)
+        : Math.round(calculatedOriginalPrice * (1 - coupon.value));
+      setFinalPrice(discountedTotal);
     }
+  }, [cart.items, checkedItems, selectedCouponId, couponOptions]);
 
-    const coupon = couponOptions.find((v) => v.id === selectedCouponId)
-    const newNetTotal =
-      coupon.type === 'amount'
-        ? Math.round(cart.totalPrice - coupon.value)
-        : Math.round(cart.totalPrice * (1 - coupon.value))
-
-    setNetTotal(newNetTotal)
-  }, [cart.totalPrice, selectedCouponId])
+  const handleCheckItem = (itemId) => {
+    setCheckedItems(prev => ({
+      ...prev,
+      [itemId]: !prev[itemId]
+    }));
+  };
 
   const createOrder = async () => {
     try {
-      const products = cart.items.map((item) => ({
+      const products = cart.items.filter(item => checkedItems[item.id]).map((item) => ({
         id: item.id,
         name: item.name,
         quantity: item.quantity,
         price: Math.round(item.price),
-      }))
+      }));
 
-      // 计算商品总价
-      const originalTotal = Math.round(cart.items.reduce(
-        (acc, item) => acc + item.quantity * item.price,
-        0
-      ))
-
-      // 计算折扣后的总价
-      const coupon = couponOptions.find((v) => v.id === selectedCouponId)
-      const discountedTotal = coupon
-        ? coupon.type === 'amount'
-          ? Math.round(originalTotal - coupon.value)
-          : Math.round(originalTotal * (1 - coupon.value))
-        : originalTotal
-
-      // 确保订单总价与产品总价一致，但同时记录实际支付总价
       const orderData = {
-        amount: originalTotal, // 订单总价与产品总价一致
-        discountedAmount: discountedTotal, // 实际支付总价
+        amount: finalPrice,
+        discountedAmount: finalPrice,
         products,
-      }
+        shipment: {
+          type: '711',
+          storeId: store711.storeid,
+          storeName: store711.storename,
+          storeAddress: store711.storeaddress,
+        },
+      };
 
-      const res = await axiosInstance.post('/line-pay/create-order', orderData)
+      const res = await axiosInstance.post('/line-pay/create-order', orderData);
 
       if (res.data.status === 'success') {
-        setOrder(res.data.data.order)
-        toast.success('已成功建立订单')
+        setOrder(res.data.data.order);
+        toast.success('已成功建立訂單');
       } else {
-        toast.error('建立订单失败')
+        toast.error('建立訂單失敗');
       }
     } catch (error) {
-      toast.error('建立订单时发生错误')
-      console.error(error)
+      toast.error('建立訂單時發生錯誤');
+      console.error(error);
     }
-  }
+  };
 
   const goLinePay = () => {
     if (window.confirm('確認要導向至LINE Pay進行付款?')) {
-      window.location.href = `http://localhost:3005/api/line-pay/reserve?orderId=${order.orderId}`
+      window.location.href = `http://localhost:3005/api/line-pay/reserve?orderId=${order.orderId}`;
     }
-  }
+  };
 
   const handleConfirm = async (transactionId) => {
-    setIsLoading(true)
+    setIsLoading(true);
     try {
       const res = await axiosInstance.get(
         `/line-pay/confirm?transactionId=${transactionId}`
-      )
+      );
 
       if (res.data.status === 'success') {
-        toast.success('付款成功')
-        clearCart()
+        toast.success('付款成功');
+        clearCart();
       } else {
-        toast.error('付款失敗')
+        toast.error('付款失敗');
       }
 
       if (res.data.data) {
-        setResult(res.data.data)
+        setResult(res.data.data);
       }
 
-      setIsLoading(false)
+      setIsLoading(false);
     } catch (error) {
-      toast.error('確認交易時發生錯誤')
-      console.error(error)
-      setIsLoading(false)
+      toast.error('確認交易時發生錯誤');
+      console.error(error);
+      setIsLoading(false);
     }
-  }
+  };
 
   useEffect(() => {
     if (router.isReady) {
-      const { transactionId, orderId } = router.query
+      const { transactionId, orderId } = router.query;
 
       if (!transactionId || !orderId) {
-        setIsLoading(false)
-        return
+        setIsLoading(false);
+        return;
       }
 
-      handleConfirm(transactionId)
+      handleConfirm(transactionId);
     }
-  }, [router.isReady])
+  }, [router.isReady]);
+
+  const getSelectedTotal = () => {
+    return Math.round(cart.items
+      .filter(item => checkedItems[item.id])
+      .reduce((total, item) => total + (item.quantity * item.price), 0));
+  };
 
   return (
     <>
@@ -141,7 +157,7 @@ export default function Coupon() {
       </p>
 
       <h4>購物車列表</h4>
-      <List />
+      <CartList checkedItems={checkedItems} onItemCheck={handleCheckItem} />
       <h4>折價券</h4>
       <div className="mb-3">
         <select
@@ -161,7 +177,16 @@ export default function Coupon() {
           })}
         </select>
         <hr />
-        <p>最後折價金額: {netTotal}</p>
+        <p>選擇商品總計: ${getSelectedTotal()}</p>
+        <p>實際付款金額: {finalPrice}</p>
+      </div>
+      <h4>7-11 運送商店選擇</h4>
+      <div className="mb-3">
+        <button onClick={openWindow}>選擇門市</button>
+        <br />
+        門市名稱: <input type="text" value={store711.storename} disabled />
+        <br />
+        門市地址: <input type="text" value={store711.storeaddress} disabled />
       </div>
       <h4>測試按鈕</h4>
       <div className="btn-group-vertical">

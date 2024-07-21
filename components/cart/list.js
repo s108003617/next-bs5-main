@@ -1,7 +1,7 @@
 import { useCart } from '@/hooks/use-cart-state'
 import { useEffect, useState } from 'react'
 
-export default function CartList() {
+export default function CartList({ checkedItems, onItemCheck }) {
   const { cart, items, decrement, increment, removeItem } = useCart()
   const [selectedItems, setSelectedItems] = useState({})
   const [allSelected, setAllSelected] = useState(false)
@@ -28,6 +28,7 @@ export default function CartList() {
     const newSelectedItems = { ...selectedItems, [id]: !selectedItems[id] }
     setSelectedItems(newSelectedItems)
     setAllSelected(items.every(item => newSelectedItems[item.id]))
+    onItemCheck(id)
   }
 
   const handleSelectAll = () => {
@@ -38,6 +39,7 @@ export default function CartList() {
     })
     setSelectedItems(newSelectedItems)
     setAllSelected(newAllSelected)
+    items.forEach(item => onItemCheck(item.id))
   }
 
   const getSelectedTotal = () => {
@@ -125,7 +127,7 @@ export default function CartList() {
               </td>
               <td>
                 <div>{item.name}</div>
-                <small className="text-muted">ID: {item.id}</small>
+                
               </td>
               <td>${Math.round(item.price)}</td>
               <td>
@@ -152,8 +154,8 @@ export default function CartList() {
             <span className="ms-3">選擇商品總計: ${getSelectedTotal()}</span>
           </div>
           <div>
-            <span>總計: ${Math.round(cart.totalPrice)}</span>
-            <span className="ms-3">{cart.totalItems} 件商品</span>
+            <span>總計: ${getSelectedTotal()}</span>
+            <span className="ms-3">{Object.values(selectedItems).filter(Boolean).length} 件商品</span>
           </div>
         </div>
         {cart.isEmpty && (
