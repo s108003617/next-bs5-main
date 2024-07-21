@@ -61,7 +61,7 @@ export default function PasswordChange() {
           <div className="position-sticky">
             <ul className="nav flex-column">
               <li className="nav-item">
-                <Link href="/dashboard" className="nav-link">
+                <Link href="/test/user/profile" className="nav-link">
                   會員中心
                 </Link>
               </li>

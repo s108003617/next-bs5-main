@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { initUserData, useAuth } from '@/hooks/use-auth';
@@ -16,8 +16,21 @@ const parseJwt = (token) => {
 export default function UserTest() {
   const [user, setUser] = useState({ username: '', password: '' });
   const [showPassword, setShowPassword] = useState(false);
-  const { setAuth } = useAuth();
+  const { auth, setAuth } = useAuth();
   const router = useRouter();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const checkAuthStatus = async () => {
+      const res = await checkAuth();
+      if (res.data.status === 'success') {
+        router.push('/test/user/profile');
+      } else {
+        setLoading(false);
+      }
+    };
+    checkAuthStatus();
+  }, [router]);
 
   const handleFieldChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -61,14 +74,16 @@ export default function UserTest() {
     }
   };
 
-  const handleCheckAuth = async () => {
-    const res = await checkAuth();
-    if (res.data.status === 'success') {
-      toast.success('已登入會員');
-    } else {
-      toast.error(`非會員身份`);
+  const handleLinkClick = (e, path) => {
+    if (auth.isAuth) {
+      e.preventDefault();
+      router.push('/test/user/profile');
     }
   };
+
+  if (loading) {
+    return <div>載入中...</div>; // 或者使用一個加載動畫組件
+  }
 
   return (
     <div className="container">
@@ -115,10 +130,14 @@ export default function UserTest() {
                 </div>
               </form>
               <div className="text-center mt-3">
-                <Link href="/test/user/forget-password" className="text-decoration-none">忘記密碼？</Link>
+                <Link href="/test/user/forget-password" className="text-decoration-none" onClick={(e) => handleLinkClick(e, '/test/user/forget-password')}>
+                  忘記密碼？
+                </Link>
               </div>
               <div className="text-center mt-2">
-                <Link href="/test/user/register" className="text-decoration-none">還沒有帳號？立即註冊</Link>
+                <Link href="/test/user/register" className="text-decoration-none" onClick={(e) => handleLinkClick(e, '/test/user/register')}>
+                  還沒有帳號？立即註冊
+                </Link>
               </div>
               <hr />
               <div className="text-center">
