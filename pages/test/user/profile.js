@@ -3,10 +3,12 @@ import {
   updateProfile,
   getUserById,
   updateProfileAvatar,
+  logout,
 } from '@/services/user';
 import { useAuth } from '@/hooks/use-auth';
 import toast, { Toaster } from 'react-hot-toast';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import PreviewUploadImage from '@/components/user-test/preview-upload-image';
 import { avatarBaseUrl } from '@/configs';
 
@@ -19,10 +21,11 @@ const initUserProfile = {
 };
 
 export default function Profile() {
-  const { auth } = useAuth();
+  const { auth, setAuth } = useAuth();
   const [userProfile, setUserProfile] = useState(initUserProfile);
   const [hasProfile, setHasProfile] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
+  const router = useRouter();
 
   const getUserData = async (id) => {
     const res = await getUserById(id);
@@ -78,12 +81,22 @@ export default function Profile() {
     }
   };
 
-  if (!auth.isAuth) return null;
+  const handleLogout = async () => {
+    const res = await logout();
+    if (res.data.status === 'success') {
+      toast.success('已成功登出');
+      setAuth({ isAuth: false, userData: initUserProfile });
+      router.push('/test/user');
+    } else {
+      toast.error('登出失敗');
+    }
+  };
 
+  if (!auth.isAuth) return null;
   return (
     <div className="container-fluid">
       <div className="row">
-      <nav id="sidebar" className="col-md-3 col-lg-2 d-md-block bg-light sidebar">
+        <nav id="sidebar" className="col-md-3 col-lg-2 d-md-block bg-light sidebar">
           <div className="position-sticky">
             <ul className="nav flex-column">
               <li className="nav-item">
@@ -110,9 +123,12 @@ export default function Profile() {
           </div>
         </nav>
 
+       
+
         <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
           <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
             <h1 className="h2">會員資料修改(一般)</h1>
+            <button onClick={handleLogout} className="btn btn-danger">登出</button>
           </div>
 
           <p className="text-muted">
