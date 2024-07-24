@@ -65,38 +65,46 @@ export default function Coupon() {
 
   const createOrder = async () => {
     try {
-      const products = cart.items.filter(item => checkedItems[item.id]).map((item) => ({
+      const products = cart.items.map((item) => ({
         id: item.id,
         name: item.name,
         quantity: item.quantity,
-        price: Math.round(item.price),
-      }));
-
+        price: item.price,
+      }))
+  
+      // 計算商品總價
+      const originalTotal = cart.items.reduce(
+        (acc, item) => acc + item.quantity * item.price,
+        0
+      )
+  
+      // 計算折扣後的總價
+      const coupon = couponOptions.find((v) => v.id === selectedCouponId)
+      const discountedTotal = coupon
+        ? coupon.type === 'amount'
+          ? Math.max(originalTotal - coupon.value, 0)
+          : Math.round(originalTotal * (1 - coupon.value))
+        : originalTotal
+  
+      // 創建訂單數據
       const orderData = {
-        amount: finalPrice,
-        discountedAmount: finalPrice,
-        products,
-        shipment: {
-          type: '711',
-          storeId: store711.storeid,
-          storeName: store711.storename,
-          storeAddress: store711.storeaddress,
-        },
-      };
-
-      const res = await axiosInstance.post('/line-pay/create-order', orderData);
-
+        amount: discountedTotal, // 折扣後的總價
+        products, // 包含完整的產品信息
+      }
+  
+      const res = await axiosInstance.post('/line-pay/create-order', orderData)
+  
       if (res.data.status === 'success') {
-        setOrder(res.data.data.order);
-        toast.success('已成功建立訂單');
+        setOrder(res.data.data.order)
+        toast.success('已成功建立訂單')
       } else {
-        toast.error('建立訂單失敗');
+        toast.error('建立訂單失敗')
       }
     } catch (error) {
-      toast.error('建立訂單時發生錯誤');
-      console.error(error);
+      toast.error('建立訂單時發生錯誤')
+      console.error(error)
     }
-  };
+  }
 
   const goLinePay = () => {
     if (window.confirm('確認要導向至LINE Pay進行付款?')) {
