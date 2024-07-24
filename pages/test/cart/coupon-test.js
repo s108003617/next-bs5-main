@@ -3,6 +3,7 @@ import { useRouter } from 'next/router'
 import axiosInstance from '@/services/axios-instance'
 import { useAuth } from '@/hooks/use-auth'
 import { useCart } from '@/hooks/use-cart-state'
+import { useShip711StoreOpener } from '@/hooks/use-ship-711-store'
 import Link from 'next/link'
 import toast, { Toaster } from 'react-hot-toast'
 
@@ -148,6 +149,10 @@ export default function CouponTest() {
   const router = useRouter()
   const { auth } = useAuth()
   const { cart, addItem, removeItem, updateItemQty, clearCart, isInCart } = useCart()
+  const { store711, openWindow, closeWindow } = useShip711StoreOpener(
+    'http://localhost:3005/api/shipment/711',
+    { autoCloseMins: 3 }
+  )
 
   const [couponOptions, setCouponOptions] = useState(coupons)
   const [selectedCouponId, setSelectedCouponId] = useState(0)
@@ -189,41 +194,41 @@ export default function CouponTest() {
     }, 0)
   }
 
- 
+  const createOrder = async () => {
+    setIsLoading(true)
+    try {
+      const selectedProducts = cart.items
+        .filter(item => selectedItems[item.id])
+        .map(item => ({
+          ...item,
+          price: Math.round(item.price)
+        }))
+      const orderData = {
+        amount: netTotal,
+        originalAmount: calculateSelectedTotal(),
+        products: selectedProducts,
+        couponId: selectedCouponId,
+        shipping: {
+          storeName: store711.storename,
+          storeAddress: store711.storeaddress
+        }
+      }
 
-const createOrder = async () => {
-  setIsLoading(true)
-  try {
-    const selectedProducts = cart.items
-      .filter(item => selectedItems[item.id])
-      .map(item => ({
-        ...item,
-        price: Math.round(item.price)
-      }))
-    const orderData = {
-      amount: netTotal,  // 使用折扣後的金額作為結帳金額
-      originalAmount: calculateSelectedTotal(),
-      products: selectedProducts,
-      couponId: selectedCouponId  // 添加所使用的優惠券 ID
+      const res = await axiosInstance.post('/line-pay/create-order', orderData)
+
+      if (res.data.status === 'success') {
+        setOrder(res.data.data.order)
+        toast.success('已成功建立訂單')
+      } else {
+        toast.error('建立訂單失敗')
+      }
+    } catch (error) {
+      toast.error('建立訂單時發生錯誤')
+      console.error(error)
+    } finally {
+      setIsLoading(false)
     }
-
-    const res = await axiosInstance.post('/line-pay/create-order', orderData)
-
-    if (res.data.status === 'success') {
-      setOrder(res.data.data.order)
-      toast.success('已成功建立訂單')
-    } else {
-      toast.error('建立訂單失敗')
-    }
-  } catch (error) {
-    toast.error('建立訂單時發生錯誤')
-    console.error(error)
-  } finally {
-    setIsLoading(false)
   }
-}
-
-// ... 其他代碼保持不變
 
   const goLinePay = () => {
     if (window.confirm('確認要導向至LINE Pay進行付款?')) {
@@ -298,10 +303,19 @@ const createOrder = async () => {
               </select>
               <p><strong>選中商品總價:</strong> ${calculateSelectedTotal()}</p>
               <p><strong>折扣後金額:</strong> ${netTotal}</p>
+              <h5 className="card-title mt-4">7-11 運送商店</h5>
+              <button
+                className="btn btn-secondary w-100 mb-2"
+                onClick={openWindow}
+              >
+                選擇 7-11 門市
+              </button>
+              <p><strong>門市名稱:</strong> {store711.storename || '尚未選擇'}</p>
+              <p><strong>門市地址:</strong> {store711.storeaddress || '尚未選擇'}</p>
               <button 
                 className="btn btn-primary w-100" 
                 onClick={createOrder}
-                disabled={isLoading || calculateSelectedTotal() === 0}
+                disabled={isLoading || calculateSelectedTotal() === 0 || !store711.storename}
               >
                 {isLoading ? '處理中...' : '產生訂單'}
               </button>
