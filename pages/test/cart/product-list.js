@@ -42,35 +42,53 @@ export default function ProductList() {
       setAllProducts(res.data.data.products)
       setTotal(res.data.data.total)
       setPageCount(Math.ceil(res.data.data.total / perPage))
-      updateDisplayedProducts(res.data.data.products, searchTerm, priceRange, selectedCategory, sort, order)
-      
+      updateDisplayedProducts(
+        res.data.data.products,
+        searchTerm,
+        priceRange,
+        selectedCategory,
+        sort,
+        order
+      )
+
       // 提取所有唯一的類別
-      const uniqueCategories = [...new Set(res.data.data.products.map(p => p.category))]
+      const uniqueCategories = [
+        ...new Set(res.data.data.products.map((p) => p.category)),
+      ]
       setCategories(uniqueCategories)
     }
   }
 
-  const updateDisplayedProducts = (products, term, price, category, sortBy, orderBy) => {
-    let filtered = products;
+  const updateDisplayedProducts = (
+    products,
+    term,
+    price,
+    category,
+    sortBy,
+    orderBy
+  ) => {
+    let filtered = products
 
     if (term) {
-      filtered = filtered.filter(product => product.name.toLowerCase().includes(term.toLowerCase()))
+      filtered = filtered.filter((product) =>
+        product.name.toLowerCase().includes(term.toLowerCase())
+      )
     }
 
-    filtered = filtered.filter(product => 
-      product.price >= price.min && product.price <= price.max
+    filtered = filtered.filter(
+      (product) => product.price >= price.min && product.price <= price.max
     )
 
     if (category) {
-      filtered = filtered.filter(product => product.category === category)
+      filtered = filtered.filter((product) => product.category === category)
     }
 
     // 排序
     filtered.sort((a, b) => {
-      if (a[sortBy] < b[sortBy]) return orderBy === 'asc' ? -1 : 1;
-      if (a[sortBy] > b[sortBy]) return orderBy === 'asc' ? 1 : -1;
-      return 0;
-    });
+      if (a[sortBy] < b[sortBy]) return orderBy === 'asc' ? -1 : 1
+      if (a[sortBy] > b[sortBy]) return orderBy === 'asc' ? 1 : -1
+      return 0
+    })
 
     setDisplayedProducts(filtered)
     setTotal(filtered.length)
@@ -87,8 +105,23 @@ export default function ProductList() {
   }, [])
 
   useEffect(() => {
-    updateDisplayedProducts(allProducts, searchTerm, priceRange, selectedCategory, sort, order)
-  }, [searchTerm, priceRange, selectedCategory, allProducts, perPage, sort, order])
+    updateDisplayedProducts(
+      allProducts,
+      searchTerm,
+      priceRange,
+      selectedCategory,
+      sort,
+      order
+    )
+  }, [
+    searchTerm,
+    priceRange,
+    selectedCategory,
+    allProducts,
+    perPage,
+    sort,
+    order,
+  ])
 
   const handleSearch = (e) => {
     setSearchTerm(e.target.value)
@@ -96,7 +129,10 @@ export default function ProductList() {
 
   const handlePriceChange = (e) => {
     const { name, value } = e.target
-    setPriceRange(prev => ({ ...prev, [name]: value ? Number(value) : name === 'min' ? 0 : Infinity }))
+    setPriceRange((prev) => ({
+      ...prev,
+      [name]: value ? Number(value) : name === 'min' ? 0 : Infinity,
+    }))
   }
 
   const handleCategoryChange = (e) => {
@@ -119,14 +155,22 @@ export default function ProductList() {
         <Button variant="secondary" onClick={handleClose}>
           繼續購物
         </Button>
-        <Button variant="primary" onClick={() => router.push('/test/cart')}>
+        <Button
+          variant="primary"
+          onClick={() =>
+            router.push('http://localhost:3000/test/cart/coupon-test')
+          }
+        >
           前往購物車結帳
         </Button>
       </Modal.Footer>
     </Modal>
   )
 
-  const paginatedProducts = displayedProducts.slice((pageNow - 1) * perPage, pageNow * perPage)
+  const paginatedProducts = displayedProducts.slice(
+    (pageNow - 1) * perPage,
+    pageNow * perPage
+  )
 
   const display = (
     <div className="row row-cols-1 row-cols-md-4 g-4">
@@ -215,8 +259,10 @@ export default function ProductList() {
             onChange={handleCategoryChange}
           >
             <option value="">所有類別</option>
-            {categories.map(category => (
-              <option key={category} value={category}>{category}</option>
+            {categories.map((category) => (
+              <option key={category} value={category}>
+                {category}
+              </option>
             ))}
           </select>
         </div>
@@ -235,7 +281,9 @@ export default function ProductList() {
         </div>
       </div>
       <div className="my-3">
-        <span>目前頁面: {pageNow} / 總頁數: {pageCount} / 總項目數: {total}</span>
+        <span>
+          目前頁面: {pageNow} / 總頁數: {pageCount} / 總項目數: {total}
+        </span>
       </div>
       {messageModal}
       {display}

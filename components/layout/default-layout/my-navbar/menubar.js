@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import styles from './menubar.module.scss'
+import { useRouter } from 'next/router'
 
 // 說明:
 // 選單客製化以靜態方式、移至config檔案或寫死(hard code)來產生是常見
@@ -12,30 +13,25 @@ const menuItems = [
     label: '首頁',
     href: '/',
   },
-  {
-    id: 2,
-    label: '新聞',
-    href: '/news',
-  },
-  {
-    id: 3,
-    label: '會員',
-    href: '/member',
-    children: [
-      { id: 32, label: '登入', href: '/member/login' },
-      { id: 33, label: '註冊', href: '/member/register' },
-      { id: 34, label: '忘記密碼', href: '/member/forget-password' },
-    ],
-  },
+  // {
+  //   id: 2,
+  //   label: '新聞',
+  //   href: '/news',
+  // },
+  // {
+  //   id: 3,
+  //   label: '會員',
+  //   href: '/member',
+  //   children: [
+  //     { id: 32, label: '登入', href: '/member/login' },
+  //     { id: 33, label: '註冊', href: '/member/register' },
+  //     { id: 34, label: '忘記密碼', href: '/member/forget-password' },
+  //   ],
+  // },
   {
     id: 4,
     label: '商品',
-    href: '/product',
-    children: [
-      { id: 41, label: '列表', href: '/product/list' },
-      { id: 42, label: '詳細', href: '/product/01' },
-      { id: 43, label: '購物車', href: '/test/cart' },
-    ],
+    href: 'http://localhost:3000/test/cart/product-list',
   },
   {
     id: 5,
@@ -53,7 +49,7 @@ export default function MainMenu({ currentRoute = '/' }) {
           if (!v.children) {
             return (
               <li className="nav-item" key={v.id}>
-                <Link
+                <a
                   className={`nav-link ${
                     currentRoute === v.href
                       ? 'active ' + styles['custom-active']
@@ -63,7 +59,7 @@ export default function MainMenu({ currentRoute = '/' }) {
                   href={v.href}
                 >
                   {v.label}
-                </Link>
+                </a>
               </li>
             )
           }
@@ -74,7 +70,7 @@ export default function MainMenu({ currentRoute = '/' }) {
               className={`nav-item dropdown ${styles['dropdown']}`}
               key={v.id}
             >
-              <Link
+              <a
                 // 尋找是否有符合 currentRoute 的 children href
                 className={`nav-link dropdown-toggle ${
                   v.children.find((v) => v.href === currentRoute)
@@ -87,21 +83,21 @@ export default function MainMenu({ currentRoute = '/' }) {
                 aria-expanded="false"
               >
                 {v.label}
-              </Link>
+              </a>
               <ul
                 className={`dropdown-menu ${styles['slideIn']} ${styles['dropdown-menu']}`}
               >
                 {v.children.map((v2) => {
                   return (
                     <li key={v2.id}>
-                      <Link
+                      <a
                         className={`dropdown-item ${
                           currentRoute === v2.href ? 'active' : ''
                         }`}
                         href={v2.href}
                       >
                         {v2.label}
-                      </Link>
+                      </a>
                     </li>
                   )
                 })}
