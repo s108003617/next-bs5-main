@@ -1,88 +1,130 @@
-import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { initUserData, useAuth } from '@/hooks/use-auth';
-import { checkAuth, login, logout, getUserById } from '@/services/user';
-import { Toaster, toast } from 'react-hot-toast';
-import { FaGoogle, FaEye, FaEyeSlash } from 'react-icons/fa';
-import { SiLine } from 'react-icons/si';
+import React, { useState, useEffect } from 'react'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { initUserData, useAuth } from '@/hooks/use-auth'
+import {
+  checkAuth,
+  login,
+  logout,
+  googleLogin,
+  getUserById,
+} from '@/services/user'
+import { Toaster, toast } from 'react-hot-toast'
+import { FaGoogle, FaEye, FaEyeSlash } from 'react-icons/fa'
+import { SiLine } from 'react-icons/si'
+import {
+  lineLoginRequest,
+  lineLogout,
+  lineLoginCallback,
+} from '@/services/user'
+import useFirebase from '@/hooks/use-firebase'
 
 const parseJwt = (token) => {
-  const base64Payload = token.split('.')[1];
-  const payload = Buffer.from(base64Payload, 'base64');
-  return JSON.parse(payload.toString());
-};
+  const base64Payload = token.split('.')[1]
+  const payload = Buffer.from(base64Payload, 'base64')
+  return JSON.parse(payload.toString())
+}
 
 export default function UserTest() {
-  const [user, setUser] = useState({ username: '', password: '' });
-  const [showPassword, setShowPassword] = useState(false);
-  const { auth, setAuth } = useAuth();
-  const router = useRouter();
-  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState({ username: '', password: '' })
+  const [showPassword, setShowPassword] = useState(false)
+  const { auth, setAuth } = useAuth()
+  const { loginGoogle, logoutFirebase } = useFirebase()
+  const router = useRouter()
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const checkAuthStatus = async () => {
-      const res = await checkAuth();
+      const res = await checkAuth()
       if (res.data.status === 'success') {
-        router.push('/test/user/profile');
+        router.push('/test/user/profile')
       } else {
-        setLoading(false);
+        setLoading(false)
       }
-    };
-    checkAuthStatus();
-  }, [router]);
+    }
+    checkAuthStatus()
+  }, [router])
 
   const handleFieldChange = (e) => {
-    setUser({ ...user, [e.target.name]: e.target.value });
-  };
+    setUser({ ...user, [e.target.name]: e.target.value })
+  }
 
   const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
+    setShowPassword(!showPassword)
+  }
 
   const handleLogin = async () => {
-    const res = await login(user);
+    const res = await login(user)
     if (res.data.status === 'success') {
-      const jwtUser = parseJwt(res.data.data.accessToken);
-      const res1 = await getUserById(jwtUser.id);
+      const jwtUser = parseJwt(res.data.data.accessToken)
+      const res1 = await getUserById(jwtUser.id)
       if (res1.data.status === 'success') {
-        const dbUser = res1.data.data.user;
-        const userData = { ...initUserData };
+        const dbUser = res1.data.data.user
+        const userData = { ...initUserData }
         for (const key in userData) {
           if (Object.hasOwn(dbUser, key)) {
-            userData[key] = dbUser[key];
+            userData[key] = dbUser[key]
           }
         }
-        setAuth({ isAuth: true, userData });
-        toast.success('已成功登入');
-        router.push('/test/user/profile');
+        setAuth({ isAuth: true, userData })
+        toast.success('已成功登入')
+        router.push('/test/user/profile')
       } else {
-        toast.error('登入後無法得到會員資料');
+        toast.error('登入後無法得到會員資料')
       }
     } else {
-      toast.error(`登入失敗`);
+      toast.error('登入失敗')
     }
-  };
+  }
 
   const handleLogout = async () => {
-    const res = await logout();
+    logoutFirebase()
+    const res = await logout()
     if (res.data.status === 'success') {
-      toast.success('已成功登出');
-      setAuth({ isAuth: false, userData: initUserData });
+      toast.success('已成功登出')
+      setAuth({ isAuth: false, userData: initUserData })
     } else {
-      toast.error(`登出失敗`);
+      toast.error('登出失敗')
     }
-  };
+  }
 
-  const handleLinkClick = (e, path) => {
-    if (auth.isAuth) {
-      e.preventDefault();
-      router.push('/test/user/profile');
-    }
-  };
+  const handleLineLogin = async () => {
+    if (auth.isAuth) return
+    const lineLoginUrl = await lineLoginRequest()
+    window.location.href = lineLoginUrl
+  }
+
+  const handleGoogleLogin = async () => {
+    if (auth.isAuth) return
+    loginGoogle(async (providerData) => {
+      const res = await googleLogin(providerData)
+      if (res.data.status === 'success') {
+        const jwtUser = parseJwt(res.data.data.accessToken)
+        const res1 = await getUserById(jwtUser.id)
+        if (res1.data.status === 'success') {
+          const dbUser = res1.data.data.user
+          const userData = { ...initUserData }
+          for (const key in userData) {
+            if (Object.hasOwn(dbUser, key)) {
+              userData[key] = dbUser[key]
+            }
+          }
+          setAuth({ isAuth: true, userData })
+          toast.success('已成功登入')
+          router.push('/test/user/profile')
+        } else {
+          toast.error('登入後無法得到會員資料')
+        }
+      } else {
+        toast.error('登入失敗')
+      }
+    }).catch((error) => {
+      toast.error('Google 登入失敗')
+    })
+  }
 
   if (loading) {
-    return <div>載入中...</div>; // 或者使用一個加載動畫組件
+    return <div>載入中...</div> // 或者使用一個加載動畫組件
   }
 
   return (
@@ -105,7 +147,7 @@ export default function UserTest() {
                 </div>
                 <div className="mb-3 position-relative">
                   <input
-                    type={showPassword ? "text" : "password"}
+                    type={showPassword ? 'text' : 'password'}
                     className="form-control"
                     placeholder="密碼"
                     name="password"
@@ -122,20 +164,38 @@ export default function UserTest() {
                   </button>
                 </div>
                 <div className="mb-3 form-check">
-                  <input type="checkbox" className="form-check-input" id="rememberMe" />
-                  <label className="form-check-label" htmlFor="rememberMe">保持登入狀態</label>
+                  <input
+                    type="checkbox"
+                    className="form-check-input"
+                    id="rememberMe"
+                  />
+                  <label className="form-check-label" htmlFor="rememberMe">
+                    保持登入狀態
+                  </label>
                 </div>
                 <div className="d-grid gap-2">
-                  <button type="button" className="btn btn-primary" onClick={handleLogin}>登入</button>
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    onClick={handleLogin}
+                  >
+                    登入
+                  </button>
                 </div>
               </form>
               <div className="text-center mt-3">
-                <Link href="/test/user/forget-password" className="text-decoration-none" onClick={(e) => handleLinkClick(e, '/test/user/forget-password')}>
+                <Link
+                  href="/test/user/forget-password"
+                  className="text-decoration-none"
+                >
                   忘記密碼？
                 </Link>
               </div>
               <div className="text-center mt-2">
-                <Link href="/test/user/register" className="text-decoration-none" onClick={(e) => handleLinkClick(e, '/test/user/register')}>
+                <Link
+                  href="/test/user/register"
+                  className="text-decoration-none"
+                >
                   還沒有帳號？立即註冊
                 </Link>
               </div>
@@ -143,12 +203,15 @@ export default function UserTest() {
               <div className="text-center">
                 <p>快速登入</p>
                 <div className="d-flex justify-content-center gap-3">
-                  <Link href="/test/user/line-login" className="btn btn-success">
+                  <button className="btn btn-success" onClick={handleLineLogin}>
                     <SiLine /> Line
-                  </Link>
-                  <Link href="/test/user/google-login" className="btn btn-danger">
+                  </button>
+                  <button
+                    className="btn btn-danger"
+                    onClick={handleGoogleLogin}
+                  >
                     <FaGoogle /> Google
-                  </Link>
+                  </button>
                 </div>
               </div>
             </div>
@@ -157,5 +220,5 @@ export default function UserTest() {
       </div>
       <Toaster />
     </div>
-  );
+  )
 }

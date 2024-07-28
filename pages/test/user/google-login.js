@@ -1,6 +1,5 @@
 import useFirebase from '@/hooks/use-firebase'
 import { initUserData, useAuth } from '@/hooks/use-auth'
-import { useEffect } from 'react'
 import {
   googleLogin,
   checkAuth,
@@ -10,19 +9,17 @@ import {
 } from '@/services/user'
 import toast, { Toaster } from 'react-hot-toast'
 import GoogleLogo from '@/components/icons/google-logo'
+import { useRouter } from 'next/router'
 
-export default function GoogleLoginRedirect() {
-  // loginGoogleRedirect無callback，要改用initApp在頁面初次渲染後監聽google登入狀態
-  const { logoutFirebase, loginGoogleRedirect, initApp } = useFirebase()
+// 因瀏覽器安全限制，改用signInWithPopup，詳見以下討論
+// https://github.com/orgs/mfee-react/discussions/129
+export default function GoogleLoginPopup() {
+  const { loginGoogle, logoutFirebase } = useFirebase()
   const { auth, setAuth } = useAuth()
-
-  // 這裡要設定initApp，讓這個頁面能監聽firebase的google登入狀態
-  useEffect(() => {
-    initApp(callbackGoogleLoginRedirect)
-  }, [])
+  const router = useRouter()
 
   // 處理google登入後，要向伺服器進行登入動作
-  const callbackGoogleLoginRedirect = async (providerData) => {
+  const callbackGoogleLoginPopup = async (providerData) => {
     console.log(providerData)
 
     // 如果目前react(next)已經登入中，不需要再作登入動作
@@ -31,7 +28,7 @@ export default function GoogleLoginRedirect() {
     // 向伺服器進行登入動作
     const res = await googleLogin(providerData)
 
-    console.log(res.data)
+    // console.log(res.data)
 
     if (res.data.status === 'success') {
       // 從JWT存取令牌中解析出會員資料
@@ -60,6 +57,9 @@ export default function GoogleLoginRedirect() {
         })
 
         toast.success('已成功登入')
+
+        // 重定向到指定的 URL
+        router.push('http://localhost:3000/')
       } else {
         toast.error('登入後無法得到會員資料')
         // 這裡可以讓會員登出，因為這也算登入失敗，有可能會造成資料不統一
@@ -104,9 +104,9 @@ export default function GoogleLoginRedirect() {
 
   return (
     <>
-      <h1>Google Login重定向測試頁</h1>
+      <h1>Google Login跳出視窗(popup)測試頁</h1>
       <p>會員狀態:{auth.isAuth ? '已登入' : '未登入'}</p>
-      <button onClick={() => loginGoogleRedirect()}>
+      <button onClick={() => loginGoogle(callbackGoogleLoginPopup)}>
         <GoogleLogo /> Google登入
       </button>
       <br />

@@ -23,7 +23,7 @@ export default function LineLogin() {
 
     console.log(res.data)
 
-    // 成功登出個回復初始會員狀態
+    // 成功登出後回復初始會員狀態
     if (res.data.status === 'success') {
       toast.success('已成功登出')
 
@@ -68,6 +68,9 @@ export default function LineLogin() {
         })
 
         toast.success('已成功登入')
+
+        // 重定向到指定的 URL
+        router.push('http://localhost:3000/')
       } else {
         toast.error('登入後無法得到會員資料')
         // 這裡可以讓會員登出，因為這也算登入失敗，有可能會造成資料不統一
