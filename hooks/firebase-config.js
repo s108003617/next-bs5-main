@@ -1,11 +1,17 @@
-// 這裡貼上從firebase專案設定中，網頁應用程式整合的設定值
+// Import the functions you need from the SDKs you need
+import { initializeApp } from 'firebase/app'
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: 'AIzaSyBsIeIzXTdZk4RPiwmuHVi2n27zQOPRjwU',
-  authDomain: 'react-test-e84f6.firebaseapp.com',
-  projectId: 'react-test-e84f6',
-  storageBucket: 'react-test-e84f6.appspot.com',
-  messagingSenderId: '1077454373020',
-  appId: '1:1077454373020:web:807add77fcd4858fcc2d59',
+  apiKey: 'AIzaSyBYFPhBbZ3f4iue2NhLI5pLGa5gxr6eKxI',
+  authDomain: 'ez3c-shop.firebaseapp.com',
+  projectId: 'ez3c-shop',
+  storageBucket: 'ez3c-shop.appspot.com',
+  messagingSenderId: '270561290530',
+  appId: '1:270561290530:web:b87359bb9359dcebd95d7b',
 }
 
-export { firebaseConfig }
+// Initialize Firebase
+const app = initializeApp(firebaseConfig)
