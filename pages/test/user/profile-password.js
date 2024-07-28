@@ -80,6 +80,11 @@ export default function PasswordChange() {
                   我的訂單
                 </Link>
               </li>
+              <li className="nav-item">
+                <Link href="/test/user/favorite" className="nav-link active">
+                  我的收藏
+                </Link>
+              </li>
             </ul>
           </div>
         </nav>

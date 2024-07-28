@@ -1,42 +1,71 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { Toaster, toast } from 'react-hot-toast';
+import { FaTrashAlt } from 'react-icons/fa';
 
-const PurchaseOrders = () => {
-  const [orders, setOrders] = useState([]);
+const Favorites = () => {
+  const [favorites, setFavorites] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
   useEffect(() => {
-    fetchOrders();
+    fetchFavorites();
   }, []);
 
-  const fetchOrders = async () => {
+  const fetchFavorites = async () => {
     try {
       setLoading(true);
-      const response = await fetch('http://localhost:3005/api/purchase-orders', {
+      const response = await fetch('http://localhost:3005/api/favorites1', {
         credentials: 'include'
       });
       if (!response.ok) {
-        throw new Error('Failed to fetch orders');
+        throw new Error('Failed to fetch favorites');
       }
       const data = await response.json();
       if (data.status === 'success') {
-        setOrders(data.data.orders);
-        toast.success('訂單資料載入成功');
+        setFavorites(data.data.favorites);
+        toast.success('收藏資料載入成功');
       } else {
-        throw new Error(data.message || 'Failed to fetch orders');
+        throw new Error(data.message || 'Failed to fetch favorites');
       }
     } catch (error) {
       setError(error.message);
-      toast.error('訂單資料載入失敗');
+      toast.error('收藏資料載入失敗');
     } finally {
       setLoading(false);
     }
   };
 
+  const cancelFavorite = async (favoriteId) => {
+    try {
+      const response = await fetch(`http://localhost:3005/api/favorites1?favoriteId=${favoriteId}`, {
+        method: 'DELETE',
+        credentials: 'include'
+      });
+      if (!response.ok) {
+        throw new Error('Failed to cancel favorite');
+      }
+      const data = await response.json();
+      if (data.status === 'success') {
+        setFavorites(favorites.filter(fav => fav.id !== favoriteId));
+        toast.success('收藏已成功刪除');
+      } else {
+        throw new Error(data.message || 'Failed to cancel favorite');
+      }
+    } catch (error) {
+      setError(error.message);
+      toast.error('刪除收藏失敗');
+    }
+  };
+
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleString('zh-TW');
+  };
+
+  const handleProductClick = (pid) => {
+    router.push(`/product/${pid}`);
   };
 
   return (
@@ -61,7 +90,7 @@ const PurchaseOrders = () => {
                 </Link>
               </li>
               <li className="nav-item">
-                <Link href="/test/user/order" className="nav-link active">
+                <Link href="/test/user/order" className="nav-link">
                   我的訂單
                 </Link>
               </li>
@@ -76,7 +105,7 @@ const PurchaseOrders = () => {
 
         <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
           <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-            <h1 className="h2">我的訂單</h1>
+            <h1 className="h2">我的收藏</h1>
           </div>
 
           {loading ? (
@@ -89,32 +118,40 @@ const PurchaseOrders = () => {
             <div className="alert alert-danger" role="alert">
               錯誤: {error}
             </div>
-          ) : orders.length === 0 ? (
-            <p className="text-muted">目前沒有訂單</p>
+          ) : favorites.length === 0 ? (
+            <p className="text-muted">目前沒有收藏項目</p>
           ) : (
             <div className="table-responsive">
               <table className="table table-striped table-sm">
                 <thead>
                   <tr>
-                    <th>訂單編號</th>
-                    <th>金額</th>
-                    <th>交易ID</th>
-                    <th>付款方式</th>
-                    <th>配送方式</th>
-                    <th>狀態</th>
-                    <th>建立時間</th>
+                    <th>產品ID</th>
+                    <th>收藏時間</th>
+                    <th>操作</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {orders.map((order) => (
-                    <tr key={order.id}>
-                      <td>{order.id}</td>
-                      <td>{order.amount}</td>
-                      <td>{order.transaction_id}</td>
-                      <td>Line Pay</td>
-                      <td>7-11</td>
-                      <td>{order.status}</td>
-                      <td>{formatDate(order.created_at)}</td>
+                  {favorites.map((favorite) => (
+                    <tr key={favorite.id}>
+                      <td>
+                        <span 
+                          className="text-primary" 
+                          style={{cursor: 'pointer', textDecoration: 'underline'}}
+                          onClick={() => handleProductClick(favorite.pid)}
+                        >
+                          {favorite.pid}
+                        </span>
+                      </td>
+                      <td>{formatDate(favorite.created_at)}</td>
+                      <td>
+                        <button
+                          className="btn btn-sm btn-link text-danger"
+                          onClick={() => cancelFavorite(favorite.id)}
+                          title="取消收藏"
+                        >
+                          <FaTrashAlt />
+                        </button>
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -128,4 +165,4 @@ const PurchaseOrders = () => {
   );
 };
 
-export default PurchaseOrders;
+export default Favorites;
