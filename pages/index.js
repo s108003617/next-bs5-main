@@ -2,218 +2,782 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import PlaceholderText from '@/components/common/placeholder-text'
+import bootstrap from 'bootstrap/dist/css/bootstrap.min.css'
 
 export default function Home() {
   return (
     <>
-      <h1 className="mb-3 display-5 fw-bold text-body-emphasis">
-        Next + Bootstrap5 範例
-      </h1>
-
-      <div className="px-4 pt-5 my-5 text-center border-bottom">
-        <h1 className="display-4 fw-bold text-body-emphasis">
-          Centered screenshot
-        </h1>
-        <div className="col-lg-6 mx-auto">
-          <p className="lead mb-4">
-            Quickly design and customize responsive mobile-first sites with
-            Bootstrap, the world’s most popular front-end open source toolkit,
-            featuring Sass variables and mixins, responsive grid system,
-            extensive prebuilt components, and powerful JavaScript plugins.
-          </p>
-          <div className="d-grid gap-2 d-sm-flex justify-content-sm-center mb-5">
+      {/* Hero Start */}
+      <div className="container-fluid py-5 mb-5 ">
+        <div className="col-md-12 col-lg-12">
+          <div
+            id="carouselId"
+            className="carousel slide position-relative"
+            data-bs-ride="carousel"
+          >
+            <div className="carousel-inner" role="listbox">
+              <div className="carousel-item active rounded">
+                <img
+                  src="img/未命名設計1.png"
+                  className="img-fluid w-100 h-100 bg-secondary rounded"
+                  alt="First slide"
+                />
+              </div>
+              <div className="carousel-item rounded">
+                <img
+                  src="img/未命名設計 (1).png"
+                  className="img-fluid w-100 h-100 rounded"
+                  alt="Second slide"
+                />
+              </div>
+              <div className="carousel-item rounded">
+                <img
+                  src="img/未命名設計 (1).png"
+                  className="img-fluid w-100 h-100 rounded"
+                  alt="Second slide"
+                />
+              </div>
+              <div className="carousel-item rounded">
+                <img
+                  src="img/未命名設計 (1).png"
+                  className="img-fluid w-100 h-100 rounded"
+                  alt="Second slide"
+                />
+              </div>
+              <div className="carousel-item rounded">
+                <img
+                  src="img/未命名設計 (1).png"
+                  className="img-fluid w-100 h-100 rounded"
+                  alt="Second slide"
+                />
+              </div>
+            </div>
             <button
+              className="carousel-control-prev"
               type="button"
-              className="btn btn-primary btn-lg px-4 me-sm-3"
+              data-bs-target="#carouselId"
+              data-bs-slide="prev"
             >
-              Primary button
+              <span className="carousel-control-prev-icon" aria-hidden="true" />
+              <span className="visually-hidden">Previous</span>
             </button>
             <button
+              className="carousel-control-next"
               type="button"
-              className="btn btn-outline-secondary btn-lg px-4"
+              data-bs-target="#carouselId"
+              data-bs-slide="next"
             >
-              Secondary
+              <span className="carousel-control-next-icon" aria-hidden="true" />
+              <span className="visually-hidden">Next</span>
             </button>
           </div>
         </div>
-        <div className="overflow-hidden" style={{ maxHeight: '30vh' }}>
-          <div className="container px-5">
-            <Image
-              src="/images/heroes/bootstrap-docs.png"
-              className="img-fluid border rounded-3 shadow-lg mb-4"
-              alt="Example image"
-              width="700"
-              height="500"
-              loading="lazy"
-            />
-          </div>
-        </div>
       </div>
-      <div className="container col-xxl-10 px-1 py-2">
-        <div className="row flex-lg-row-reverse align-items-center g-5 py-5">
-          <div className="col-10 col-sm-8 col-lg-6">
-            <Image
-              src="/images/heroes/bootstrap-themes.png"
-              className="d-block mx-lg-auto img-fluid"
-              alt="Bootstrap Themes"
-              width="700"
-              height="500"
-              loading="lazy"
-            />
-          </div>
-          <div className="col-lg-6">
-            <h1 className="display-5 fw-bold text-body-emphasis lh-1 mb-3">
-              Responsive left-aligned hero with image
-            </h1>
-            <p className="lead">
-              Quickly design and customize responsive mobile-first sites with
-              Bootstrap, the world’s most popular front-end open source toolkit,
-              featuring Sass variables and mixins, responsive grid system,
-              extensive prebuilt components, and powerful JavaScript plugins.
-            </p>
-            <div className="d-grid gap-2 d-md-flex justify-content-md-start">
-              <button
-                type="button"
-                className="btn btn-primary btn-lg px-4 me-md-2"
-              >
-                Primary
-              </button>
-              <button
-                type="button"
-                className="btn btn-outline-secondary btn-lg px-4"
-              >
-                Default
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="container px-4 py-5" id="custom-cards">
-        <h2 className="pb-2 border-bottom">Custom cards</h2>
-
-        <div className="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5">
-          <div className="col">
-            <div
-              className="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg"
-              style={{
-                backgroundImage: "url('/images/features/unsplash-photo-1.jpg')",
-              }}
-            >
-              <div className="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
-                <h3 className="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">
-                  Short title, long jacket
-                </h3>
-                <ul className="d-flex list-unstyled mt-auto">
-                  <li className="me-auto">
+      {/* Hero End */}
+      <section className="ftco-section">
+        <div className="container">
+          <div className="row no-gutters ftco-services">
+            <div className="col-md-2 col-sm-3 col-4 text-center d-flex align-self-stretch ftco-animate">
+              <div className="media block-6 services mb-md-0 mb-4">
+                <div className="icon bg-color-1 active d-flex justify-content-center align-items-center mb-2">
+                  <span className="flaticon-shipped" />
+                </div>
+                <div className="media-body">
+                  <a href="/notebook-shop.html">
                     <img
-                      src="https://github.com/twbs.png"
-                      alt="Bootstrap"
-                      width="32"
-                      height="32"
-                      className="rounded-circle border border-white"
+                      src="/img/ASUS G614JVR 16吋2K電競筆電$63000.png"
+                      alt=""
+                      style={{ width: 90 }}
                     />
-                  </li>
-                  <li className="d-flex align-items-center me-3 ">
-                    <i className="bi bi-geo-fill me-2"></i>
-                    <small>Earth</small>
-                  </li>
-                  <li className="d-flex align-items-center">
-                    <i className="bi bi-calendar3 me-2"></i>
-                    <small>3d</small>
-                  </li>
-                </ul>
+                    <h5 className="heading ">筆記型電腦</h5>
+                  </a>
+                </div>
               </div>
             </div>
-          </div>
-
-          <div className="col">
-            <div
-              className="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg"
-              style={{
-                backgroundImage: "url('/images/features/unsplash-photo-2.jpg')",
-              }}
-            >
-              <div className="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
-                <h3 className="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">
-                  Much longer title that wraps to multiple lines
-                </h3>
-                <ul className="d-flex list-unstyled mt-auto">
-                  <li className="me-auto">
-                    <img
-                      src="https://github.com/twbs.png"
-                      alt="Bootstrap"
-                      width="32"
-                      height="32"
-                      className="rounded-circle border border-white"
-                    />
-                  </li>
-                  <li className="d-flex align-items-center me-3">
-                    <i className="bi bi-geo-fill me-2"></i>
-                    <small>Pakistan</small>
-                  </li>
-                  <li className="d-flex align-items-center">
-                    <i className="bi bi-calendar3 me-2"></i>
-                    <small>4d</small>
-                  </li>
-                </ul>
+            <div className="col-md-2 col-sm-4 col-6 text-center d-flex align-self-stretch ftco-animate">
+              <div className="media block-6 services mb-md-0 mb-4">
+                <div className="icon bg-color-1 active d-flex justify-content-center align-items-center mb-2">
+                  <span className="flaticon-shipped" />
+                </div>
+                <div className="media-body">
+                  <a href="/PC-shop.html">
+                    <img src="/img/PC.png" alt="" style={{ width: 90 }} />
+                    <h5 className="heading">桌上型電腦</h5>
+                  </a>
+                </div>
               </div>
             </div>
-          </div>
-
-          <div className="col">
-            <div
-              className="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg"
-              style={{
-                backgroundImage: "url('/images/features/unsplash-photo-3.jpg')",
-              }}
-            >
-              <div className="d-flex flex-column h-100 p-5 pb-3 text-shadow-1">
-                <h3 className="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">
-                  Another longer title belongs here
-                </h3>
-                <ul className="d-flex list-unstyled mt-auto">
-                  <li className="me-auto">
+            <div className="col-md-2 col-sm-4 col-6 text-center d-flex align-self-stretch ftco-animate">
+              <div className="media block-6 services mb-md-0 mb-4">
+                <div className="icon bg-color-1 active d-flex justify-content-center align-items-center mb-2">
+                  <span className="flaticon-shipped" />
+                </div>
+                <div className="media-body">
+                  <a href="/earphone-shop.html">
+                    <img src="/img/耳機1.png" alt="" style={{ width: 90 }} />
+                    <h5 className="heading">耳機</h5>
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div className="col-md-2 col-sm-4 col-6 text-center d-flex align-self-stretch ftco-animate">
+              <div className="media block-6 services mb-md-0 mb-4">
+                <div className="icon bg-color-2 d-flex justify-content-center align-items-center mb-2">
+                  <span className="flaticon-diet" />
+                </div>
+                <div className="media-body">
+                  <div className="media-body">
+                    <a href="/tablet-shop.html">
+                      <img
+                        src="/img/Apple iPad 第10代 (2022) Wifi 10.9吋 平板.png"
+                        alt=""
+                        style={{ width: 90 }}
+                      />
+                      <h5 className="heading">平板電腦</h5>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="col-md-2 col-sm-4 col-6 text-center d-flex align-self-stretch ftco-animate">
+              <div className="media block-6 services mb-md-0 mb-4">
+                <div className="icon bg-color-3 d-flex justify-content-center align-items-center mb-2">
+                  <span className="flaticon-award" />
+                </div>
+                <div className="media-body">
+                  <div className="media-body">
+                    <a href="/cellphone-shop.html">
+                      <img src="/img/手機.png" alt="" style={{ width: 90 }} />
+                      <h5 className="heading">手機</h5>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="col-md-2 col-sm-4 col-6 text-center d-flex align-self-stretch ftco-animate">
+              <div className="media block-6 services mb-md-0 mb-4">
+                <div className="icon bg-color-4 d-flex justify-content-center align-items-center mb-2">
+                  <span className="flaticon-customer-service" />
+                </div>
+                <div className="media-body">
+                  <a href="videogame-shop.html">
+                    <img src="/img/遊戲機1.png" alt="" style={{ width: 90 }} />
+                    <h5 className="heading">遊戲機</h5>
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div className="col-md-2 col-sm-4 col-6 text-center d-flex align-self-stretch ftco-animate">
+              <div className="media block-6 services mb-md-0 mb-4">
+                <div className="icon bg-color-4 d-flex justify-content-center align-items-center mb-2">
+                  <span className="flaticon-customer-service" />
+                </div>
+                <div className="media-body">
+                  <a href="moniter-shop.html">
                     <img
-                      src="https://github.com/twbs.png"
-                      alt="Bootstrap"
-                      width="32"
-                      height="32"
-                      className="rounded-circle border border-white"
+                      src="/img/GIGABYTE GS27F .png"
+                      alt=""
+                      style={{ width: 90 }}
                     />
-                  </li>
-                  <li className="d-flex align-items-center me-3">
-                    <i className="bi bi-geo-fill me-2"></i>
-                    <small>California</small>
-                  </li>
-                  <li className="d-flex align-items-center">
-                    <i className="bi bi-calendar3 me-2"></i>
-                    <small>5d</small>
-                  </li>
-                </ul>
+                    <h5 className="heading">顯示器</h5>
+                  </a>
+                </div>
               </div>
             </div>
           </div>
         </div>
+      </section>
+      {/* Fruits Shop Start*/}
+      <div className="container-fluid fruite py-5">
+        <div className="container py-5">
+          <div className="tab-class text-center">
+            <div className="row g-4">
+              <div className="col-lg-4 text-start">
+                <h1>推薦商品</h1>
+              </div>
+              <div className="col-lg-8 text-end">
+                <ul className="nav nav-pills d-inline-flex text-center mb-5">
+                  <li className="nav-item">
+                    <a
+                      className="d-flex m-2 py-2 bg-light rounded-pill active"
+                      data-bs-toggle="pill"
+                      href="#tab-1"
+                    >
+                      <span className="text-dark" style={{ width: 130 }}>
+                        桌上型電腦
+                      </span>
+                    </a>
+                  </li>
+                  <li className="nav-item">
+                    <a
+                      className="d-flex py-2 m-2 bg-light rounded-pill"
+                      data-bs-toggle="pill"
+                      href="#tab-2"
+                    >
+                      <span className="text-dark" style={{ width: 130 }}>
+                        筆記型電腦
+                      </span>
+                    </a>
+                  </li>
+                  <li className="nav-item">
+                    <a
+                      className="d-flex m-2 py-2 bg-light rounded-pill"
+                      data-bs-toggle="pill"
+                      href="#tab-3"
+                    >
+                      <span className="text-dark" style={{ width: 130 }}>
+                        耳機
+                      </span>
+                    </a>
+                  </li>
+                  <li className="nav-item">
+                    <a
+                      className="d-flex m-2 py-2 bg-light rounded-pill"
+                      data-bs-toggle="pill"
+                      href="#tab-4"
+                    >
+                      <span className="text-dark" style={{ width: 130 }}>
+                        手機
+                      </span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div className="tab-content">
+              <div id="tab-1" className="tab-pane fade show p-0 active">
+                <div className="row g-4">
+                  <div className="col-lg-12">
+                    <div className="row g-4">
+                      <div className="col-md-6 col-lg-4 col-xl-3">
+                        <div className="rounded position-relative fruite-item">
+                          <div className="fruite-img">
+                            <img
+                              src="img/PC.png"
+                              className="img-fluid w-100 rounded-top border border-secondary"
+                              alt=""
+                            />
+                          </div>
+                          <div
+                            className="text-white bg-secondary px-3 py-1 rounded position-absolute"
+                            style={{ top: 10, left: 10 }}
+                          >
+                            桌上型電腦
+                          </div>
+                          <div className="p-4 border border-secondary border-top-0 rounded-bottom">
+                            <h4>桌上型電腦</h4>
+                            <p>
+                              I7 12700/8G/512GM.2/550W 電腦天堂 桌上型電腦
+                              繪圖主機 文書 電競 PC
+                            </p>
+                            <div className="d-flex justify-content-between flex-lg-wrap">
+                              <p className="text-dark fs-5 fw-bold mb-0">
+                                $ 15500
+                              </p>
+                              <a
+                                href="#"
+                                className="btn border border-secondary rounded-pill px-3 text-primary"
+                              >
+                                <i className="fa fa-shopping-bag me-2 text-primary" />{' '}
+                                加入購物車
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-md-6 col-lg-4 col-xl-3">
+                        <div className="rounded position-relative fruite-item">
+                          <div className="fruite-img">
+                            <img
+                              src="img/PC.png"
+                              className="img-fluid w-100 rounded-top border border-secondary"
+                              alt=""
+                            />
+                          </div>
+                          <div
+                            className="text-white bg-secondary px-3 py-1 rounded position-absolute"
+                            style={{ top: 10, left: 10 }}
+                          >
+                            桌上型電腦
+                          </div>
+                          <div className="p-4 border border-secondary border-top-0 rounded-bottom">
+                            <h4>桌上型電腦</h4>
+                            <p>
+                              I7 12700/8G/512GM.2/550W 電腦天堂 桌上型電腦
+                              繪圖主機 文書 電競 PC
+                            </p>
+                            <div className="d-flex justify-content-between flex-lg-wrap">
+                              <p className="text-dark fs-5 fw-bold mb-0">
+                                $ 15500
+                              </p>
+                              <a
+                                href="#"
+                                className="btn border border-secondary rounded-pill px-3 text-primary"
+                              >
+                                <i className="fa fa-shopping-bag me-2 text-primary" />{' '}
+                                加入購物車
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-md-6 col-lg-4 col-xl-3">
+                        <div className="rounded position-relative fruite-item">
+                          <div className="fruite-img">
+                            <img
+                              src="img/PC.png"
+                              className="img-fluid w-100 rounded-top border border-secondary"
+                              alt=""
+                            />
+                          </div>
+                          <div
+                            className="text-white bg-secondary px-3 py-1 rounded position-absolute"
+                            style={{ top: 10, left: 10 }}
+                          >
+                            桌上型電腦
+                          </div>
+                          <div className="p-4 border border-secondary border-top-0 rounded-bottom">
+                            <h4>桌上型電腦</h4>
+                            <p>
+                              I7 12700/8G/512GM.2/550W 電腦天堂 桌上型電腦
+                              繪圖主機 文書 電競 PC
+                            </p>
+                            <div className="d-flex justify-content-between flex-lg-wrap">
+                              <p className="text-dark fs-5 fw-bold mb-0">
+                                $ 15500
+                              </p>
+                              <a
+                                href="#"
+                                className="btn border border-secondary rounded-pill px-3 text-primary"
+                              >
+                                <i className="fa fa-shopping-bag me-2 text-primary" />{' '}
+                                加入購物車
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-md-6 col-lg-4 col-xl-3">
+                        <div className="rounded position-relative fruite-item">
+                          <div className="fruite-img">
+                            <img
+                              src="img/PC.png"
+                              className="img-fluid w-100 rounded-top border border-secondary"
+                              alt=""
+                            />
+                          </div>
+                          <div
+                            className="text-white bg-secondary px-3 py-1 rounded position-absolute"
+                            style={{ top: 10, left: 10 }}
+                          >
+                            桌上型電腦
+                          </div>
+                          <div className="p-4 border border-secondary border-top-0 rounded-bottom">
+                            <h4>桌上型電腦</h4>
+                            <p>
+                              I7 12700/8G/512GM.2/550W 電腦天堂 桌上型電腦
+                              繪圖主機 文書 電競 PC
+                            </p>
+                            <div className="d-flex justify-content-between flex-lg-wrap">
+                              <p className="text-dark fs-5 fw-bold mb-0">
+                                $ 15500
+                              </p>
+                              <a
+                                href="#"
+                                className="btn border border-secondary rounded-pill px-3 text-primary"
+                              >
+                                <i className="fa fa-shopping-bag me-2 text-primary" />{' '}
+                                加入購物車
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-md-6 col-lg-4 col-xl-3">
+                        <div className="rounded position-relative fruite-item">
+                          <div className="fruite-img">
+                            <img
+                              src="img/PC.png"
+                              className="img-fluid w-100 rounded-top border border-secondary"
+                              alt=""
+                            />
+                          </div>
+                          <div
+                            className="text-white bg-secondary px-3 py-1 rounded position-absolute"
+                            style={{ top: 10, left: 10 }}
+                          >
+                            桌上型電腦
+                          </div>
+                          <div className="p-4 border border-secondary border-top-0 rounded-bottom">
+                            <h4>桌上型電腦</h4>
+                            <p>
+                              I7 12700/8G/512GM.2/550W 電腦天堂 桌上型電腦
+                              繪圖主機 文書 電競 PC
+                            </p>
+                            <div className="d-flex justify-content-between flex-lg-wrap">
+                              <p className="text-dark fs-5 fw-bold mb-0">
+                                $ 15500
+                              </p>
+                              <a
+                                href="#"
+                                className="btn border border-secondary rounded-pill px-3 text-primary"
+                              >
+                                <i className="fa fa-shopping-bag me-2 text-primary" />{' '}
+                                加入購物車
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-md-6 col-lg-4 col-xl-3">
+                        <div className="rounded position-relative fruite-item">
+                          <div className="fruite-img">
+                            <img
+                              src="img/PC.png"
+                              className="img-fluid w-100 rounded-top border border-secondary"
+                              alt=""
+                            />
+                          </div>
+                          <div
+                            className="text-white bg-secondary px-3 py-1 rounded position-absolute"
+                            style={{ top: 10, left: 10 }}
+                          >
+                            桌上型電腦
+                          </div>
+                          <div className="p-4 border border-secondary border-top-0 rounded-bottom">
+                            <h4>桌上型電腦</h4>
+                            <p>
+                              I7 12700/8G/512GM.2/550W 電腦天堂 桌上型電腦
+                              繪圖主機 文書 電競 PC
+                            </p>
+                            <div className="d-flex justify-content-between flex-lg-wrap">
+                              <p className="text-dark fs-5 fw-bold mb-0">
+                                $ 15500
+                              </p>
+                              <a
+                                href="#"
+                                className="btn border border-secondary rounded-pill px-3 text-primary"
+                              >
+                                <i className="fa fa-shopping-bag me-2 text-primary" />{' '}
+                                加入購物車
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-md-6 col-lg-4 col-xl-3">
+                        <div className="rounded position-relative fruite-item">
+                          <div className="fruite-img">
+                            <img
+                              src="img/PC.png"
+                              className="img-fluid w-100 rounded-top border border-secondary"
+                              alt=""
+                            />
+                          </div>
+                          <div
+                            className="text-white bg-secondary px-3 py-1 rounded position-absolute"
+                            style={{ top: 10, left: 10 }}
+                          >
+                            桌上型電腦
+                          </div>
+                          <div className="p-4 border border-secondary border-top-0 rounded-bottom">
+                            <h4>桌上型電腦</h4>
+                            <p>
+                              I7 12700/8G/512GM.2/550W 電腦天堂 桌上型電腦
+                              繪圖主機 文書 電競 PC
+                            </p>
+                            <div className="d-flex justify-content-between flex-lg-wrap">
+                              <p className="text-dark fs-5 fw-bold mb-0">
+                                $ 15500
+                              </p>
+                              <a
+                                href="#"
+                                className="btn border border-secondary rounded-pill px-3 text-primary"
+                              >
+                                <i className="fa fa-shopping-bag me-2 text-primary" />{' '}
+                                加入購物車
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-md-6 col-lg-4 col-xl-3">
+                        <div className="rounded position-relative fruite-item">
+                          <div className="fruite-img">
+                            <img
+                              src="img/PC.png"
+                              className="img-fluid w-100 rounded-top border border-secondary"
+                              alt=""
+                            />
+                          </div>
+                          <div
+                            className="text-white bg-secondary px-3 py-1 rounded position-absolute"
+                            style={{ top: 10, left: 10 }}
+                          >
+                            桌上型電腦
+                          </div>
+                          <div className="p-4 border border-secondary border-top-0 rounded-bottom">
+                            <h4>桌上型電腦</h4>
+                            <p>
+                              I7 12700/8G/512GM.2/550W 電腦天堂 桌上型電腦
+                              繪圖主機 文書 電競 PC
+                            </p>
+                            <div className="d-flex justify-content-between flex-lg-wrap">
+                              <p className="text-dark fs-5 fw-bold mb-0">
+                                $ 15500
+                              </p>
+                              <a
+                                href="#"
+                                className="btn border border-secondary rounded-pill px-3 text-primary"
+                              >
+                                <i className="fa fa-shopping-bag me-2 text-primary" />{' '}
+                                加入購物車
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div id="tab-2" className="tab-pane fade show p-0">
+                <div className="row g-4">
+                  <div className="col-lg-12">
+                    <div className="row g-4">
+                      <div className="col-md-6 col-lg-4 col-xl-3">
+                        <div className="rounded position-relative fruite-item">
+                          <div className="fruite-img">
+                            <img
+                              src="img/ASUS G614JVR 16吋2K電競筆電$63000.png"
+                              className="img-fluid w-100 rounded-top border border-secondary"
+                              alt=""
+                            />
+                          </div>
+                          <div
+                            className="text-white bg-secondary px-3 py-1 rounded position-absolute"
+                            style={{ top: 10, left: 10 }}
+                          >
+                            筆記型電腦
+                          </div>
+                          <div className="p-4 border border-secondary border-top-0 rounded-bottom">
+                            <h4>ASUS G614JVR 16吋2K電競筆電</h4>
+                            <p>
+                              (i9-14900HX/RTX4060/16G/1TB SSD/ROG Strix G16)
+                            </p>
+                            <div className="d-flex justify-content-between flex-lg-wrap">
+                              <p className="text-dark fs-5 fw-bold mb-0">
+                                $ 63000
+                              </p>
+                              <a
+                                href="#"
+                                className="btn border border-secondary rounded-pill px-3 text-primary"
+                              >
+                                <i className="fa fa-shopping-bag me-2 text-primary" />{' '}
+                                加入購物車
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-md-6 col-lg-4 col-xl-3">
+                        <div className="rounded position-relative fruite-item">
+                          <div className="fruite-img">
+                            <img
+                              src="img/ASUS G614JVR 16吋2K電競筆電$63000.png"
+                              className="img-fluid w-100 rounded-top border border-secondary"
+                              alt=""
+                            />
+                          </div>
+                          <div
+                            className="text-white bg-secondary px-3 py-1 rounded position-absolute"
+                            style={{ top: 10, left: 10 }}
+                          >
+                            筆記型電腦
+                          </div>
+                          <div className="p-4 border border-secondary border-top-0 rounded-bottom">
+                            <h4>ASUS G614JVR 16吋2K電競筆電</h4>
+                            <p>
+                              (i9-14900HX/RTX4060/16G/1TB SSD/ROG Strix G16)
+                            </p>
+                            <div className="d-flex justify-content-between flex-lg-wrap">
+                              <p className="text-dark fs-5 fw-bold mb-0">
+                                $ 63000
+                              </p>
+                              <a
+                                href="#"
+                                className="btn border border-secondary rounded-pill px-3 text-primary"
+                              >
+                                <i className="fa fa-shopping-bag me-2 text-primary" />{' '}
+                                加入購物車
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div id="tab-3" className="tab-pane fade show p-0">
+                <div className="row g-4">
+                  <div className="col-lg-12">
+                    <div className="row g-4">
+                      <div className="col-md-6 col-lg-4 col-xl-3">
+                        <div className="rounded position-relative fruite-item">
+                          <div className="fruite-img">
+                            <img
+                              src="img/耳機1.png"
+                              className="img-fluid w-100 rounded-top border border-secondary"
+                              alt=""
+                            />
+                          </div>
+                          <div
+                            className="text-white bg-secondary px-3 py-1 rounded position-absolute"
+                            style={{ top: 10, left: 10 }}
+                          >
+                            耳機
+                          </div>
+                          <div className="p-4 border border-secondary border-top-0 rounded-bottom">
+                            <h4>GM180 PLUS有線電競耳機</h4>
+                            <p>小巧半入耳式設計 更貼耳 配戴更舒適</p>
+                            <div className="d-flex justify-content-between flex-lg-wrap">
+                              <p className="text-dark fs-5 fw-bold mb-0">
+                                $ 699
+                              </p>
+                              <a
+                                href="#"
+                                className="btn border border-secondary rounded-pill px-3 text-primary"
+                              >
+                                <i className="fa fa-shopping-bag me-2 text-primary" />
+                                加入購物車
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-md-6 col-lg-4 col-xl-3">
+                        <div className="rounded position-relative fruite-item">
+                          <div className="fruite-img">
+                            <img
+                              src="img/耳機1.png"
+                              className="img-fluid w-100 rounded-top border border-secondary"
+                              alt=""
+                            />
+                          </div>
+                          <div
+                            className="text-white bg-secondary px-3 py-1 rounded position-absolute"
+                            style={{ top: 10, left: 10 }}
+                          >
+                            耳機
+                          </div>
+                          <div className="p-4 border border-secondary border-top-0 rounded-bottom">
+                            <h4>GM180 PLUS有線電競耳機</h4>
+                            <p>小巧半入耳式設計 更貼耳 配戴更舒適</p>
+                            <div className="d-flex justify-content-between flex-lg-wrap">
+                              <p className="text-dark fs-5 fw-bold mb-0">
+                                $ 699
+                              </p>
+                              <a
+                                href="#"
+                                className="btn border border-secondary rounded-pill px-3 text-primary"
+                              >
+                                <i className="fa fa-shopping-bag me-2 text-primary" />
+                                加入購物車
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div id="tab-4" className="tab-pane fade show p-0">
+                <div className="row g-4">
+                  <div className="col-lg-12">
+                    <div className="row g-4">
+                      <div className="col-md-6 col-lg-4 col-xl-3">
+                        <div className="rounded position-relative fruite-item">
+                          <div className="fruite-img">
+                            <img
+                              src="img/cellphone.png"
+                              className="img-fluid w-100 rounded-top border border-secondary"
+                              alt=""
+                            />
+                          </div>
+                          <div
+                            className="text-white bg-secondary px-3 py-1 rounded position-absolute"
+                            style={{ top: 10, left: 10 }}
+                          >
+                            手機
+                          </div>
+                          <div className="p-4 border border-secondary border-top-0 rounded-bottom">
+                            <h4>Apple iPhone 15 Pro 256GB </h4>
+                            <p>Apple iPhone 15 Pro 256GB A17 PRO </p>
+                            <div className="d-flex justify-content-between flex-lg-wrap">
+                              <p className="text-dark fs-5 fw-bold mb-0">
+                                $ 39,188
+                              </p>
+                              <a
+                                href="#"
+                                className="btn border border-secondary rounded-pill px-3 text-primary"
+                              >
+                                <i className="fa fa-shopping-bag me-2 text-primary" />
+                                加入購物車
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-md-6 col-lg-4 col-xl-3">
+                        <div className="rounded position-relative fruite-item">
+                          <div className="fruite-img">
+                            <img
+                              src="img/cellphone.png"
+                              className="img-fluid w-100 rounded-top border border-secondary"
+                              alt=""
+                            />
+                          </div>
+                          <div
+                            className="text-white bg-secondary px-3 py-1 rounded position-absolute"
+                            style={{ top: 10, left: 10 }}
+                          >
+                            手機
+                          </div>
+                          <div className="p-4 border border-secondary border-top-0 rounded-bottom">
+                            <h4>Apple iPhone 15 Pro 256GB </h4>
+                            <p>Apple iPhone 15 Pro 256GB A17 PRO </p>
+                            <div className="d-flex justify-content-between flex-lg-wrap">
+                              <p className="text-dark fs-5 fw-bold mb-0">
+                                $ 39,188
+                              </p>
+                              <a
+                                href="#"
+                                className="btn border border-secondary rounded-pill px-3 text-primary"
+                              >
+                                <i className="fa fa-shopping-bag me-2 text-primary" />
+                                加入購物車
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <style global jsx>
-        {`
-          .card-cover {
-            background-repeat: no-repeat;
-            background-position: center center;
-            background-size: cover;
-          }
-
-          .text-shadow-1 {
-            text-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.25);
-          }
-          .text-shadow-2 {
-            text-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.25);
-          }
-          .text-shadow-3 {
-            text-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.25);
-          }
-        `}
-      </style>
+      {/* Fruits Shop End*/}
+      <style
+        dangerouslySetInnerHTML={{
+          __html:
+            '\n.bgclor{\nbackground: linear-gradient(to bottom, #F6402E 10%, #FF6433 100%);\n\n}\nbody{\nbackground:#f5f5f5;\n}\n/* 鼠标悬停时的样式 */\n.media-body:hover {\n  background-color: #f0f0f0; /* 改变背景颜色 */\n  border: 1px solid #ffb524; /* 添加边框 */\n  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 添加阴影效果 */\n  transition: 0.5s;\n  transform: scale(1.3);\n  border-radius: 10%;\n}\n\n',
+        }}
+      />
     </>
   )
 }
