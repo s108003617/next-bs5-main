@@ -106,8 +106,8 @@ const PurchaseOrders = () => {
                       <td>{order.id}</td>
                       <td>{order.amount}</td>
                       <td>{order.transaction_id}</td>
-                      <td>{order.payment}</td>
-                      <td>{order.shipping}</td>
+                      <td>Line Pay</td>
+                      <td>7-11</td>
                       <td>{order.status}</td>
                       <td>{formatDate(order.created_at)}</td>
                     </tr>
