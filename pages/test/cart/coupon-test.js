@@ -28,15 +28,24 @@ function CartList({
     setHydrated(true)
   }, [])
 
+  useEffect(() => {
+    // Check if all items are selected and update selectAll accordingly
+    const allSelected = items.every(item => selectedItems[item.id])
+    setSelectAll(allSelected)
+  }, [selectedItems, items, setSelectAll])
+
   if (!hydrated) {
     return null
   }
 
   const handleItemSelect = (id) => {
-    setSelectedItems(prev => ({
-      ...prev,
-      [id]: !prev[id]
-    }))
+    setSelectedItems(prev => {
+      const newSelectedItems = {
+        ...prev,
+        [id]: !prev[id]
+      }
+      return newSelectedItems
+    })
   }
 
   const handleSelectAll = () => {
