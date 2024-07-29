@@ -134,24 +134,7 @@ export default function Profile() {
         <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
           <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
             <h1 className="h2">會員資料</h1>
-            <button onClick={handleLogout} className="btn btn-danger">
-              登出
-            </button>
           </div>
-
-          <p className="text-muted">
-            規則:
-            username與email不能修改(這與註冊機制或網站會員的安全機制的有關)
-          </p>
-          <p className="text-muted">
-            注意: 密碼不在這裡修改，因機制不一樣，在
-            <Link
-              href="/test/user/profile-password"
-              className="text-decoration-none"
-            >
-              會員資料修改(密碼)
-            </Link>
-          </p>
 
           <div className="mb-4">
             {hasProfile ? (

@@ -1,77 +1,84 @@
-import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { Toaster, toast } from 'react-hot-toast';
-import { FaTrashAlt } from 'react-icons/fa';
+import React, { useState, useEffect } from 'react'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { Toaster, toast } from 'react-hot-toast'
+import { FaTrashAlt } from 'react-icons/fa'
+import Image from 'next/image'
 
 const Favorites = () => {
-  const [favorites, setFavorites] = useState([]);
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const router = useRouter();
+  const [favorites, setFavorites] = useState([])
+  const [error, setError] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const router = useRouter()
 
   useEffect(() => {
-    fetchFavorites();
-  }, []);
+    fetchFavorites()
+  }, [])
 
   const fetchFavorites = async () => {
     try {
-      setLoading(true);
+      setLoading(true)
       const response = await fetch('http://localhost:3005/api/favorites1', {
-        credentials: 'include'
-      });
+        credentials: 'include',
+      })
       if (!response.ok) {
-        throw new Error('Failed to fetch favorites');
+        throw new Error('Failed to fetch favorites')
       }
-      const data = await response.json();
+      const data = await response.json()
       if (data.status === 'success') {
-        setFavorites(data.data.favorites);
-        toast.success('收藏資料載入成功');
+        setFavorites(data.data.favorites)
+        toast.success('收藏資料載入成功')
       } else {
-        throw new Error(data.message || 'Failed to fetch favorites');
+        throw new Error(data.message || 'Failed to fetch favorites')
       }
     } catch (error) {
-      setError(error.message);
-      toast.error('收藏資料載入失敗');
+      setError(error.message)
+      toast.error('收藏資料載入失敗')
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
   const cancelFavorite = async (favoriteId) => {
     try {
-      const response = await fetch(`http://localhost:3005/api/favorites1?favoriteId=${favoriteId}`, {
-        method: 'DELETE',
-        credentials: 'include'
-      });
+      const response = await fetch(
+        `http://localhost:3005/api/favorites1?favoriteId=${favoriteId}`,
+        {
+          method: 'DELETE',
+          credentials: 'include',
+        }
+      )
       if (!response.ok) {
-        throw new Error('Failed to cancel favorite');
+        throw new Error('Failed to cancel favorite')
       }
-      const data = await response.json();
+      const data = await response.json()
       if (data.status === 'success') {
-        setFavorites(favorites.filter(fav => fav.id !== favoriteId));
-        toast.success('收藏已成功刪除');
+        setFavorites(favorites.filter((fav) => fav.id !== favoriteId))
+        toast.success('收藏已成功刪除')
       } else {
-        throw new Error(data.message || 'Failed to cancel favorite');
+        throw new Error(data.message || 'Failed to cancel favorite')
       }
     } catch (error) {
-      setError(error.message);
-      toast.error('刪除收藏失敗');
+      setError(error.message)
+      toast.error('刪除收藏失敗')
     }
-  };
+  }
 
   const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleString('zh-TW');
-  };
+    return new Date(dateString).toLocaleString('zh-TW')
+  }
 
   const handleProductClick = (pid) => {
-    router.push(`/product/${pid}`);
-  };
+    router.push(`/product/${pid}`)
+  }
 
   return (
     <div className="container-fluid d-flex flex-column vh-100">
       <div className="row flex-grow-1">
-        <nav id="sidebar" className="col-md-3 col-lg-2 d-md-block bg-light sidebar">
+        <nav
+          id="sidebar"
+          className="col-md-3 col-lg-2 d-md-block bg-light sidebar"
+        >
           <div className="position-sticky">
             <ul className="nav flex-column">
               <li className="nav-item">
@@ -119,37 +126,71 @@ const Favorites = () => {
               錯誤: {error}
             </div>
           ) : favorites.length === 0 ? (
-            <p className="text-muted">目前沒有收藏項目</p>
+            <p className="text-muted text-center">目前沒有收藏項目</p>
           ) : (
             <div className="table-responsive">
-              <table className="table table-striped table-sm">
-                <thead>
+              <table className="table table-hover table-striped align-middle">
+                <thead className="table-light">
                   <tr>
-                    <th>產品ID</th>
-                    <th>收藏時間</th>
-                    <th>操作</th>
+                    <th className="text-center">產品圖片</th>
+                    <th className="text-center">產品名稱</th>
+                    <th className="text-center">價格</th>
+                    <th className="text-center">收藏時間</th>
+                    <th className="text-center">操作</th>
                   </tr>
                 </thead>
                 <tbody>
                   {favorites.map((favorite) => (
                     <tr key={favorite.id}>
-                      <td>
-                        <span 
-                          className="text-primary" 
-                          style={{cursor: 'pointer', textDecoration: 'underline'}}
+                      <td className="text-center">
+                        {favorite.product && favorite.product.photos ? (
+                          <Image
+                            src={`/images/product/thumb/${
+                              favorite.product.photos.split(',')[0]
+                            }`}
+                            alt={favorite.product.name}
+                            width={80}
+                            height={80}
+                            style={{ objectFit: 'cover' }}
+                            className="rounded"
+                          />
+                        ) : (
+                          <span className="text-muted">無圖片</span>
+                        )}
+                      </td>
+                      <td className="text-center">
+                        <span
+                          className="text-primary"
+                          style={{
+                            cursor: 'pointer',
+                            textDecoration: 'underline',
+                          }}
                           onClick={() => handleProductClick(favorite.pid)}
                         >
-                          {favorite.pid}
+                          {favorite.product
+                            ? favorite.product.name
+                            : '產品不存在'}
                         </span>
                       </td>
-                      <td>{formatDate(favorite.created_at)}</td>
-                      <td>
+                      <td className="text-center">
+                        {favorite.product ? (
+                          <span className="badge bg-success fs-6">
+                            ${favorite.product.price}
+                          </span>
+                        ) : (
+                          'N/A'
+                        )}
+                      </td>
+                      <td className="text-center">
+                        {formatDate(favorite.created_at)}
+                      </td>
+                      <td className="text-center">
                         <button
-                          className="btn btn-sm btn-link text-danger"
+                          className="btn btn-sm btn-outline-danger"
                           onClick={() => cancelFavorite(favorite.id)}
                           title="取消收藏"
                         >
-                          <FaTrashAlt />
+                          <FaTrashAlt /> 移除
                         </button>
                       </td>
                     </tr>
@@ -162,7 +203,7 @@ const Favorites = () => {
       </div>
       <Toaster />
     </div>
-  );
-};
+  )
+}
 
-export default Favorites;
+export default Favorites
