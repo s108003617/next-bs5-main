@@ -52,7 +52,7 @@ export default function Coupon() {
 
   return (
     <>
-      <h1>購物車範例</h1>
+      <h1>購物車</h1>
       <p>
         <Link href="/test/cart/product-list">商品列表頁範例</Link>
       </p>

@@ -96,7 +96,7 @@ export default function Detail() {
   const handleDirectCheckout = () => {
     const item = { ...product, quantity: quantity }
     addItem(item)
-    router.push('/test/cart')
+    router.push('/test/cart/coupon-test')
   }
 
   const handleImageClick = (index) => {
@@ -113,7 +113,7 @@ export default function Detail() {
         <Button variant="secondary" onClick={handleClose}>
           繼續購物
         </Button>
-        <Button variant="primary" onClick={() => router.push('/test/cart')}>
+        <Button variant="primary" onClick={() => router.push('/test/cart/coupon-test')}>
           前往購物車結帳
         </Button>
       </Modal.Footer>

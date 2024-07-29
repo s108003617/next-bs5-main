@@ -5,6 +5,7 @@ import { useAuth } from '@/hooks/use-auth'
 import { useCart } from '@/hooks/use-cart-state'
 import { useShip711StoreOpener } from '@/hooks/use-ship-711-store'
 import Link from 'next/link'
+import Image from 'next/image'
 import toast, { Toaster } from 'react-hot-toast'
 
 const coupons = [
@@ -29,7 +30,6 @@ function CartList({
   }, [])
 
   useEffect(() => {
-    // Check if all items are selected and update selectAll accordingly
     const allSelected = items.every(item => selectedItems[item.id])
     setSelectAll(allSelected)
   }, [selectedItems, items, setSelectAll])
@@ -39,13 +39,10 @@ function CartList({
   }
 
   const handleItemSelect = (id) => {
-    setSelectedItems(prev => {
-      const newSelectedItems = {
-        ...prev,
-        [id]: !prev[id]
-      }
-      return newSelectedItems
-    })
+    setSelectedItems(prev => ({
+      ...prev,
+      [id]: !prev[id]
+    }))
   }
 
   const handleSelectAll = () => {
@@ -80,18 +77,19 @@ function CartList({
           <table className="table table-hover">
             <thead className="table-light">
               <tr>
-                <th>選擇</th>
-                <th>商品名稱</th>
-                <th>單價</th>
-                <th>數量</th>
-                <th>小計</th>
-                <th>操作</th>
+                <th className="text-center align-middle">選擇</th>
+                <th className="text-center align-middle">商品圖片</th>
+                <th className="text-center align-middle">商品名稱</th>
+                <th className="text-center align-middle">單價</th>
+                <th className="text-center align-middle">數量</th>
+                <th className="text-center align-middle">小計</th>
+                <th className="text-center align-middle">操作</th>
               </tr>
             </thead>
             <tbody>
               {items.map((v) => (
                 <tr key={v.id}>
-                  <td>
+                  <td className="text-center align-middle">
                     <div className="form-check">
                       <input
                         className="form-check-input"
@@ -102,31 +100,45 @@ function CartList({
                       />
                     </div>
                   </td>
-                  <td>{v.name}</td>
-                  <td>${Math.round(v.price)}</td>
-                  <td>
+                  <td className="text-center align-middle">
+                    {v.photos ? (
+                      <Image
+                        src={`/images/product/thumb/${v.photos.split(',')[0]}`}
+                        alt={v.name}
+                        width={80}
+                        height={80}
+                        style={{ objectFit: 'cover' }}
+                        className="rounded"
+                      />
+                    ) : (
+                      <span className="text-muted">無圖片</span>
+                    )}
+                  </td>
+                  <td className="text-center align-middle">{v.name}</td>
+                  <td className="text-center align-middle">${Math.round(v.price)}</td>
+                  <td className="text-center align-middle">
                     <div className="btn-group" role="group">
                       <button
                         type="button"
-                        className="btn btn-outline-secondary btn-sm"
+                        className="btn btn-outline-dark btn-sm"
                         onClick={() => decrement(v.id)}
                       >
                         -
                       </button>
-                      <button type="button" className="btn btn-outline-secondary btn-sm" disabled>
+                      <button type="button" className="btn btn-outline-dark btn-sm" disabled>
                         {v.quantity}
                       </button>
                       <button
                         type="button"
-                        className="btn btn-outline-secondary btn-sm"
+                        className="btn btn-outline-dark btn-sm"
                         onClick={() => increment(v.id)}
                       >
                         +
                       </button>
                     </div>
                   </td>
-                  <td>${Math.round(v.subtotal)}</td>
-                  <td>
+                  <td className="text-center align-middle">${Math.round(v.subtotal)}</td>
+                  <td className="text-center align-middle">
                     <button
                       type="button"
                       className="btn btn-danger btn-sm"
@@ -281,7 +293,7 @@ export default function CouponTest() {
 
   return (
     <div className="container mt-5">
-      <h1 className="mb-4">購物車範例</h1>
+      <h1 className="mb-4">購物車</h1>
       <div className="row">
         <div className="col-lg-8 mb-4">
           <CartList 
