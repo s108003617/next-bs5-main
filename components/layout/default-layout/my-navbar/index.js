@@ -26,7 +26,7 @@ export default function MyNavbar() {
         <nav className="navbar navbar-expand-lg fixed-top navbar-light bg-light">
           <div className="container-fluid">
             <Link className="navbar-brand" href="/">
-              <Image src="/next.svg" alt="" width={100} height={24} priority />
+              <h1 className="text-primary display-6">DigitalShop</h1>
             </Link>
             <button
               className="navbar-toggler"
@@ -105,6 +105,15 @@ export default function MyNavbar() {
         }
         .navbar {
           background: linear-gradient(to bottom, #f6402e 10%, #ff6433 100%);
+        }
+        .text-primary {
+          color: #f7a969da !important;
+          font-family: 'Raleway', sans-serif;
+          margin-top: 0;
+          margin-bottom: 0.5rem;
+        }
+        .display-6 {
+          font-size: 1.5rem;
         }
       `}</style>
     </>
