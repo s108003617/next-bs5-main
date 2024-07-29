@@ -112,20 +112,6 @@ export default function Toolbar({ handleShow }) {
           )}
         </ul>
       </li>
-      <li className="nav-item">
-        <span
-          className="nav-link btn btn-outline-light"
-          role="presentation"
-          onClick={(e) => {
-            e.preventDefault()
-            handleShow()
-          }}
-          title="展示"
-        >
-          <i className="bi bi-mortarboard-fill"></i>
-          <p className="d-none d-md-inline d-lg-none"> 展示</p>
-        </span>
-      </li>
     </ul>
   )
 }
