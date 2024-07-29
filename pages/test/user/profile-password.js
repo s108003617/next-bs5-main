@@ -94,13 +94,7 @@ export default function PasswordChange() {
             <h1 className="h2">密碼更換</h1>
           </div>
 
-          <p className="text-muted">
-            規則: 需要輸入目前密碼(原密碼)在伺服器上驗証通過後，才能更新密碼
-          </p>
-          <p className="text-muted">
-            注意: 這頁面沒有初始載入的動作。一般會員資料不在這裡修改，因機制不一樣，在
-            <Link href="/test/user/profile" className="text-decoration-none">會員資料修改(一般)</Link>
-          </p>
+         
 
           <form onSubmit={handleSubmit} className="mt-4 flex-grow-1">
             <div className="mb-3">
