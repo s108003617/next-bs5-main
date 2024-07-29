@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { Toaster, toast } from 'react-hot-toast';
 import { FaTrashAlt } from 'react-icons/fa';
+import Image from 'next/image';
 
 const Favorites = () => {
   const [favorites, setFavorites] = useState([]);
@@ -119,37 +120,60 @@ const Favorites = () => {
               錯誤: {error}
             </div>
           ) : favorites.length === 0 ? (
-            <p className="text-muted">目前沒有收藏項目</p>
+            <p className="text-muted text-center">目前沒有收藏項目</p>
           ) : (
             <div className="table-responsive">
-              <table className="table table-striped table-sm">
-                <thead>
+              <table className="table table-hover table-striped align-middle">
+                <thead className="table-light">
                   <tr>
-                    <th>產品ID</th>
-                    <th>收藏時間</th>
-                    <th>操作</th>
+                    <th className="text-center">產品圖片</th>
+                    <th className="text-center">產品名稱</th>
+                    <th className="text-center">價格</th>
+                    <th className="text-center">收藏時間</th>
+                    <th className="text-center">操作</th>
                   </tr>
                 </thead>
                 <tbody>
                   {favorites.map((favorite) => (
                     <tr key={favorite.id}>
-                      <td>
+                      <td className="text-center">
+                        {favorite.product && favorite.product.photos ? (
+                          <Image
+                            src={`/images/product/thumb/${favorite.product.photos.split(',')[0]}`}
+                            alt={favorite.product.name}
+                            width={80}
+                            height={80}
+                            style={{ objectFit: 'cover' }}
+                            className="rounded"
+                          />
+                        ) : (
+                          <span className="text-muted">無圖片</span>
+                        )}
+                      </td>
+                      <td className="text-center">
                         <span 
                           className="text-primary" 
                           style={{cursor: 'pointer', textDecoration: 'underline'}}
                           onClick={() => handleProductClick(favorite.pid)}
                         >
-                          {favorite.pid}
+                          {favorite.product ? favorite.product.name : '產品不存在'}
                         </span>
                       </td>
-                      <td>{formatDate(favorite.created_at)}</td>
-                      <td>
+                      <td className="text-center">
+                        {favorite.product ? (
+                          <span className="badge bg-success fs-6">
+                            ${favorite.product.price}
+                          </span>
+                        ) : 'N/A'}
+                      </td>
+                      <td className="text-center">{formatDate(favorite.created_at)}</td>
+                      <td className="text-center">
                         <button
-                          className="btn btn-sm btn-link text-danger"
+                          className="btn btn-sm btn-outline-danger"
                           onClick={() => cancelFavorite(favorite.id)}
                           title="取消收藏"
                         >
-                          <FaTrashAlt />
+                          <FaTrashAlt /> 移除
                         </button>
                       </td>
                     </tr>
