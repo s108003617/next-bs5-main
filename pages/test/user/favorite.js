@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { Toaster, toast } from 'react-hot-toast';
 import { FaTrashAlt } from 'react-icons/fa';
+import Image from 'next/image';
 
 const Favorites = () => {
   const [favorites, setFavorites] = useState([]);
@@ -125,7 +126,9 @@ const Favorites = () => {
               <table className="table table-striped table-sm">
                 <thead>
                   <tr>
-                    <th>產品ID</th>
+                    <th>產品圖片</th>
+                    <th>產品名稱</th>
+                    <th>價格</th>
                     <th>收藏時間</th>
                     <th>操作</th>
                   </tr>
@@ -134,14 +137,28 @@ const Favorites = () => {
                   {favorites.map((favorite) => (
                     <tr key={favorite.id}>
                       <td>
+                        {favorite.product && favorite.product.photos ? (
+                          <Image
+                            src={`/images/product/thumb/${favorite.product.photos.split(',')[0]}`}
+                            alt={favorite.product.name}
+                            width={50}
+                            height={50}
+                            style={{ objectFit: 'cover' }}
+                          />
+                        ) : (
+                          <span>無圖片</span>
+                        )}
+                      </td>
+                      <td>
                         <span 
                           className="text-primary" 
                           style={{cursor: 'pointer', textDecoration: 'underline'}}
                           onClick={() => handleProductClick(favorite.pid)}
                         >
-                          {favorite.pid}
+                          {favorite.product ? favorite.product.name : '產品不存在'}
                         </span>
                       </td>
+                      <td>{favorite.product ? `$${favorite.product.price}` : 'N/A'}</td>
                       <td>{formatDate(favorite.created_at)}</td>
                       <td>
                         <button
