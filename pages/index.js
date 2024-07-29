@@ -27,7 +27,7 @@ export default function Home() {
               </div>
               <div className="carousel-item rounded">
                 <Image
-                  src={'images/index/712c072348aeb80c150c04e9b9aaba9f.webp'}
+                  src={'images/index/16pic_8577714_b.jpg'}
                   className="Image-fluid w-100 h-100 bg-secondary rounded"
                   alt="First slide"
                   width={300}
@@ -45,7 +45,7 @@ export default function Home() {
               </div>
               <div className="carousel-item rounded">
                 <Image
-                  src={'images/index/712c072348aeb80c150c04e9b9aaba9f.webp'}
+                  src={'images/index/16pic_8577714_b.jpg'}
                   className="Image-fluid w-100 h-100 bg-secondary rounded"
                   alt="First slide"
                   width={300}
