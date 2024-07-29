@@ -192,15 +192,15 @@ export default function Order() {
 
   const confirmOrder = (
     <>
-      <h2>最後付款確認結果(returnCode=0000 代表成功): </h2>
-      <p>{JSON.stringify(result)}</p>
+      <h2>成功支付 </h2>
+     
       <p>
         <button
           onClick={() => {
-            window.location.href = '/test/line-pay/order'
+            window.location.href = '/test/cart/product-list'
           }}
         >
-          重新測試
+          回到商品頁
         </button>
       </p>
     </>
