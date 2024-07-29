@@ -60,10 +60,10 @@ export default function Register() {
   const fillSampleData = () => {
     setUser({
       name: '榮恩',
-      email: 'ron@test.com',
+      email: 'willybear@gmail.com',
       username: 'ron',
-      password: '99999',
-      confirmPassword: '99999',
+      password: '11111',
+      confirmPassword: '11111',
     })
   }
 
