@@ -3,7 +3,7 @@ import { addFav, removeFav } from '@/services/user'
 import toast from 'react-hot-toast'
 
 // 愛心圖示(svg)
-const Heart = ({ size = 20, color = 'red' }) => (
+const Heart = ({ size = 35, color = 'red' }) => (
   <svg
     className="heart"
     viewBox="0 0 32 29.6"

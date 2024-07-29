@@ -1,15 +1,22 @@
-import React, { useState } from 'react';
-import { register } from '@/services/user';
-import toast, { Toaster } from 'react-hot-toast';
-import { useAuth } from '@/hooks/use-auth';
-import { FaUser, FaLock, FaEnvelope, FaIdCard, FaEye, FaEyeSlash } from 'react-icons/fa';
-import { useRouter } from 'next/router';
+import React, { useState } from 'react'
+import { register } from '@/services/user'
+import toast, { Toaster } from 'react-hot-toast'
+import { useAuth } from '@/hooks/use-auth'
+import {
+  FaUser,
+  FaLock,
+  FaEnvelope,
+  FaIdCard,
+  FaEye,
+  FaEyeSlash,
+} from 'react-icons/fa'
+import { useRouter } from 'next/router'
 
 export default function Register() {
-  const { auth } = useAuth();
-  const router = useRouter();
+  const { auth } = useAuth()
+  const router = useRouter()
 
-  if (auth.isAuth) return null;
+  if (auth.isAuth) return null
 
   const [user, setUser] = useState({
     name: '',
@@ -17,38 +24,38 @@ export default function Register() {
     username: '',
     password: '',
     confirmPassword: '',
-  });
+  })
 
   const [showPasswords, setShowPasswords] = useState({
     password: false,
     confirmPassword: false,
-  });
+  })
 
   const handleFieldChange = (e) => {
-    setUser({ ...user, [e.target.name]: e.target.value });
-  };
+    setUser({ ...user, [e.target.name]: e.target.value })
+  }
 
   const togglePasswordVisibility = (field) => {
-    setShowPasswords(prev => ({ ...prev, [field]: !prev[field] }));
-  };
+    setShowPasswords((prev) => ({ ...prev, [field]: !prev[field] }))
+  }
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
     if (user.password !== user.confirmPassword) {
-      toast.error('密碼和確認密碼不匹配');
-      return;
+      toast.error('密碼和確認密碼不匹配')
+      return
     }
-    const res = await register(user);
-    
+    const res = await register(user)
+
     if (res.data.status === 'success') {
-      toast.success('會員註冊成功');
+      toast.success('會員註冊成功')
       setTimeout(() => {
-        router.push('/test/user');
-      }, 2000);
+        router.push('/test/user')
+      }, 2000)
     } else {
-      toast.error('會員註冊失敗');
+      toast.error('會員註冊失敗')
     }
-  };
+  }
 
   const fillSampleData = () => {
     setUser({
@@ -57,8 +64,8 @@ export default function Register() {
       username: 'ron',
       password: '99999',
       confirmPassword: '99999',
-    });
-  };
+    })
+  }
 
   return (
     <div className="container mt-5">
@@ -66,7 +73,7 @@ export default function Register() {
         <div className="col-md-6">
           <div className="card shadow-lg">
             <div className="card-body p-5">
-              <h2 className="text-center mb-4">會員註冊</h2>
+              <h2 className="text-center mb-4">註冊</h2>
               <p className="text-muted text-center mb-4">
                 註冊時，用戶名和電子郵件不能與現有帳戶重複
               </p>
@@ -93,7 +100,7 @@ export default function Register() {
                       <FaLock />
                     </span>
                     <input
-                      type={showPasswords.password ? "text" : "password"}
+                      type={showPasswords.password ? 'text' : 'password'}
                       className="form-control"
                       placeholder="密碼"
                       name="password"
@@ -117,7 +124,7 @@ export default function Register() {
                       <FaLock />
                     </span>
                     <input
-                      type={showPasswords.confirmPassword ? "text" : "password"}
+                      type={showPasswords.confirmPassword ? 'text' : 'password'}
                       className="form-control"
                       placeholder="確認密碼"
                       name="confirmPassword"
@@ -128,10 +135,16 @@ export default function Register() {
                     <button
                       type="button"
                       className="btn btn-link position-absolute end-0 top-50 translate-middle-y"
-                      onClick={() => togglePasswordVisibility('confirmPassword')}
+                      onClick={() =>
+                        togglePasswordVisibility('confirmPassword')
+                      }
                       style={{ zIndex: 10 }}
                     >
-                      {showPasswords.confirmPassword ? <FaEye /> : <FaEyeSlash />}
+                      {showPasswords.confirmPassword ? (
+                        <FaEye />
+                      ) : (
+                        <FaEyeSlash />
+                      )}
                     </button>
                   </div>
                 </div>
@@ -184,7 +197,19 @@ export default function Register() {
           </div>
         </div>
       </div>
+      <style jsx>
+        {`
+          .btn-primary {
+            background-color: #ff6433;
+            border: none;
+            color: white;
+          }
+          .mb-4 {
+            font-family: 'Raleway', sans-serif;
+          }
+        `}
+      </style>
       <Toaster />
     </div>
-  );
+  )
 }

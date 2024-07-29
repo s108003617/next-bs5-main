@@ -18,7 +18,7 @@ export default function Home() {
             <div className="carousel-inner" role="listbox">
               <div className="carousel-item active rounded">
                 <Image
-                  src={'images/index/未命名設計1.png'}
+                  src={'images/index/16pic_8577714_b.jpg'}
                   className="Image-fluid w-100 h-100 bg-secondary rounded"
                   alt="First slide"
                   width={300}
@@ -27,7 +27,7 @@ export default function Home() {
               </div>
               <div className="carousel-item rounded">
                 <Image
-                  src={'images/index/未命名設計1.png'}
+                  src={'images/index/712c072348aeb80c150c04e9b9aaba9f.webp'}
                   className="Image-fluid w-100 h-100 bg-secondary rounded"
                   alt="First slide"
                   width={300}
@@ -36,7 +36,7 @@ export default function Home() {
               </div>
               <div className="carousel-item rounded">
                 <Image
-                  src={'images/index/未命名設計1.png'}
+                  src={'images/index/16pic_8577714_b.jpg'}
                   className="Image-fluid w-100 h-100 bg-secondary rounded"
                   alt="First slide"
                   width={300}
@@ -45,7 +45,7 @@ export default function Home() {
               </div>
               <div className="carousel-item rounded">
                 <Image
-                  src={'images/index/未命名設計1.png'}
+                  src={'images/index/712c072348aeb80c150c04e9b9aaba9f.webp'}
                   className="Image-fluid w-100 h-100 bg-secondary rounded"
                   alt="First slide"
                   width={300}
@@ -54,7 +54,7 @@ export default function Home() {
               </div>
               <div className="carousel-item rounded">
                 <Image
-                  src={'images/index/未命名設計1.png'}
+                  src={'images/index/16pic_8577714_b.jpg'}
                   className="Image-fluid w-100 h-100 bg-secondary rounded"
                   alt="First slide"
                   width={300}
@@ -843,12 +843,22 @@ export default function Home() {
         </div>
       </div>
       {/* Fruits Shop End*/}
-      <style
-        dangerouslySetInnerHTML={{
-          __html:
-            '\n.bgclor{\nbackground: linear-gradient(to bottom, #F6402E 10%, #FF6433 100%);\n\n}\nbody{\nbackground:#f5f5f5;\n}\n/* 鼠标悬停时的样式 */\n.media-body:hover {\n  background-color: #f0f0f0; /* 改变背景颜色 */\n  border: 1px solid #ffb524; /* 添加边框 */\n  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 添加阴影效果 */\n  transition: 0.5s;\n  transform: scale(1.3);\n  border-radius: 10%;\n}\n\n',
-        }}
-      />
+      <style jsx>
+        {`
+          .border-secondary {
+            border-color: #ffb524 !important;
+          }
+          .bg-secondary {
+            background-color: #ff6433 !important;
+          }
+          .text-primary {
+            color: #f7a969da !important;
+          }
+          .fruite .tab-class .nav-item a.active {
+            background: var(--bs-secondary) !important;
+          }
+        `}
+      </style>
     </>
   )
 }

@@ -294,6 +294,7 @@ export default function ProductList() {
           pageCount={pageCount}
         />
       </div>
+
       <Toaster />
     </>
   )

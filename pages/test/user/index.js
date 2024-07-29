@@ -218,6 +218,18 @@ export default function UserTest() {
           </div>
         </div>
       </div>
+      <style jsx>
+        {`
+          .btn-primary {
+            background-color: #ff6433;
+            border: none;
+            color: white;
+          }
+          body {
+            font-family: 'Open Sans', sans-serif;
+          }
+        `}
+      </style>
       <Toaster />
     </div>
   )

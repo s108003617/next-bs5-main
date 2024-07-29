@@ -1,63 +1,66 @@
-import React, { useState } from 'react';
-import Link from 'next/link';
-import toast, { Toaster } from 'react-hot-toast';
-import { updatePassword } from '@/services/user';
-import { useAuth } from '@/hooks/use-auth';
-import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import React, { useState } from 'react'
+import Link from 'next/link'
+import toast, { Toaster } from 'react-hot-toast'
+import { updatePassword } from '@/services/user'
+import { useAuth } from '@/hooks/use-auth'
+import { FaEye, FaEyeSlash } from 'react-icons/fa'
 
 const initUserPassword = {
   origin: '',
   new: '',
   confirm: '',
-};
+}
 
 export default function PasswordChange() {
-  const { auth } = useAuth();
-  const [userPassword, setUserPassword] = useState(initUserPassword);
+  const { auth } = useAuth()
+  const [userPassword, setUserPassword] = useState(initUserPassword)
   const [showPasswords, setShowPasswords] = useState({
     origin: false,
     new: false,
     confirm: false,
-  });
+  })
 
   const handleFieldChange = (e) => {
-    setUserPassword({ ...userPassword, [e.target.name]: e.target.value });
-  };
+    setUserPassword({ ...userPassword, [e.target.name]: e.target.value })
+  }
 
   const togglePasswordVisibility = (field) => {
-    setShowPasswords(prev => ({ ...prev, [field]: !prev[field] }));
-  };
+    setShowPasswords((prev) => ({ ...prev, [field]: !prev[field] }))
+  }
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
 
     if (!userPassword.new || !userPassword.origin || !userPassword.confirm) {
-      toast.error('密碼欄位為必填');
-      return;
+      toast.error('密碼欄位為必填')
+      return
     }
 
     if (userPassword.new !== userPassword.confirm) {
-      toast.error('新密碼與確認密碼不同');
-      return;
+      toast.error('新密碼與確認密碼不同')
+      return
     }
 
-    const password = { origin: userPassword.origin, new: userPassword.new };
-    const res = await updatePassword(auth.userData.id, password);
+    const password = { origin: userPassword.origin, new: userPassword.new }
+    const res = await updatePassword(auth.userData.id, password)
 
     if (res.data.status === 'success') {
-      toast.success('會員密碼修改成功');
-      setUserPassword(initUserPassword);
+      toast.success('會員密碼修改成功')
+      setUserPassword(initUserPassword)
     } else {
-      toast.error('會員密碼修改失敗');
+      toast.error('會員密碼修改失敗')
     }
-  };
+  }
 
-  if (!auth.isAuth) return null;
+  if (!auth.isAuth) return null
 
   return (
     <div className="container-fluid d-flex flex-column vh-100">
       <div className="row flex-grow-1">
-      <nav id="sidebar" className="col-md-3 col-lg-2 d-md-block bg-light sidebar">
+        <nav
+          id="sidebar"
+          className="col-md-3 col-lg-2 d-md-block bg-light sidebar"
+        >
           <div className="position-sticky">
             <ul className="nav flex-column">
               <li className="nav-item">
@@ -98,16 +101,21 @@ export default function PasswordChange() {
             規則: 需要輸入目前密碼(原密碼)在伺服器上驗証通過後，才能更新密碼
           </p>
           <p className="text-muted">
-            注意: 這頁面沒有初始載入的動作。一般會員資料不在這裡修改，因機制不一樣，在
-            <Link href="/test/user/profile" className="text-decoration-none">會員資料修改(一般)</Link>
+            注意:
+            這頁面沒有初始載入的動作。一般會員資料不在這裡修改，因機制不一樣，在
+            <Link href="/test/user/profile" className="text-decoration-none">
+              會員資料修改(一般)
+            </Link>
           </p>
 
           <form onSubmit={handleSubmit} className="mt-4 flex-grow-1">
             <div className="mb-3">
-              <label htmlFor="origin" className="form-label">目前密碼</label>
+              <label htmlFor="origin" className="form-label">
+                目前密碼
+              </label>
               <div className="position-relative">
                 <input
-                  type={showPasswords.origin ? "text" : "password"}
+                  type={showPasswords.origin ? 'text' : 'password'}
                   className="form-control"
                   id="origin"
                   name="origin"
@@ -125,10 +133,12 @@ export default function PasswordChange() {
               </div>
             </div>
             <div className="mb-3">
-              <label htmlFor="new" className="form-label">新密碼</label>
+              <label htmlFor="new" className="form-label">
+                新密碼
+              </label>
               <div className="position-relative">
                 <input
-                  type={showPasswords.new ? "text" : "password"}
+                  type={showPasswords.new ? 'text' : 'password'}
                   className="form-control"
                   id="new"
                   name="new"
@@ -146,10 +156,12 @@ export default function PasswordChange() {
               </div>
             </div>
             <div className="mb-3">
-              <label htmlFor="confirm" className="form-label">新密碼確認</label>
+              <label htmlFor="confirm" className="form-label">
+                新密碼確認
+              </label>
               <div className="position-relative">
                 <input
-                  type={showPasswords.confirm ? "text" : "password"}
+                  type={showPasswords.confirm ? 'text' : 'password'}
                   className="form-control"
                   id="confirm"
                   name="confirm"
@@ -167,11 +179,23 @@ export default function PasswordChange() {
               </div>
             </div>
 
-            <button type="submit" className="btn btn-primary">修改</button>
+            <button type="submit" className="btn btn-primary">
+              修改
+            </button>
           </form>
         </main>
       </div>
+
+      <style jsx>
+        {`
+          .btn-primary {
+            background-color: #ff6433;
+            border: none;
+            color: white;
+          }
+        `}
+      </style>
       <Toaster />
     </div>
-  );
+  )
 }

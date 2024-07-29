@@ -24,6 +24,13 @@ export default function MyFooter() {
           </a>
         </div>
       </div>
+      <style jsx>
+        {`
+          .footer {
+            background: #45595b !important;
+          }
+        `}
+      </style>
     </footer>
   )
 }

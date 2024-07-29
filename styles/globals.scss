@@ -97,4 +97,12 @@ p {
 .text-primary {
   color: #f7a969da !important;
 }
+
+.rounded-bottom {
+  border-bottom-right-radius: 10px !important;
+  border-bottom-left-radius: 10px !important;
+}
+.border {
+  border-color: #ffb524 !important;
+}
 // below is test only

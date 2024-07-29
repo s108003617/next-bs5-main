@@ -8,14 +8,14 @@ import FacebookLogo from '@/components/icons/facebook-logo'
 export default function LoginForm() {
   return (
     <main className={`form-member w-100 m-auto text-center`}>
-      <h2 className="text-center mb-5">會員登入</h2>
+      <h2 className="text-center mb-5 fs-1">登入</h2>
       <form>
         <div className="row mb-3">
-          <div className="col-sm-12">
+          <div className="col-sm-12 form-floating mb-4">
             <input
               type="email"
-              className={`form-control w-100 ${styles['form-control']} `}
-              placeholder="電子郵件地址"
+              className={`form-control w-100 ${styles['form-control']} form-control rounded-0`}
+              placeholder="name@example.com"
             />
           </div>
           <div className={`${styles['error']} my-2 text-start`}>

@@ -1,67 +1,67 @@
-import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
-import useInterval from '@/hooks/use-interval';
-import { requestOtpToken, resetPassword } from '@/services/user';
-import toast, { Toaster } from 'react-hot-toast';
-import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import React, { useState, useEffect } from 'react'
+import { useRouter } from 'next/router'
+import useInterval from '@/hooks/use-interval'
+import { requestOtpToken, resetPassword } from '@/services/user'
+import toast, { Toaster } from 'react-hot-toast'
+import { FaEye, FaEyeSlash } from 'react-icons/fa'
 
 export default function ForgetPassword() {
-  const [email, setEmail] = useState('');
-  const [token, setToken] = useState('');
-  const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
-  const [disableBtn, setDisableBtn] = useState(false);
+  const [email, setEmail] = useState('')
+  const [token, setToken] = useState('')
+  const [password, setPassword] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
+  const [disableBtn, setDisableBtn] = useState(false)
 
-  const [count, setCount] = useState(60);
-  const [delay, setDelay] = useState(null);
+  const [count, setCount] = useState(60)
+  const [delay, setDelay] = useState(null)
 
-  const router = useRouter();
+  const router = useRouter()
 
   useInterval(() => {
-    setCount(count - 1);
-  }, delay);
+    setCount(count - 1)
+  }, delay)
 
   useEffect(() => {
     if (count <= 0) {
-      setDelay(null);
-      setDisableBtn(false);
+      setDelay(null)
+      setDisableBtn(false)
     }
-  }, [count]);
+  }, [count])
 
   const handleRequestOtpToken = async () => {
     if (delay !== null) {
-      toast.error('錯誤 - 60s內無法重新獲得驗証碼');
-      return;
+      toast.error('錯誤 - 60s內無法重新獲得驗証碼')
+      return
     }
 
-    const res = await requestOtpToken(email);
+    const res = await requestOtpToken(email)
 
     if (res.data.status === 'success') {
-      toast.success('資訊 - 驗証碼已寄送到電子郵件中');
-      setCount(60);
-      setDelay(1000);
-      setDisableBtn(true);
+      toast.success('資訊 - 驗証碼已寄送到電子郵件中')
+      setCount(60)
+      setDelay(1000)
+      setDisableBtn(true)
     } else {
-      toast.error(`錯誤 - ${res.data.message}`);
+      toast.error(`錯誤 - ${res.data.message}`)
     }
-  };
+  }
 
   const handleResetPassword = async () => {
-    const res = await resetPassword(email, password, token);
+    const res = await resetPassword(email, password, token)
 
     if (res.data.status === 'success') {
-      toast.success('資訊 - 密碼已成功修改');
+      toast.success('資訊 - 密碼已成功修改')
       setTimeout(() => {
-        router.push('/test/user');
-      }, 2000);
+        router.push('/test/user')
+      }, 2000)
     } else {
-      toast.error(`錯誤 - ${res.data.message}`);
+      toast.error(`錯誤 - ${res.data.message}`)
     }
-  };
+  }
 
   const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
+    setShowPassword(!showPassword)
+  }
 
   return (
     <div className="container">
@@ -70,17 +70,12 @@ export default function ForgetPassword() {
           <div className="card shadow">
             <div className="card-body">
               <h2 className="card-title text-center mb-4">忘記密碼</h2>
-              <div className="alert alert-info" role="alert">
-                <h5 className="alert-heading">測試前請先確認以下項目:</h5>
-                <ul className="mb-0">
-                  <li>SMTP寄信與可寄信的Email信箱</li>
-                  <li>資料表otp與user都有符合後端api路由</li>
-                  <li>後端api/reset-password路由先測通</li>
-                </ul>
-              </div>
+
               <form>
                 <div className="mb-3">
-                  <label htmlFor="email" className="form-label">電子郵件信箱</label>
+                  <label htmlFor="email" className="form-label">
+                    電子郵件信箱
+                  </label>
                   <input
                     type="email"
                     className="form-control"
@@ -100,7 +95,9 @@ export default function ForgetPassword() {
                   </button>
                 </div>
                 <div className="mb-3">
-                  <label htmlFor="token" className="form-label">一次性驗証碼</label>
+                  <label htmlFor="token" className="form-label">
+                    一次性驗証碼
+                  </label>
                   <input
                     type="text"
                     className="form-control"
@@ -110,10 +107,12 @@ export default function ForgetPassword() {
                   />
                 </div>
                 <div className="mb-3">
-                  <label htmlFor="password" className="form-label">新密碼</label>
+                  <label htmlFor="password" className="form-label">
+                    新密碼
+                  </label>
                   <div className="position-relative">
                     <input
-                      type={showPassword ? "text" : "password"}
+                      type={showPassword ? 'text' : 'password'}
                       className="form-control"
                       id="password"
                       value={password}
@@ -143,7 +142,21 @@ export default function ForgetPassword() {
           </div>
         </div>
       </div>
+      <style jsx>
+        {`
+          .btn-primary {
+            background-color: #ff6433;
+          }
+          .btn-success {
+            background-color: #ff6433;
+            color: #ffffff;
+          }
+          .h2 {
+            font-family: 'Raleway', sans-serif;
+          }
+        `}
+      </style>
       <Toaster />
     </div>
-  );
+  )
 }

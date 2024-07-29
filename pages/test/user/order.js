@@ -1,48 +1,54 @@
-import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
-import { Toaster, toast } from 'react-hot-toast';
+import React, { useState, useEffect } from 'react'
+import Link from 'next/link'
+import { Toaster, toast } from 'react-hot-toast'
 
 const PurchaseOrders = () => {
-  const [orders, setOrders] = useState([]);
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [orders, setOrders] = useState([])
+  const [error, setError] = useState(null)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    fetchOrders();
-  }, []);
+    fetchOrders()
+  }, [])
 
   const fetchOrders = async () => {
     try {
-      setLoading(true);
-      const response = await fetch('http://localhost:3005/api/purchase-orders', {
-        credentials: 'include'
-      });
+      setLoading(true)
+      const response = await fetch(
+        'http://localhost:3005/api/purchase-orders',
+        {
+          credentials: 'include',
+        }
+      )
       if (!response.ok) {
-        throw new Error('Failed to fetch orders');
+        throw new Error('Failed to fetch orders')
       }
-      const data = await response.json();
+      const data = await response.json()
       if (data.status === 'success') {
-        setOrders(data.data.orders);
-        toast.success('訂單資料載入成功');
+        setOrders(data.data.orders)
+        toast.success('訂單資料載入成功')
       } else {
-        throw new Error(data.message || 'Failed to fetch orders');
+        throw new Error(data.message || 'Failed to fetch orders')
       }
     } catch (error) {
-      setError(error.message);
-      toast.error('訂單資料載入失敗');
+      setError(error.message)
+      toast.error('訂單資料載入失敗')
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
   const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleString('zh-TW');
-  };
+    return new Date(dateString).toLocaleString('zh-TW')
+  }
 
   return (
     <div className="container-fluid d-flex flex-column vh-100">
       <div className="row flex-grow-1">
-        <nav id="sidebar" className="col-md-3 col-lg-2 d-md-block bg-light sidebar">
+        <nav
+          id="sidebar"
+          className="col-md-3 col-lg-2 d-md-block bg-light sidebar"
+        >
           <div className="position-sticky">
             <ul className="nav flex-column">
               <li className="nav-item">
@@ -123,9 +129,10 @@ const PurchaseOrders = () => {
           )}
         </main>
       </div>
+
       <Toaster />
     </div>
-  );
-};
+  )
+}
 
-export default PurchaseOrders;
+export default PurchaseOrders

@@ -103,6 +103,9 @@ export default function MyNavbar() {
         .navbar .navbar-nav .nav-item:hover::after {
           width: 100%;
         }
+        .navbar {
+          background: linear-gradient(to bottom, #f6402e 10%, #ff6433 100%);
+        }
       `}</style>
     </>
   )
