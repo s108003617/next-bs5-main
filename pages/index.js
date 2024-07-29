@@ -17,38 +17,48 @@ export default function Home() {
           >
             <div className="carousel-inner" role="listbox">
               <div className="carousel-item active rounded">
-                <img
-                  src="img/未命名設計1.png"
-                  className="img-fluid w-100 h-100 bg-secondary rounded"
+                <Image
+                  src={'images/index/未命名設計1.png'}
+                  className="Image-fluid w-100 h-100 bg-secondary rounded"
                   alt="First slide"
+                  width={300}
+                  height={200}
                 />
               </div>
               <div className="carousel-item rounded">
-                <img
-                  src="img/未命名設計 (1).png"
-                  className="img-fluid w-100 h-100 rounded"
-                  alt="Second slide"
+                <Image
+                  src={'images/index/未命名設計1.png'}
+                  className="Image-fluid w-100 h-100 bg-secondary rounded"
+                  alt="First slide"
+                  width={300}
+                  height={200}
                 />
               </div>
               <div className="carousel-item rounded">
-                <img
-                  src="img/未命名設計 (1).png"
-                  className="img-fluid w-100 h-100 rounded"
-                  alt="Second slide"
+                <Image
+                  src={'images/index/未命名設計1.png'}
+                  className="Image-fluid w-100 h-100 bg-secondary rounded"
+                  alt="First slide"
+                  width={300}
+                  height={200}
                 />
               </div>
               <div className="carousel-item rounded">
-                <img
-                  src="img/未命名設計 (1).png"
-                  className="img-fluid w-100 h-100 rounded"
-                  alt="Second slide"
+                <Image
+                  src={'images/index/未命名設計1.png'}
+                  className="Image-fluid w-100 h-100 bg-secondary rounded"
+                  alt="First slide"
+                  width={300}
+                  height={200}
                 />
               </div>
               <div className="carousel-item rounded">
-                <img
-                  src="img/未命名設計 (1).png"
-                  className="img-fluid w-100 h-100 rounded"
-                  alt="Second slide"
+                <Image
+                  src={'images/index/未命名設計1.png'}
+                  className="Image-fluid w-100 h-100 bg-secondary rounded"
+                  alt="First slide"
+                  width={300}
+                  height={200}
                 />
               </div>
             </div>
@@ -83,14 +93,14 @@ export default function Home() {
                   <span className="flaticon-shipped" />
                 </div>
                 <div className="media-body">
-                  <a href="/notebook-shop.html">
-                    <img
-                      src="/img/ASUS G614JVR 16吋2K電競筆電$63000.png"
-                      alt=""
-                      style={{ width: 90 }}
-                    />
-                    <h5 className="heading ">筆記型電腦</h5>
-                  </a>
+                  <Image
+                    src={'images/index/ASUS G614JVR 16吋2K電競筆電$63000.png'}
+                    className="Image-fluid   rounded"
+                    alt="First slide"
+                    width={90}
+                    height={90}
+                  />
+                  <h5 className="heading ">筆記型電腦</h5>
                 </div>
               </div>
             </div>
@@ -100,10 +110,14 @@ export default function Home() {
                   <span className="flaticon-shipped" />
                 </div>
                 <div className="media-body">
-                  <a href="/PC-shop.html">
-                    <img src="/img/PC.png" alt="" style={{ width: 90 }} />
-                    <h5 className="heading">桌上型電腦</h5>
-                  </a>
+                  <Image
+                    src={'images/index/PC.png'}
+                    className="Image-fluid   rounded"
+                    alt="First slide"
+                    width={90}
+                    height={90}
+                  />
+                  <h5 className="heading">桌上型電腦</h5>
                 </div>
               </div>
             </div>
@@ -113,10 +127,14 @@ export default function Home() {
                   <span className="flaticon-shipped" />
                 </div>
                 <div className="media-body">
-                  <a href="/earphone-shop.html">
-                    <img src="/img/耳機1.png" alt="" style={{ width: 90 }} />
-                    <h5 className="heading">耳機</h5>
-                  </a>
+                  <Image
+                    src={'images/index/耳機1.png'}
+                    className="Image-fluid   rounded"
+                    alt="First slide"
+                    width={90}
+                    height={90}
+                  />
+                  <h5 className="heading">耳機</h5>
                 </div>
               </div>
             </div>
@@ -125,17 +143,18 @@ export default function Home() {
                 <div className="icon bg-color-2 d-flex justify-content-center align-items-center mb-2">
                   <span className="flaticon-diet" />
                 </div>
+
                 <div className="media-body">
-                  <div className="media-body">
-                    <a href="/tablet-shop.html">
-                      <img
-                        src="/img/Apple iPad 第10代 (2022) Wifi 10.9吋 平板.png"
-                        alt=""
-                        style={{ width: 90 }}
-                      />
-                      <h5 className="heading">平板電腦</h5>
-                    </a>
-                  </div>
+                  <Image
+                    src={
+                      'images/index/Apple iPad 第10代 (2022) Wifi 10.9吋 平板.png'
+                    }
+                    className="Image-fluid  rounded"
+                    alt="First slide"
+                    width={90}
+                    height={90}
+                  />
+                  <h5 className="heading">平板電腦</h5>
                 </div>
               </div>
             </div>
@@ -145,12 +164,14 @@ export default function Home() {
                   <span className="flaticon-award" />
                 </div>
                 <div className="media-body">
-                  <div className="media-body">
-                    <a href="/cellphone-shop.html">
-                      <img src="/img/手機.png" alt="" style={{ width: 90 }} />
-                      <h5 className="heading">手機</h5>
-                    </a>
-                  </div>
+                  <Image
+                    src={'images/index/cellphone.png'}
+                    className="Image-fluid   rounded"
+                    alt="First slide"
+                    width={90}
+                    height={90}
+                  />
+                  <h5 className="heading">手機</h5>
                 </div>
               </div>
             </div>
@@ -160,10 +181,14 @@ export default function Home() {
                   <span className="flaticon-customer-service" />
                 </div>
                 <div className="media-body">
-                  <a href="videogame-shop.html">
-                    <img src="/img/遊戲機1.png" alt="" style={{ width: 90 }} />
-                    <h5 className="heading">遊戲機</h5>
-                  </a>
+                  <Image
+                    src={'images/index/遊戲機1.png'}
+                    className="Image-fluid  rounded"
+                    alt="First slide"
+                    width={90}
+                    height={90}
+                  />
+                  <h5 className="heading">遊戲機</h5>
                 </div>
               </div>
             </div>
@@ -173,14 +198,16 @@ export default function Home() {
                   <span className="flaticon-customer-service" />
                 </div>
                 <div className="media-body">
-                  <a href="moniter-shop.html">
-                    <img
-                      src="/img/GIGABYTE GS27F .png"
-                      alt=""
-                      style={{ width: 90 }}
-                    />
-                    <h5 className="heading">顯示器</h5>
-                  </a>
+                  <Image
+                    src={
+                      'images/index/GIGABYTE 技嘉 GS27F 27型 165Hz 1ms SS IPS 電競顯示器 $4390.png'
+                    }
+                    className="Image-fluid   rounded"
+                    alt="First slide"
+                    width={90}
+                    height={90}
+                  />
+                  <h5 className="heading">顯示器</h5>
                 </div>
               </div>
             </div>
@@ -198,7 +225,7 @@ export default function Home() {
               <div className="col-lg-8 text-end">
                 <ul className="nav nav-pills d-inline-flex text-center mb-5">
                   <li className="nav-item">
-                    <a
+                    <div
                       className="d-flex m-2 py-2 bg-light rounded-pill active"
                       data-bs-toggle="pill"
                       href="#tab-1"
@@ -206,40 +233,40 @@ export default function Home() {
                       <span className="text-dark" style={{ width: 130 }}>
                         桌上型電腦
                       </span>
-                    </a>
+                    </div>
                   </li>
                   <li className="nav-item">
-                    <a
-                      className="d-flex py-2 m-2 bg-light rounded-pill"
+                    <div
+                      className="d-flex m-2 py-2 bg-light rounded-pill active"
                       data-bs-toggle="pill"
-                      href="#tab-2"
+                      href="#tab-1"
                     >
                       <span className="text-dark" style={{ width: 130 }}>
                         筆記型電腦
                       </span>
-                    </a>
+                    </div>
                   </li>
                   <li className="nav-item">
-                    <a
-                      className="d-flex m-2 py-2 bg-light rounded-pill"
+                    <div
+                      className="d-flex m-2 py-2 bg-light rounded-pill active"
                       data-bs-toggle="pill"
-                      href="#tab-3"
+                      href="#tab-1"
                     >
                       <span className="text-dark" style={{ width: 130 }}>
                         耳機
                       </span>
-                    </a>
+                    </div>
                   </li>
                   <li className="nav-item">
-                    <a
-                      className="d-flex m-2 py-2 bg-light rounded-pill"
+                    <div
+                      className="d-flex m-2 py-2 bg-light rounded-pill active"
                       data-bs-toggle="pill"
-                      href="#tab-4"
+                      href="#tab-1"
                     >
                       <span className="text-dark" style={{ width: 130 }}>
                         手機
                       </span>
-                    </a>
+                    </div>
                   </li>
                 </ul>
               </div>
@@ -251,11 +278,13 @@ export default function Home() {
                     <div className="row g-4">
                       <div className="col-md-6 col-lg-4 col-xl-3">
                         <div className="rounded position-relative fruite-item">
-                          <div className="fruite-img">
-                            <img
-                              src="img/PC.png"
-                              className="img-fluid w-100 rounded-top border border-secondary"
+                          <div className="fruite-Image">
+                            <Image
+                              src={'images/index/PC.png'}
+                              className="Image-fluid w-100 rounded-top border border-secondary"
                               alt=""
+                              width={325}
+                              height={325}
                             />
                           </div>
                           <div
@@ -274,24 +303,26 @@ export default function Home() {
                               <p className="text-dark fs-5 fw-bold mb-0">
                                 $ 15500
                               </p>
-                              <a
+                              <div
                                 href="#"
                                 className="btn border border-secondary rounded-pill px-3 text-primary"
                               >
-                                <i className="fa fa-shopping-bag me-2 text-primary" />{' '}
+                                <i className="fa fa-shopping-bag me-2 text-primary" />
                                 加入購物車
-                              </a>
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
                       <div className="col-md-6 col-lg-4 col-xl-3">
                         <div className="rounded position-relative fruite-item">
-                          <div className="fruite-img">
-                            <img
-                              src="img/PC.png"
-                              className="img-fluid w-100 rounded-top border border-secondary"
+                          <div className="fruite-Image">
+                            <Image
+                              src={'images/index/PC.png'}
+                              className="Image-fluid w-100 rounded-top border border-secondary"
                               alt=""
+                              width={325}
+                              height={325}
                             />
                           </div>
                           <div
@@ -310,24 +341,26 @@ export default function Home() {
                               <p className="text-dark fs-5 fw-bold mb-0">
                                 $ 15500
                               </p>
-                              <a
+                              <div
                                 href="#"
                                 className="btn border border-secondary rounded-pill px-3 text-primary"
                               >
-                                <i className="fa fa-shopping-bag me-2 text-primary" />{' '}
+                                <i className="fa fa-shopping-bag me-2 text-primary" />
                                 加入購物車
-                              </a>
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
                       <div className="col-md-6 col-lg-4 col-xl-3">
                         <div className="rounded position-relative fruite-item">
-                          <div className="fruite-img">
-                            <img
-                              src="img/PC.png"
-                              className="img-fluid w-100 rounded-top border border-secondary"
+                          <div className="fruite-Image">
+                            <Image
+                              src={'images/index/PC.png'}
+                              className="Image-fluid w-100 rounded-top border border-secondary"
                               alt=""
+                              width={325}
+                              height={325}
                             />
                           </div>
                           <div
@@ -346,24 +379,26 @@ export default function Home() {
                               <p className="text-dark fs-5 fw-bold mb-0">
                                 $ 15500
                               </p>
-                              <a
+                              <div
                                 href="#"
                                 className="btn border border-secondary rounded-pill px-3 text-primary"
                               >
-                                <i className="fa fa-shopping-bag me-2 text-primary" />{' '}
+                                <i className="fa fa-shopping-bag me-2 text-primary" />
                                 加入購物車
-                              </a>
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
                       <div className="col-md-6 col-lg-4 col-xl-3">
                         <div className="rounded position-relative fruite-item">
-                          <div className="fruite-img">
-                            <img
-                              src="img/PC.png"
-                              className="img-fluid w-100 rounded-top border border-secondary"
+                          <div className="fruite-Image">
+                            <Image
+                              src={'images/index/PC.png'}
+                              className="Image-fluid w-100 rounded-top border border-secondary"
                               alt=""
+                              width={325}
+                              height={325}
                             />
                           </div>
                           <div
@@ -382,24 +417,26 @@ export default function Home() {
                               <p className="text-dark fs-5 fw-bold mb-0">
                                 $ 15500
                               </p>
-                              <a
+                              <div
                                 href="#"
                                 className="btn border border-secondary rounded-pill px-3 text-primary"
                               >
-                                <i className="fa fa-shopping-bag me-2 text-primary" />{' '}
+                                <i className="fa fa-shopping-bag me-2 text-primary" />
                                 加入購物車
-                              </a>
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
                       <div className="col-md-6 col-lg-4 col-xl-3">
                         <div className="rounded position-relative fruite-item">
-                          <div className="fruite-img">
-                            <img
-                              src="img/PC.png"
-                              className="img-fluid w-100 rounded-top border border-secondary"
+                          <div className="fruite-Image">
+                            <Image
+                              src={'images/index/PC.png'}
+                              className="Image-fluid w-100 rounded-top border border-secondary"
                               alt=""
+                              width={325}
+                              height={325}
                             />
                           </div>
                           <div
@@ -418,24 +455,26 @@ export default function Home() {
                               <p className="text-dark fs-5 fw-bold mb-0">
                                 $ 15500
                               </p>
-                              <a
+                              <div
                                 href="#"
                                 className="btn border border-secondary rounded-pill px-3 text-primary"
                               >
-                                <i className="fa fa-shopping-bag me-2 text-primary" />{' '}
+                                <i className="fa fa-shopping-bag me-2 text-primary" />
                                 加入購物車
-                              </a>
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
                       <div className="col-md-6 col-lg-4 col-xl-3">
                         <div className="rounded position-relative fruite-item">
-                          <div className="fruite-img">
-                            <img
-                              src="img/PC.png"
-                              className="img-fluid w-100 rounded-top border border-secondary"
+                          <div className="fruite-Image">
+                            <Image
+                              src={'images/index/PC.png'}
+                              className="Image-fluid w-100 rounded-top border border-secondary"
                               alt=""
+                              width={325}
+                              height={325}
                             />
                           </div>
                           <div
@@ -454,24 +493,26 @@ export default function Home() {
                               <p className="text-dark fs-5 fw-bold mb-0">
                                 $ 15500
                               </p>
-                              <a
+                              <div
                                 href="#"
                                 className="btn border border-secondary rounded-pill px-3 text-primary"
                               >
-                                <i className="fa fa-shopping-bag me-2 text-primary" />{' '}
+                                <i className="fa fa-shopping-bag me-2 text-primary" />
                                 加入購物車
-                              </a>
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
                       <div className="col-md-6 col-lg-4 col-xl-3">
                         <div className="rounded position-relative fruite-item">
-                          <div className="fruite-img">
-                            <img
-                              src="img/PC.png"
-                              className="img-fluid w-100 rounded-top border border-secondary"
+                          <div className="fruite-Image">
+                            <Image
+                              src={'images/index/PC.png'}
+                              className="Image-fluid w-100 rounded-top border border-secondary"
                               alt=""
+                              width={325}
+                              height={325}
                             />
                           </div>
                           <div
@@ -490,24 +531,26 @@ export default function Home() {
                               <p className="text-dark fs-5 fw-bold mb-0">
                                 $ 15500
                               </p>
-                              <a
+                              <div
                                 href="#"
                                 className="btn border border-secondary rounded-pill px-3 text-primary"
                               >
-                                <i className="fa fa-shopping-bag me-2 text-primary" />{' '}
+                                <i className="fa fa-shopping-bag me-2 text-primary" />
                                 加入購物車
-                              </a>
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
                       <div className="col-md-6 col-lg-4 col-xl-3">
                         <div className="rounded position-relative fruite-item">
-                          <div className="fruite-img">
-                            <img
-                              src="img/PC.png"
-                              className="img-fluid w-100 rounded-top border border-secondary"
+                          <div className="fruite-Image">
+                            <Image
+                              src={'images/index/PC.png'}
+                              className="Image-fluid w-100 rounded-top border border-secondary"
                               alt=""
+                              width={325}
+                              height={325}
                             />
                           </div>
                           <div
@@ -526,13 +569,13 @@ export default function Home() {
                               <p className="text-dark fs-5 fw-bold mb-0">
                                 $ 15500
                               </p>
-                              <a
+                              <div
                                 href="#"
                                 className="btn border border-secondary rounded-pill px-3 text-primary"
                               >
-                                <i className="fa fa-shopping-bag me-2 text-primary" />{' '}
+                                <i className="fa fa-shopping-bag me-2 text-primary" />
                                 加入購物車
-                              </a>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -547,11 +590,17 @@ export default function Home() {
                     <div className="row g-4">
                       <div className="col-md-6 col-lg-4 col-xl-3">
                         <div className="rounded position-relative fruite-item">
-                          <div className="fruite-img">
-                            <img
-                              src="img/ASUS G614JVR 16吋2K電競筆電$63000.png"
-                              className="img-fluid w-100 rounded-top border border-secondary"
+                          <div className="fruite-Image">
+                            <Image
+                              src={
+                                'Images/index/ASUS G614JVR 16吋2K電競筆電$63000.png'
+                              }
+                              className={
+                                'Image-fluid w-100 rounded-top border border-secondary'
+                              }
                               alt=""
+                              width={325}
+                              height={325}
                             />
                           </div>
                           <div
@@ -569,24 +618,30 @@ export default function Home() {
                               <p className="text-dark fs-5 fw-bold mb-0">
                                 $ 63000
                               </p>
-                              <a
+                              <div
                                 href="#"
                                 className="btn border border-secondary rounded-pill px-3 text-primary"
                               >
-                                <i className="fa fa-shopping-bag me-2 text-primary" />{' '}
+                                <i className="fa fa-shopping-bag me-2 text-primary" />
                                 加入購物車
-                              </a>
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
                       <div className="col-md-6 col-lg-4 col-xl-3">
                         <div className="rounded position-relative fruite-item">
-                          <div className="fruite-img">
-                            <img
-                              src="img/ASUS G614JVR 16吋2K電競筆電$63000.png"
-                              className="img-fluid w-100 rounded-top border border-secondary"
+                          <div className="fruite-Image">
+                            <Image
+                              src={
+                                'Images/index/ASUS G614JVR 16吋2K電競筆電$63000.png'
+                              }
+                              className={
+                                'Image-fluid w-100 rounded-top border border-secondary'
+                              }
                               alt=""
+                              width={325}
+                              height={325}
                             />
                           </div>
                           <div
@@ -604,13 +659,13 @@ export default function Home() {
                               <p className="text-dark fs-5 fw-bold mb-0">
                                 $ 63000
                               </p>
-                              <a
+                              <div
                                 href="#"
                                 className="btn border border-secondary rounded-pill px-3 text-primary"
                               >
-                                <i className="fa fa-shopping-bag me-2 text-primary" />{' '}
+                                <i className="fa fa-shopping-bag me-2 text-primary" />
                                 加入購物車
-                              </a>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -625,11 +680,15 @@ export default function Home() {
                     <div className="row g-4">
                       <div className="col-md-6 col-lg-4 col-xl-3">
                         <div className="rounded position-relative fruite-item">
-                          <div className="fruite-img">
-                            <img
-                              src="img/耳機1.png"
-                              className="img-fluid w-100 rounded-top border border-secondary"
+                          <div className="fruite-Image">
+                            <Image
+                              src={'Images/index/耳機1.png'}
+                              className={
+                                'Image-fluid w-100 rounded-top border border-secondary'
+                              }
                               alt=""
+                              width={325}
+                              height={325}
                             />
                           </div>
                           <div
@@ -645,24 +704,28 @@ export default function Home() {
                               <p className="text-dark fs-5 fw-bold mb-0">
                                 $ 699
                               </p>
-                              <a
+                              <div
                                 href="#"
                                 className="btn border border-secondary rounded-pill px-3 text-primary"
                               >
                                 <i className="fa fa-shopping-bag me-2 text-primary" />
                                 加入購物車
-                              </a>
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
                       <div className="col-md-6 col-lg-4 col-xl-3">
                         <div className="rounded position-relative fruite-item">
-                          <div className="fruite-img">
-                            <img
-                              src="img/耳機1.png"
-                              className="img-fluid w-100 rounded-top border border-secondary"
+                          <div className="fruite-Image">
+                            <Image
+                              src={'Images/index/耳機1.png'}
+                              className={
+                                'Image-fluid w-100 rounded-top border border-secondary'
+                              }
                               alt=""
+                              width={325}
+                              height={325}
                             />
                           </div>
                           <div
@@ -678,13 +741,13 @@ export default function Home() {
                               <p className="text-dark fs-5 fw-bold mb-0">
                                 $ 699
                               </p>
-                              <a
+                              <div
                                 href="#"
                                 className="btn border border-secondary rounded-pill px-3 text-primary"
                               >
                                 <i className="fa fa-shopping-bag me-2 text-primary" />
                                 加入購物車
-                              </a>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -699,11 +762,15 @@ export default function Home() {
                     <div className="row g-4">
                       <div className="col-md-6 col-lg-4 col-xl-3">
                         <div className="rounded position-relative fruite-item">
-                          <div className="fruite-img">
-                            <img
-                              src="img/cellphone.png"
-                              className="img-fluid w-100 rounded-top border border-secondary"
+                          <div className="fruite-Image">
+                            <Image
+                              src={'Images/index/cellphone.png'}
+                              className={
+                                'Image-fluid w-100 rounded-top border border-secondary'
+                              }
                               alt=""
+                              width={325}
+                              height={325}
                             />
                           </div>
                           <div
@@ -719,24 +786,28 @@ export default function Home() {
                               <p className="text-dark fs-5 fw-bold mb-0">
                                 $ 39,188
                               </p>
-                              <a
+                              <div
                                 href="#"
                                 className="btn border border-secondary rounded-pill px-3 text-primary"
                               >
                                 <i className="fa fa-shopping-bag me-2 text-primary" />
                                 加入購物車
-                              </a>
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
                       <div className="col-md-6 col-lg-4 col-xl-3">
                         <div className="rounded position-relative fruite-item">
-                          <div className="fruite-img">
-                            <img
-                              src="img/cellphone.png"
-                              className="img-fluid w-100 rounded-top border border-secondary"
+                          <div className="fruite-Image">
+                            <Image
+                              src={'Images/index/cellphone.png'}
+                              className={
+                                'Image-fluid w-100 rounded-top border border-secondary'
+                              }
                               alt=""
+                              width={325}
+                              height={325}
                             />
                           </div>
                           <div
@@ -752,13 +823,13 @@ export default function Home() {
                               <p className="text-dark fs-5 fw-bold mb-0">
                                 $ 39,188
                               </p>
-                              <a
+                              <div
                                 href="#"
                                 className="btn border border-secondary rounded-pill px-3 text-primary"
                               >
                                 <i className="fa fa-shopping-bag me-2 text-primary" />
                                 加入購物車
-                              </a>
+                              </div>
                             </div>
                           </div>
                         </div>
