@@ -102,9 +102,8 @@ const PurchaseOrders = () => {
               <table className="table table-striped table-sm">
                 <thead>
                   <tr>
-                    <th>訂單編號</th>
+                    <th>序號</th>
                     <th>金額</th>
-                    <th>交易ID</th>
                     <th>付款方式</th>
                     <th>配送方式</th>
                     <th>狀態</th>
@@ -112,11 +111,10 @@ const PurchaseOrders = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {orders.map((order) => (
+                  {orders.map((order, index) => (
                     <tr key={order.id}>
-                      <td>{order.id}</td>
+                      <td>{index + 1}</td>
                       <td>{order.amount}</td>
-                      <td>{order.transaction_id}</td>
                       <td>Line Pay</td>
                       <td>7-11</td>
                       <td>{order.status}</td>
