@@ -339,63 +339,7 @@ export default function CouponTest() {
           </div>
         </div>
       </div>
-      <div className="card shadow-sm mt-4">
-        <div className="card-body">
-          <h5 className="card-title">測試按鈕</h5>
-          <div className="d-flex flex-wrap gap-2">
-            <button
-              className="btn btn-outline-secondary"
-              onClick={() => {
-                console.log(cart)
-                toast.success('已在主控台記錄cart狀態')
-              }}
-            >
-              記錄購物車狀態
-            </button>
-            <button
-              className="btn btn-outline-secondary"
-              onClick={() => {
-                addItem({
-                  id: '111',
-                  quantity: 5,
-                  name: 'iPhone',
-                  price: 15000,
-                  color: 'red',
-                  size: '',
-                })
-                toast.success('新增項目 id=111')
-              }}
-            >
-              新增 iPhone (x5)
-            </button>
-            <button
-              className="btn btn-outline-secondary"
-              onClick={() => {
-                addItem({
-                  id: '222',
-                  quantity: 1,
-                  name: 'iPad',
-                  price: 19000,
-                  color: '',
-                  size: '',
-                })
-                toast.success('新增項目 id=222')
-              }}
-            >
-              新增 iPad (x1)
-            </button>
-            <button
-              className="btn btn-outline-secondary"
-              onClick={() => {
-                clearCart()
-                toast.success('已清空購物車')
-              }}
-            >
-              清空購物車
-            </button>
-          </div>
-        </div>
-      </div>
+      
       <Toaster />
     </div>
   )
