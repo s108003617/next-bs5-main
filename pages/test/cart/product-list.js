@@ -267,7 +267,6 @@ export default function ProductList() {
           </select>
         </div>
         <div className="col">
-          排序
           <select
             className="form-control"
             value={`${sort},${order}`}

@@ -100,7 +100,7 @@ export default function Home() {
                     width={90}
                     height={90}
                   />
-                  <h5 className="heading ">筆記型電腦</h5>
+                  <h5 className="heading">筆記型電腦</h5>
                 </div>
               </div>
             </div>
@@ -112,7 +112,7 @@ export default function Home() {
                 <div className="media-body">
                   <Image
                     src={'images/index/PC.png'}
-                    className="Image-fluid   rounded"
+                    className="Image-fluid rounded"
                     alt="First slide"
                     width={90}
                     height={90}
@@ -129,7 +129,7 @@ export default function Home() {
                 <div className="media-body">
                   <Image
                     src={'images/index/耳機1.png'}
-                    className="Image-fluid   rounded"
+                    className="Image-fluid rounded"
                     alt="First slide"
                     width={90}
                     height={90}
@@ -224,9 +224,9 @@ export default function Home() {
               </div>
               <div className="col-lg-8 text-end">
                 <ul className="nav nav-pills d-inline-flex text-center mb-5">
-                  <li className="nav-item">
+                  <li className="nav-item ">
                     <div
-                      className="d-flex m-2 py-2 bg-light rounded-pill active"
+                      className="d-flex m-2 py-2 bg-light rounded-pill border border-warning active"
                       data-bs-toggle="pill"
                       href="#tab-1"
                     >
@@ -237,7 +237,7 @@ export default function Home() {
                   </li>
                   <li className="nav-item">
                     <div
-                      className="d-flex m-2 py-2 bg-light rounded-pill active"
+                      className="d-flex m-2 py-2 bg-light rounded-pill border border-warning active"
                       data-bs-toggle="pill"
                       href="#tab-1"
                     >
@@ -247,19 +247,19 @@ export default function Home() {
                     </div>
                   </li>
                   <li className="nav-item">
-                    <div
-                      className="d-flex m-2 py-2 bg-light rounded-pill active"
+                    <Link
+                      className="d-flex m-2 py-2 bg-light rounded-pill border border-warning active"
                       data-bs-toggle="pill"
-                      href="#tab-1"
+                      href="#tab-3"
                     >
                       <span className="text-dark" style={{ width: 130 }}>
                         耳機
                       </span>
-                    </div>
+                    </Link>
                   </li>
                   <li className="nav-item">
                     <div
-                      className="d-flex m-2 py-2 bg-light rounded-pill active"
+                      className="d-flex m-2 py-2 bg-light rounded-pill border border-warning active"
                       data-bs-toggle="pill"
                       href="#tab-1"
                     >
@@ -741,13 +741,13 @@ export default function Home() {
                               <p className="text-dark fs-5 fw-bold mb-0">
                                 $ 699
                               </p>
-                              <div
-                                href="#"
+                              <Link
+                                href="#tab-3"
                                 className="btn border border-secondary rounded-pill px-3 text-primary"
                               >
                                 <i className="fa fa-shopping-bag me-2 text-primary" />
                                 加入購物車
-                              </div>
+                              </Link>
                             </div>
                           </div>
                         </div>
@@ -856,6 +856,14 @@ export default function Home() {
           }
           .fruite .tab-class .nav-item a.active {
             background: var(--bs-secondary) !important;
+          }
+          .media-body:hover {
+            background-color: #f0f0f0; /* 改变背景颜色 */
+            border: 1px solid #ffb524; /* 添加边框 */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 添加阴影效果 */
+            transition: 0.5s;
+            transform: scale(1.3);
+            border-radius: 10%;
           }
         `}
       </style>
