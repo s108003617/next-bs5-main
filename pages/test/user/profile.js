@@ -25,6 +25,7 @@ export default function Profile() {
   const [userProfile, setUserProfile] = useState(initUserProfile)
   const [hasProfile, setHasProfile] = useState(false)
   const [selectedFile, setSelectedFile] = useState(null)
+  const [isPhoneValid, setIsPhoneValid] = useState(true)
   const router = useRouter()
 
   const getUserData = async (id) => {
@@ -57,11 +58,21 @@ export default function Profile() {
   }, [userProfile])
 
   const handleFieldChange = (e) => {
-    setUserProfile({ ...userProfile, [e.target.name]: e.target.value })
+    const { name, value } = e.target
+    setUserProfile({ ...userProfile, [name]: value })
+
+    if (name === 'phone') {
+      const phoneRegex = /^09\d{8}$/
+      setIsPhoneValid(phoneRegex.test(value))
+    }
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    if (!isPhoneValid) {
+      toast.error('請輸入有效的手機號碼')
+      return
+    }
     const { avatar, ...user } = userProfile
     const res = await updateProfile(auth.userData.id, user)
 
@@ -71,11 +82,29 @@ export default function Profile() {
       const res2 = await updateProfileAvatar(formData)
       if (res2.data.status === 'success') {
         toast.success('會員頭像修改成功')
+        // Update the auth context with the new avatar
+        setAuth(prevAuth => ({
+          ...prevAuth,
+          userData: {
+            ...prevAuth.userData,
+            avatar: res2.data.data.avatar
+          }
+        }))
       }
     }
 
     if (res.data.status === 'success') {
       toast.success('會員資料修改成功')
+      // Update the auth context with the new user data
+      setAuth(prevAuth => ({
+        ...prevAuth,
+        userData: {
+          ...prevAuth.userData,
+          name: user.name,
+          email: user.email,
+          // Only update fields that are part of initUserData
+        }
+      }))
     } else {
       toast.error('會員資料修改失敗')
     }
@@ -206,17 +235,22 @@ export default function Profile() {
 
             <div className="mb-3">
               <label htmlFor="phone" className="form-label">
-                電話
+                手機
               </label>
               <input
                 type="text"
-                className="form-control"
+                className={`form-control ${!isPhoneValid ? 'is-invalid' : ''}`}
                 id="phone"
                 name="phone"
                 value={userProfile.phone}
                 onChange={handleFieldChange}
                 maxLength={10}
               />
+              {!isPhoneValid && (
+                <div className="invalid-feedback">
+                  請輸入有效的手機號碼 
+                </div>
+              )}
             </div>
 
             <div className="mb-3">

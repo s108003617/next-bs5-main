@@ -102,11 +102,11 @@ const PurchaseOrders = () => {
               錯誤: {error}
             </div>
           ) : orders.length === 0 ? (
-            <p className="text-muted">目前沒有訂單</p>
+            <p className="text-muted text-center">目前沒有訂單</p>
           ) : (
             <div className="table-responsive">
-              <table className="table table-striped table-sm">
-                <thead>
+               <table className="table table-hover table-striped align-middle">
+               <thead className="table-light">
                   <tr>
                     <th>詳情</th>
                     <th>序號</th>
