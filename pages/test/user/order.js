@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Toaster, toast } from 'react-hot-toast'
-import { FaChevronDown, FaChevronUp } from 'react-icons/fa'
+import { FaChevronDown, FaChevronUp, FaShoppingCart } from 'react-icons/fa';
 
 const PurchaseOrders = () => {
   const [orders, setOrders] = useState([])
@@ -29,13 +29,13 @@ const PurchaseOrders = () => {
       const data = await response.json()
       if (data.status === 'success') {
         setOrders(data.data.orders)
-        toast.success('訂單資料載入成功')
+        
       } else {
         throw new Error(data.message || 'Failed to fetch orders')
       }
     } catch (error) {
       setError(error.message)
-      toast.error('訂單資料載入失敗')
+    
     } finally {
       setLoading(false)
     }
@@ -102,7 +102,20 @@ const PurchaseOrders = () => {
               錯誤: {error}
             </div>
           ) : orders.length === 0 ? (
-            <p className="text-muted text-center">目前沒有訂單</p>
+            <div className="text-center py-5">
+            <div className="mb-4">
+              <FaShoppingCart size={64} className="text-muted" />
+            </div>
+            <h2 className="h4 mb-3">目前沒有訂單</h2>
+            <p className="text-muted mb-4">看起來您還沒有下任何訂單。何不開始您的購物之旅？</p>
+            <Link 
+              href="http://localhost:3000/test/cart/product-list" 
+              className="btn btn-primary btn-lg shadow-sm transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-md"
+            >
+              <span className="me-2">瀏覽商品列表</span>
+              <FaShoppingCart />
+            </Link>
+          </div>
           ) : (
             <div className="table-responsive">
                <table className="table table-hover table-striped align-middle">
@@ -142,9 +155,12 @@ const PurchaseOrders = () => {
                             <div className="p-3 bg-light">
                               <h5>訂單詳情</h5>
                              
-                              <p><strong>原始金額:</strong> {order.original_amount}</p>
-                              <p><strong>折扣金額:</strong> {order.original_amount - order.amount}</p>
-                              <p><strong>使用優惠券:</strong> {order.coupon_id ? '是' : '否'}</p>
+                              <div className="mb-3">
+                                <p className="mb-1"><strong>原始金額:</strong> ${order.original_amount}</p>
+                                <p className="mb-1"><strong>折扣金額:</strong> ${(order.original_amount - order.amount)}</p>
+                                <p className="mb-1"><strong>折扣後金額:</strong> <span className=" fw-bold">${order.amount}</span></p>
+                                <p className="mb-1"><strong>使用優惠券:</strong> {order.coupon_id ? '是' : '否'}</p>
+                              </div>
                               
                               <h6>購買商品:</h6>
                               <ul>

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { Toaster, toast } from 'react-hot-toast'
-import { FaTrashAlt } from 'react-icons/fa'
+import { FaTrashAlt, FaHeart } from 'react-icons/fa'
 import Image from 'next/image'
 
 const Favorites = () => {
@@ -27,13 +27,13 @@ const Favorites = () => {
       const data = await response.json()
       if (data.status === 'success') {
         setFavorites(data.data.favorites)
-        toast.success('收藏資料載入成功')
+        
       } else {
         throw new Error(data.message || 'Failed to fetch favorites')
       }
     } catch (error) {
       setError(error.message)
-      toast.error('收藏資料載入失敗')
+      
     } finally {
       setLoading(false)
     }
@@ -124,7 +124,20 @@ const Favorites = () => {
               錯誤: {error}
             </div>
           ) : favorites.length === 0 ? (
-            <p className="text-muted text-center">目前沒有收藏項目</p>
+            <div className="text-center py-5">
+              <div className="mb-4">
+                <FaHeart size={64} className="text-muted" />
+              </div>
+              <h2 className="h4 mb-3">目前沒有收藏項目</h2>
+              <p className="text-muted mb-4">您還沒有收藏任何商品。開始瀏覽並收藏您喜歡的商品吧！</p>
+              <Link 
+                href="http://localhost:3000/test/cart/product-list" 
+                className="btn btn-primary btn-lg shadow-sm transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-md"
+              >
+                <span className="me-2">瀏覽商品列表</span>
+                <FaHeart />
+              </Link>
+            </div>
           ) : (
             <div className="table-responsive">
               <table className="table table-hover table-striped align-middle">
