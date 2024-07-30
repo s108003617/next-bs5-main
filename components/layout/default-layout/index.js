@@ -5,7 +5,7 @@ import Head from 'next/head'
 import NextBreadCrumb from '@/components/common/next-breadcrumb'
 import { useLoader } from '@/hooks/use-loader'
 
-export default function DefaultLayout({ title = 'Digitalshop', children }) {
+export default function DefaultLayout({ title = 'DigitalShop', children }) {
   const { loader } = useLoader()
 
   return (
