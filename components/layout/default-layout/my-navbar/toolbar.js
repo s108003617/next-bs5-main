@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useAuth } from '@/hooks/use-auth'
+import { useCart } from '@/hooks/use-cart-state'
 import { logout, getUserById } from '@/services/user'
 import toast from 'react-hot-toast'
 import styles from './toolbar.module.scss'
@@ -10,6 +11,7 @@ import { avatarBaseUrl } from '@/configs'
 
 export default function Toolbar({ handleShow }) {
   const { auth, setAuth } = useAuth()
+  const { clearCart } = useCart()
   const router = useRouter()
   const [userAvatar, setUserAvatar] = useState('')
 
@@ -35,6 +37,19 @@ export default function Toolbar({ handleShow }) {
     try {
       const res = await logout()
       if (res.data.status === 'success') {
+        // Clear all cookies
+        document.cookie.split(";").forEach((c) => {
+          document.cookie = c
+            .replace(/^ +/, "")
+            .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+        });
+
+        // Clear localStorage
+        localStorage.removeItem('cart');
+
+        // Clear cart state
+        clearCart();
+
         toast.success('已成功登出')
         setAuth({ isAuth: false, userData: {} })
         router.push('/test/user')

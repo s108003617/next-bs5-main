@@ -113,7 +113,7 @@ const PurchaseOrders = () => {
                     <tr key={order.id}>
                       <td>{index + 1}</td>
                       <td>{order.amount}</td>
-                      <td>Line Pay</td>
+                      <td>未選擇</td>
                       <td>7-11</td>
                       <td>{order.status}</td>
                       <td>{formatDate(order.created_at)}</td>
