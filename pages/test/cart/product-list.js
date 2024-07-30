@@ -219,9 +219,7 @@ export default function ProductList() {
   return (
     <>
       <h1>商品列表頁</h1>
-      <p>
-        <Link href="/test/cart">購物車</Link>
-      </p>
+      
       <div className="my-3">
         <input
           type="text"
