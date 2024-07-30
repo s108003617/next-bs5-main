@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { initUserData, useAuth } from '@/hooks/use-auth'
 import {
-  checkAuth,
   login,
   logout,
   googleLogin,
@@ -14,8 +13,6 @@ import { FaGoogle, FaEye, FaEyeSlash } from 'react-icons/fa'
 import { SiLine } from 'react-icons/si'
 import {
   lineLoginRequest,
-  lineLogout,
-  lineLoginCallback,
 } from '@/services/user'
 import useFirebase from '@/hooks/use-firebase'
 
@@ -31,19 +28,6 @@ export default function UserTest() {
   const { auth, setAuth } = useAuth()
   const { loginGoogle, logoutFirebase } = useFirebase()
   const router = useRouter()
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    const checkAuthStatus = async () => {
-      const res = await checkAuth()
-      if (res.data.status === 'success') {
-        router.push('/test/user/profile')
-      } else {
-        setLoading(false)
-      }
-    }
-    checkAuthStatus()
-  }, [router])
 
   const handleFieldChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value })
@@ -121,10 +105,6 @@ export default function UserTest() {
     }).catch((error) => {
       toast.error('Google 登入失敗')
     })
-  }
-
-  if (loading) {
-    return <div>載入中...</div> // 或者使用一個加載動畫組件
   }
 
   return (
