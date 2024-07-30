@@ -1,24 +1,43 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useAuth } from '@/hooks/use-auth'
-import { logout } from '@/services/user'
+import { logout, getUserById } from '@/services/user'
 import toast from 'react-hot-toast'
 import styles from './toolbar.module.scss'
 import { useRouter } from 'next/router'
+import { avatarBaseUrl } from '@/configs'
 
 export default function Toolbar({ handleShow }) {
   const { auth, setAuth } = useAuth()
   const router = useRouter()
+  const [userAvatar, setUserAvatar] = useState('')
 
-  // 定義登出函數
+  useEffect(() => {
+    if (auth.isAuth) {
+      getUserData(auth.userData.id)
+    }
+  }, [auth])
+
+  const getUserData = async (id) => {
+    try {
+      const res = await getUserById(id)
+      if (res.data.status === 'success') {
+        const dbUser = res.data.data.user
+        setUserAvatar(dbUser.avatar || '')
+      }
+    } catch (error) {
+      console.error('Error fetching user data:', error)
+    }
+  }
+
   const handleLogout = async () => {
     try {
       const res = await logout()
       if (res.data.status === 'success') {
         toast.success('已成功登出')
         setAuth({ isAuth: false, userData: {} })
-        router.push('/test/user') // 導向登入頁面或其他頁面
+        router.push('/test/user')
       } else {
         toast.error('登出失敗')
       }
@@ -62,7 +81,7 @@ export default function Toolbar({ handleShow }) {
               <li>
                 <p className="text-center mb-2">
                   <Image
-                    src="/avatar.svg"
+                    src={userAvatar ? `${avatarBaseUrl}/${userAvatar}` : '/avatar.svg'}
                     className="rounded-circle d-block mx-auto"
                     alt="Avatar"
                     width={80}
