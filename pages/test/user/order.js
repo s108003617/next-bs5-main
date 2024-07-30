@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { Toaster, toast } from 'react-hot-toast'
+import { FaChevronDown, FaChevronUp } from 'react-icons/fa'
 
 const PurchaseOrders = () => {
   const [orders, setOrders] = useState([])
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [expandedOrder, setExpandedOrder] = useState(null)
 
   useEffect(() => {
     fetchOrders()
@@ -41,6 +44,11 @@ const PurchaseOrders = () => {
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleString('zh-TW')
   }
+
+  const toggleOrderDetails = (orderId) => {
+    setExpandedOrder(expandedOrder === orderId ? null : orderId)
+  }
+
 
   return (
     <div className="container-fluid d-flex flex-column vh-100">
@@ -100,6 +108,7 @@ const PurchaseOrders = () => {
               <table className="table table-striped table-sm">
                 <thead>
                   <tr>
+                    <th>詳情</th>
                     <th>序號</th>
                     <th>金額</th>
                     <th>付款方式</th>
@@ -110,14 +119,46 @@ const PurchaseOrders = () => {
                 </thead>
                 <tbody>
                   {orders.map((order, index) => (
-                    <tr key={order.id}>
-                      <td>{index + 1}</td>
-                      <td>{order.amount}</td>
-                      <td>未選擇</td>
-                      <td>7-11</td>
-                      <td>{order.status}</td>
-                      <td>{formatDate(order.created_at)}</td>
-                    </tr>
+                    <React.Fragment key={order.id}>
+                      <tr>
+                        <td>
+                          <button 
+                            className="btn btn-link p-0" 
+                            onClick={() => toggleOrderDetails(order.id)}
+                          >
+                            {expandedOrder === order.id ? <FaChevronUp /> : <FaChevronDown />}
+                          </button>
+                        </td>
+                        <td>{index + 1}</td>
+                        <td>{order.amount}</td>
+                        <td>{order.payment || '未選擇'}</td>
+                        <td>{order.shipping || '7-11'}</td>
+                        <td>{order.status}</td>
+                        <td>{formatDate(order.created_at)}</td>
+                      </tr>
+                      {expandedOrder === order.id && (
+                        <tr>
+                          <td colSpan="7">
+                            <div className="p-3 bg-light">
+                              <h5>訂單詳情</h5>
+                             
+                              <p><strong>原始金額:</strong> {order.original_amount}</p>
+                              <p><strong>折扣金額:</strong> {order.original_amount - order.amount}</p>
+                              <p><strong>使用優惠券:</strong> {order.coupon_id ? '是' : '否'}</p>
+                              
+                              <h6>購買商品:</h6>
+                              <ul>
+                                {JSON.parse(order.product_details).map((product, idx) => (
+                                  <li key={idx}>
+                                    {product.name} - 數量: {product.quantity}, 單價: {product.price}
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          </td>
+                        </tr>
+                      )}
+                    </React.Fragment>
                   ))}
                 </tbody>
               </table>
