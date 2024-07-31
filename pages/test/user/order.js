@@ -112,7 +112,7 @@ const PurchaseOrders = () => {
               href="http://localhost:3000/test/cart/product-list" 
               className="btn btn-primary btn-lg shadow-sm transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-md"
             >
-              <span className="me-2">瀏覽商品列表</span>
+              <span className="me-2">前往購物</span>
               <FaShoppingCart />
             </Link>
           </div>

@@ -134,7 +134,7 @@ const Favorites = () => {
                 href="http://localhost:3000/test/cart/product-list" 
                 className="btn btn-primary btn-lg shadow-sm transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-md"
               >
-                <span className="me-2">瀏覽商品列表</span>
+                <span className="me-2">前往收藏</span>
                 <FaHeart />
               </Link>
             </div>
@@ -143,8 +143,8 @@ const Favorites = () => {
               <table className="table table-hover table-striped align-middle">
                 <thead className="table-light">
                   <tr>
-                    <th className="text-center">產品圖片</th>
-                    <th className="text-center">產品名稱</th>
+                    <th className="text-center">商品圖片</th>
+                    <th className="text-center">商品名稱</th>
                     <th className="text-center">價格</th>
                     <th className="text-center">收藏時間</th>
                     <th className="text-center">操作</th>
