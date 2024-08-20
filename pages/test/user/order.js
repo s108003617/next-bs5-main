@@ -144,7 +144,7 @@ const PurchaseOrders = () => {
                         </td>
                         <td>{index + 1}</td>
                         <td>{order.amount}</td>
-                        <td>{order.payment || '未選擇'}</td>
+                        <td>{order.payment || 'Line PAY'}</td>
                         <td>{order.shipping || '7-11'}</td>
                         <td>{order.status}</td>
                         <td>{formatDate(order.created_at)}</td>
