@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-
+import Image from 'next/image'
 export default function PreviewUploadImage({
   avatarImg = '',
   avatarBaseUrl = '',
@@ -49,7 +49,7 @@ export default function PreviewUploadImage({
   return (
     <div className="image-upload">
       <label htmlFor="file-input" className="circular-image-container">
-        <img src={showImg()} alt="" className="circular-image" />
+        <Image src={showImg()} alt="" className="circular-image" />
         <div className="image-overlay">
           <span>更換照片</span>
         </div>
@@ -80,7 +80,7 @@ export default function PreviewUploadImage({
           transition: all 0.3s ease;
         }
         .circular-image-container:hover {
-          box-shadow: 0 0 20px rgba(0,0,0,0.2);
+          box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
         }
         .circular-image {
           width: 100%;
@@ -100,7 +100,7 @@ export default function PreviewUploadImage({
           display: flex;
           justify-content: center;
           align-items: center;
-          background-color: rgba(0,0,0,0.5);
+          background-color: rgba(0, 0, 0, 0.5);
           color: white;
           font-size: 16px;
           opacity: 0;

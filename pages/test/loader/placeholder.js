@@ -12,7 +12,7 @@ export default function Placeholder() {
   }, [])
 
   // 如果是狀態初始化值，不呈現任何資料
-  
+
   return (
     <>
       <div className="row row-cols-1 row-cols-md-4 g-4">

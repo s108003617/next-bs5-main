@@ -29,7 +29,7 @@ const nextConfig = {
   //   return [
   //     {
   //       source: '/api/:path*',
-  //       destination: 'http://localhost:3005/:path*', // Proxy to Backend
+  //       destination: 'https://ez3c-shop.de.r.appspot.com/:path*', // Proxy to Backend
   //     },
   //   ]
   // },

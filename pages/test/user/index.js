@@ -2,18 +2,11 @@ import React, { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { initUserData, useAuth } from '@/hooks/use-auth'
-import {
-  login,
-  logout,
-  googleLogin,
-  getUserById,
-} from '@/services/user'
+import { login, logout, googleLogin, getUserById } from '@/services/user'
 import { Toaster, toast } from 'react-hot-toast'
 import { FaGoogle, FaEye, FaEyeSlash } from 'react-icons/fa'
 import { SiLine } from 'react-icons/si'
-import {
-  lineLoginRequest,
-} from '@/services/user'
+import { lineLoginRequest } from '@/services/user'
 import useFirebase from '@/hooks/use-firebase'
 
 const parseJwt = (token) => {

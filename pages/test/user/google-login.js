@@ -59,7 +59,7 @@ export default function GoogleLoginPopup() {
         toast.success('已成功登入')
 
         // 重定向到指定的 URL
-        router.push('http://localhost:3000/')
+        router.push('https://ez3c-shop.de.r.appspot.com/')
       } else {
         toast.error('登入後無法得到會員資料')
         // 這裡可以讓會員登出，因為這也算登入失敗，有可能會造成資料不統一

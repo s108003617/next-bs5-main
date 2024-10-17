@@ -57,7 +57,7 @@ export default function PasswordChange() {
   return (
     <div className="container-fluid d-flex flex-column vh-100">
       <div className="row flex-grow-1">
-      <nav
+        <nav
           id="sidebar"
           className="col-md-3 col-lg-2 d-md-block bg-light sidebar"
         >

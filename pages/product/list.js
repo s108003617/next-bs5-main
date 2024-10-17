@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import BS5Pagination from '@/components/common/bs5-pagination'
+import Image from 'next/image'
 
-// 模擬後端的資料來源: http://localhost:3005/api/my-products
+// 模擬後端的資料來源: https://ez3c-shop.de.r.appspot.com/api/my-products
 // 資料範例:
 // [
 //   {
@@ -41,7 +42,7 @@ export default function List() {
 
   // 與伺服器作fetch獲得資料
   const getProducts = async (params = {}) => {
-    const baseUrl = 'http://localhost:3005/api/my-products'
+    const baseUrl = 'https://ez3c-shop.de.r.appspot.com/api/my-products'
     // 轉換params為查詢字串
     const searchParams = new URLSearchParams(params)
     const qs = searchParams.toString()
@@ -231,7 +232,7 @@ export default function List() {
                   >
                     <div className="rounded position-relative fruite-item">
                       <div className="fruite-img ">
-                        <img
+                        <Image
                           className="w-10 h-10 p-3"
                           src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqNF1QSwh_fpRA46tfsOmUP88m9gWWvgSVkg&s"
                           alt=""

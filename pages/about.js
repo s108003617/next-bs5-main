@@ -1,5 +1,5 @@
-import React from 'react';
-import { Accordion, Card, Button, ProgressBar } from 'react-bootstrap';
+import React from 'react'
+import { Accordion, Card, Button, ProgressBar } from 'react-bootstrap'
 
 const About = () => {
   return (
@@ -8,11 +8,15 @@ const About = () => {
         <div className="col-md-8">
           <h1 className="display-4 mb-4">關於我們</h1>
           <p className="lead">
-            Digital Shop 是您的終極 3C 產品線上購物天堂。我們致力於為科技愛好者提供最新、最優質的數碼產品。
+            Digital Shop 是您的終極 3C
+            產品線上購物天堂。我們致力於為科技愛好者提供最新、最優質的數碼產品。
           </p>
         </div>
         <div className="col-md-4 text-center">
-          <i className="bi bi-shop text-primary" style={{ fontSize: '8rem' }}></i>
+          <i
+            className="bi bi-shop text-primary"
+            style={{ fontSize: '8rem' }}
+          ></i>
         </div>
       </div>
 
@@ -24,12 +28,15 @@ const About = () => {
             { name: '便捷購物體驗', icon: 'bi-cart-check' },
             { name: '個人化收藏', icon: 'bi-heart' },
             { name: '完善訂單管理', icon: 'bi-list-check' },
-            { name: '智能商品搜尋', icon: 'bi-search' }
+            { name: '智能商品搜尋', icon: 'bi-search' },
           ].map((feature, index) => (
             <div key={index} className="col-md-4 mb-3">
               <Card className="h-100 shadow-sm">
                 <Card.Body className="text-center">
-                  <i className={`bi ${feature.icon} text-primary mb-3`} style={{ fontSize: '2rem' }}></i>
+                  <i
+                    className={`bi ${feature.icon} text-primary mb-3`}
+                    style={{ fontSize: '2rem' }}
+                  ></i>
                   <Card.Title>{feature.name}</Card.Title>
                   <Card.Text>
                     為您提供最佳的{feature.name}體驗，讓購物變得更簡單、更愉快。
@@ -69,7 +76,10 @@ const About = () => {
             </div>
           </div>
           <div className="col-md-5 text-center">
-            <i className="bi bi-graph-up-arrow text-success" style={{ fontSize: '8rem' }}></i>
+            <i
+              className="bi bi-graph-up-arrow text-success"
+              style={{ fontSize: '8rem' }}
+            ></i>
           </div>
         </div>
       </section>
@@ -92,7 +102,8 @@ const About = () => {
               你們提供哪些支付方式？
             </Accordion.Header>
             <Accordion.Body>
-              我們支持多種支付方式，包括信用卡、Line Pay、街口支付等。您可以在結帳時選擇最適合您的支付方式。
+              我們支持多種支付方式，包括信用卡、Line
+              Pay、街口支付等。您可以在結帳時選擇最適合您的支付方式。
             </Accordion.Body>
           </Accordion.Item>
           <Accordion.Item eventKey="2">
@@ -101,7 +112,8 @@ const About = () => {
               如何聯繫客服？
             </Accordion.Header>
             <Accordion.Body>
-              您可以通過電子郵件、在線聊天或電話聯繫我們的客服團隊。我們的服務時間為週一至週五 9:00-18:00。
+              您可以通過電子郵件、在線聊天或電話聯繫我們的客服團隊。我們的服務時間為週一至週五
+              9:00-18:00。
             </Accordion.Body>
           </Accordion.Item>
         </Accordion>
@@ -112,9 +124,19 @@ const About = () => {
         <div className="row">
           <div className="col-md-6">
             <address>
-              <p><i className="bi bi-telephone me-2"></i><strong>客服電話：</strong> 0800-123-456</p>
-              <p><i className="bi bi-envelope me-2"></i><strong>電子郵件：</strong> <a href="mailto:info@digitalshop.com">info@digitalshop.com</a></p>
-              <p><i className="bi bi-clock me-2"></i><strong>營業時間：</strong> 週一至週五 9:00-18:00</p>
+              <p>
+                <i className="bi bi-telephone me-2"></i>
+                <strong>客服電話：</strong> 0800-123-456
+              </p>
+              <p>
+                <i className="bi bi-envelope me-2"></i>
+                <strong>電子郵件：</strong>{' '}
+                <a href="mailto:info@digitalshop.com">info@digitalshop.com</a>
+              </p>
+              <p>
+                <i className="bi bi-clock me-2"></i>
+                <strong>營業時間：</strong> 週一至週五 9:00-18:00
+              </p>
             </address>
           </div>
           <div className="col-md-6">
@@ -128,7 +150,7 @@ const About = () => {
         </div>
       </section>
     </div>
-  );
-};
+  )
+}
 
-export default About;
+export default About

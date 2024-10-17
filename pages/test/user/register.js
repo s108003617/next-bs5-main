@@ -16,8 +16,7 @@ export default function Register() {
   const { auth } = useAuth()
   const router = useRouter()
 
-  if (auth.isAuth) return null
-
+  // 將 useState 鉤子移到條件判斷之前
   const [user, setUser] = useState({
     name: '',
     email: '',
@@ -30,6 +29,9 @@ export default function Register() {
     password: false,
     confirmPassword: false,
   })
+
+  // 如果用戶已經驗證，則不渲染註冊表單
+  if (auth.isAuth) return null
 
   const handleFieldChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value })
@@ -47,7 +49,7 @@ export default function Register() {
     }
     const res = await register(user)
 
-    if (res.data.status === 'success') {
+    if (res && res.data && res.data.status === 'success') {
       toast.success('會員註冊成功')
       setTimeout(() => {
         router.push('/test/user')

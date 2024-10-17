@@ -38,17 +38,17 @@ export default function Toolbar({ handleShow }) {
       const res = await logout()
       if (res.data.status === 'success') {
         // Clear all cookies
-        document.cookie.split(";").forEach((c) => {
+        document.cookie.split(';').forEach((c) => {
           document.cookie = c
-            .replace(/^ +/, "")
-            .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
-        });
+            .replace(/^ +/, '')
+            .replace(/=.*/, '=;expires=' + new Date().toUTCString() + ';path=/')
+        })
 
         // Clear localStorage
-        localStorage.removeItem('cart');
+        localStorage.removeItem('cart')
 
         // Clear cart state
-        clearCart();
+        clearCart()
 
         toast.success('已成功登出')
         setAuth({ isAuth: false, userData: {} })
@@ -66,7 +66,7 @@ export default function Toolbar({ handleShow }) {
       <li className="nav-item">
         <Link
           className="nav-link btn btn-outline-light"
-          href="http://localhost:3000/test/cart/coupon-test"
+          href="https://ez3c-shop.de.r.appspot.com/test/cart/coupon-test"
           role="button"
           title="購物車"
         >
@@ -96,7 +96,11 @@ export default function Toolbar({ handleShow }) {
               <li>
                 <p className="text-center mb-2">
                   <Image
-                    src={userAvatar ? `${avatarBaseUrl}/${userAvatar}` : '/avatar.svg'}
+                    src={
+                      userAvatar
+                        ? `${avatarBaseUrl}/${userAvatar}`
+                        : '/avatar.svg'
+                    }
                     className="rounded-circle d-block mx-auto"
                     alt="Avatar"
                     width={80}

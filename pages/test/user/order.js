@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Toaster, toast } from 'react-hot-toast'
-import { FaChevronDown, FaChevronUp, FaShoppingCart } from 'react-icons/fa';
+import { FaChevronDown, FaChevronUp, FaShoppingCart } from 'react-icons/fa'
 
 const PurchaseOrders = () => {
   const [orders, setOrders] = useState([])
@@ -18,7 +18,7 @@ const PurchaseOrders = () => {
     try {
       setLoading(true)
       const response = await fetch(
-        'http://localhost:3005/api/purchase-orders',
+        'https://ez3c-shop.de.r.appspot.com/api/purchase-orders',
         {
           credentials: 'include',
         }
@@ -29,13 +29,11 @@ const PurchaseOrders = () => {
       const data = await response.json()
       if (data.status === 'success') {
         setOrders(data.data.orders)
-        
       } else {
         throw new Error(data.message || 'Failed to fetch orders')
       }
     } catch (error) {
       setError(error.message)
-    
     } finally {
       setLoading(false)
     }
@@ -49,11 +47,10 @@ const PurchaseOrders = () => {
     setExpandedOrder(expandedOrder === orderId ? null : orderId)
   }
 
-
   return (
     <div className="container-fluid d-flex flex-column vh-100">
       <div className="row flex-grow-1">
-      <nav
+        <nav
           id="sidebar"
           className="col-md-3 col-lg-2 d-md-block bg-light sidebar"
         >
@@ -103,23 +100,25 @@ const PurchaseOrders = () => {
             </div>
           ) : orders.length === 0 ? (
             <div className="text-center py-5">
-            <div className="mb-4">
-              <FaShoppingCart size={64} className="text-muted" />
+              <div className="mb-4">
+                <FaShoppingCart size={64} className="text-muted" />
+              </div>
+              <h2 className="h4 mb-3">目前沒有訂單</h2>
+              <p className="text-muted mb-4">
+                看起來您還沒有下任何訂單。何不開始您的購物之旅？
+              </p>
+              <Link
+                href="https://ez3c-shop.de.r.appspot.com/test/cart/product-list"
+                className="btn btn-primary btn-lg shadow-sm transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-md"
+              >
+                <span className="me-2">前往購物</span>
+                <FaShoppingCart />
+              </Link>
             </div>
-            <h2 className="h4 mb-3">目前沒有訂單</h2>
-            <p className="text-muted mb-4">看起來您還沒有下任何訂單。何不開始您的購物之旅？</p>
-            <Link 
-              href="http://localhost:3000/test/cart/product-list" 
-              className="btn btn-primary btn-lg shadow-sm transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-md"
-            >
-              <span className="me-2">前往購物</span>
-              <FaShoppingCart />
-            </Link>
-          </div>
           ) : (
             <div className="table-responsive">
-               <table className="table table-hover table-striped align-middle">
-               <thead className="table-light">
+              <table className="table table-hover table-striped align-middle">
+                <thead className="table-light">
                   <tr>
                     <th>詳情</th>
                     <th>序號</th>
@@ -135,11 +134,15 @@ const PurchaseOrders = () => {
                     <React.Fragment key={order.id}>
                       <tr>
                         <td>
-                          <button 
-                            className="btn btn-link p-0" 
+                          <button
+                            className="btn btn-link p-0"
                             onClick={() => toggleOrderDetails(order.id)}
                           >
-                            {expandedOrder === order.id ? <FaChevronUp /> : <FaChevronDown />}
+                            {expandedOrder === order.id ? (
+                              <FaChevronUp />
+                            ) : (
+                              <FaChevronDown />
+                            )}
                           </button>
                         </td>
                         <td>{index + 1}</td>
@@ -154,21 +157,38 @@ const PurchaseOrders = () => {
                           <td colSpan="7">
                             <div className="p-3 bg-light">
                               <h5>訂單詳情</h5>
-                             
+
                               <div className="mb-3">
-                                <p className="mb-1"><strong>原始金額:</strong> ${order.original_amount}</p>
-                                <p className="mb-1"><strong>折扣金額:</strong> ${(order.original_amount - order.amount)}</p>
-                                <p className="mb-1"><strong>折扣後金額:</strong> <span className=" fw-bold">${order.amount}</span></p>
-                                <p className="mb-1"><strong>使用優惠券:</strong> {order.coupon_id ? '是' : '否'}</p>
+                                <p className="mb-1">
+                                  <strong>原始金額:</strong> $
+                                  {order.original_amount}
+                                </p>
+                                <p className="mb-1">
+                                  <strong>折扣金額:</strong> $
+                                  {order.original_amount - order.amount}
+                                </p>
+                                <p className="mb-1">
+                                  <strong>折扣後金額:</strong>{' '}
+                                  <span className=" fw-bold">
+                                    ${order.amount}
+                                  </span>
+                                </p>
+                                <p className="mb-1">
+                                  <strong>使用優惠券:</strong>{' '}
+                                  {order.coupon_id ? '是' : '否'}
+                                </p>
                               </div>
-                              
+
                               <h6>購買商品:</h6>
                               <ul>
-                                {JSON.parse(order.product_details).map((product, idx) => (
-                                  <li key={idx}>
-                                    {product.name} - 數量: {product.quantity}, 單價: {product.price}
-                                  </li>
-                                ))}
+                                {JSON.parse(order.product_details).map(
+                                  (product, idx) => (
+                                    <li key={idx}>
+                                      {product.name} - 數量: {product.quantity},
+                                      單價: {product.price}
+                                    </li>
+                                  )
+                                )}
                               </ul>
                             </div>
                           </td>

@@ -36,7 +36,7 @@ export default function Detail() {
   }
 
   const getProduct = async (pid) => {
-    const url = 'http://localhost:3005/api/products/' + pid
+    const url = 'https://ez3c-shop.de.r.appspot.com/api/products/' + pid
 
     try {
       const res = await fetch(url)
@@ -54,19 +54,22 @@ export default function Detail() {
   }
 
   const getRelatedProducts = async (category, productImages) => {
-    const url = 'http://localhost:3005/api/products?category=' + category
+    const url =
+      'https://ez3c-shop.de.r.appspot.com/api/products?category=' + category
 
     try {
       const res = await fetch(url)
       const resData = await res.json()
 
       if (resData.status === 'success') {
-        const filteredProducts = resData.data.products.filter(p => p.id !== product.id)
+        const filteredProducts = resData.data.products.filter(
+          (p) => p.id !== product.id
+        )
         const shuffled = filteredProducts.sort(() => 0.5 - Math.random())
         setRelatedProducts(shuffled.slice(0, 4))
 
         // 從相關產品中選擇額外的圖片，直到總共有4張
-        const additionalImages = shuffled.flatMap(p => p.photos.split(','))
+        const additionalImages = shuffled.flatMap((p) => p.photos.split(','))
         const allImages = [...productImages, ...additionalImages]
         setDisplayImages(allImages.slice(0, 4))
 
@@ -113,7 +116,10 @@ export default function Detail() {
         <Button variant="secondary" onClick={handleClose}>
           繼續購物
         </Button>
-        <Button variant="primary" onClick={() => router.push('/test/cart/coupon-test')}>
+        <Button
+          variant="primary"
+          onClick={() => router.push('/test/cart/coupon-test')}
+        >
           前往購物車結帳
         </Button>
       </Modal.Footer>
@@ -124,9 +130,15 @@ export default function Detail() {
     <div className="container mt-5">
       <nav aria-label="breadcrumb">
         <ol className="breadcrumb">
-          <li className="breadcrumb-item"><Link href="/">首頁</Link></li>
-          <li className="breadcrumb-item"><Link href="/test/cart/product-list">商品列表</Link></li>
-          <li className="breadcrumb-item active" aria-current="page">商品詳細</li>
+          <li className="breadcrumb-item">
+            <Link href="/">首頁</Link>
+          </li>
+          <li className="breadcrumb-item">
+            <Link href="/test/cart/product-list">商品列表</Link>
+          </li>
+          <li className="breadcrumb-item active" aria-current="page">
+            商品詳細
+          </li>
         </ol>
       </nav>
 
@@ -150,16 +162,23 @@ export default function Detail() {
                     placeholder="blur"
                     blurDataURL={`/images/product/thumb/${displayImages[currentImageIndex]}`}
                     className="img-fluid rounded"
-                    style={{ width: '100%', height: 'auto', objectFit: 'contain' }}
+                    style={{
+                      width: '100%',
+                      height: 'auto',
+                      objectFit: 'contain',
+                    }}
                   />
                 </div>
                 <div className="card-footer bg-white">
                   <div className="d-flex justify-content-between">
                     {displayImages.map((img, index) => (
-                      <div
+                      <button
                         key={index}
                         onClick={() => handleImageClick(index)}
-                        className={`thumbnail-container ${currentImageIndex === index ? 'active' : ''}`}
+                        className={`thumbnail-container ${
+                          currentImageIndex === index ? 'active' : ''
+                        }`}
+                        aria-label={`Select image ${index + 1}`} // 添加輔助標籤
                       >
                         <Image
                           src={`/images/product/thumb/${img}`}
@@ -168,7 +187,7 @@ export default function Detail() {
                           height={76}
                           className="img-thumbnail"
                         />
-                      </div>
+                      </button>
                     ))}
                   </div>
                 </div>
@@ -180,9 +199,15 @@ export default function Detail() {
                   <h2 className="card-title">{product.name}</h2>
                   <p className="text-danger fs-4">NTD {product.price}元</p>
                   <p className="card-text">{product.info}</p>
-                  <p className="card-text"><small className="text-muted">類別: {product.category}</small></p>
+                  <p className="card-text">
+                    <small className="text-muted">
+                      類別: {product.category}
+                    </small>
+                  </p>
                   <div className="mb-3">
-                    <label htmlFor="quantity" className="form-label">數量：</label>
+                    <label htmlFor="quantity" className="form-label">
+                      數量：
+                    </label>
                     <input
                       type="number"
                       id="quantity"
@@ -214,7 +239,7 @@ export default function Detail() {
               </div>
             </div>
           </div>
-          
+
           <h3 className="mb-4">相關推薦</h3>
           <div className="row row-cols-1 row-cols-md-4 g-4">
             {relatedProducts.map((v) => (
@@ -228,12 +253,21 @@ export default function Detail() {
                       width={300}
                       height={200}
                       placeholder="blur"
-                      blurDataURL={`/images/product/thumb/${v.photos?.split(',')[0]}`}
-                      style={{ width: '100%', height: '200px', objectFit: 'contain' }}
+                      blurDataURL={`/images/product/thumb/${
+                        v.photos?.split(',')[0]
+                      }`}
+                      style={{
+                        width: '100%',
+                        height: '200px',
+                        objectFit: 'contain',
+                      }}
                     />
                   </Link>
                   <div className="card-body">
-                    <Link href={`/product/${v.id}`} className="text-decoration-none">
+                    <Link
+                      href={`/product/${v.id}`}
+                      className="text-decoration-none"
+                    >
                       <h5 className="card-title">{v.name}</h5>
                     </Link>
                     <p className="card-text">{v.info}</p>
@@ -283,7 +317,7 @@ export default function Detail() {
         }
         .hover-card:hover {
           transform: translateY(-5px);
-          box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
         }
       `}</style>
     </div>

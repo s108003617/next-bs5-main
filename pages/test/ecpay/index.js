@@ -38,7 +38,7 @@ export default function ECPayIndex() {
   const goECPay = () => {
     if (window.confirm('確認要導向至ECPay進行付款?')) {
       // 先連到node伺服器後，導向至ECPay付款頁面
-      window.location.href = `http://localhost:3005/api/ecpay/payment?orderId=${order.orderId}`
+      window.location.href = `https://ez3c-shop.de.r.appspot.com/api/ecpay/payment?orderId=${order.orderId}`
     }
   }
 
@@ -99,7 +99,7 @@ export default function ECPayIndex() {
     if (router.isReady) {
       // 這裡確保能得到router.query值
       console.log(router.query)
-      // http://localhost:3000/order?transactionId=2022112800733496610&orderId=da3b7389-1525-40e0-a139-52ff02a350a8
+      // https://ez3c-shop.de.r.appspot.com/order?transactionId=2022112800733496610&orderId=da3b7389-1525-40e0-a139-52ff02a350a8
       // 這裡要得到交易id，處理伺服器通知line pay已確認付款，為必要流程
       // TODO: 除非為不需登入的交易，為提高安全性應檢查是否為會員登入狀態
       const { transactionId, orderId } = router.query

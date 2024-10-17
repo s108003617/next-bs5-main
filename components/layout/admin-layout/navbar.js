@@ -57,11 +57,28 @@ export default function Navbar() {
                 >
                   Categories
                 </a>
-                <ul className="dropdown-menu" aria-labelledby="offcanvasNavbarDropdown">
-                  <li><a className="dropdown-item" href="#">Electronics</a></li>
-                  <li><a className="dropdown-item" href="#">Clothing</a></li>
-                  <li><hr className="dropdown-divider" /></li>
-                  <li><a className="dropdown-item" href="#">All Categories</a></li>
+                <ul
+                  className="dropdown-menu"
+                  aria-labelledby="offcanvasNavbarDropdown"
+                >
+                  <li>
+                    <a className="dropdown-item" href="#">
+                      Electronics
+                    </a>
+                  </li>
+                  <li>
+                    <a className="dropdown-item" href="#">
+                      Clothing
+                    </a>
+                  </li>
+                  <li>
+                    <hr className="dropdown-divider" />
+                  </li>
+                  <li>
+                    <a className="dropdown-item" href="#">
+                      All Categories
+                    </a>
+                  </li>
                 </ul>
               </li>
             </ul>

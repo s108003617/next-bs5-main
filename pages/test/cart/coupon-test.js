@@ -15,12 +15,12 @@ const coupons = [
   { id: 4, name: '8折券', value: 0.2, type: 'percent' },
 ]
 
-function CartList({ 
-  selectedItems, 
-  setSelectedItems, 
-  selectAll, 
-  setSelectAll, 
-  calculateSelectedTotal 
+function CartList({
+  selectedItems,
+  setSelectedItems,
+  selectAll,
+  setSelectAll,
+  calculateSelectedTotal,
 }) {
   const { cart, items, decrement, increment, removeItem } = useCart()
   const [hydrated, setHydrated] = useState(false)
@@ -30,7 +30,7 @@ function CartList({
   }, [])
 
   useEffect(() => {
-    const allSelected = items.every(item => selectedItems[item.id])
+    const allSelected = items.every((item) => selectedItems[item.id])
     setSelectAll(allSelected)
   }, [selectedItems, items, setSelectAll])
 
@@ -39,9 +39,9 @@ function CartList({
   }
 
   const handleItemSelect = (id) => {
-    setSelectedItems(prev => ({
+    setSelectedItems((prev) => ({
       ...prev,
-      [id]: !prev[id]
+      [id]: !prev[id],
     }))
   }
 
@@ -49,7 +49,7 @@ function CartList({
     const newSelectAll = !selectAll
     setSelectAll(newSelectAll)
     const newSelectedItems = {}
-    items.forEach(item => {
+    items.forEach((item) => {
       newSelectedItems[item.id] = newSelectAll
     })
     setSelectedItems(newSelectedItems)
@@ -115,7 +115,9 @@ function CartList({
                     )}
                   </td>
                   <td className="text-center align-middle">{v.name}</td>
-                  <td className="text-center align-middle">${Math.round(v.price)}</td>
+                  <td className="text-center align-middle">
+                    ${Math.round(v.price)}
+                  </td>
                   <td className="text-center align-middle">
                     <div className="btn-group" role="group">
                       <button
@@ -125,7 +127,11 @@ function CartList({
                       >
                         -
                       </button>
-                      <button type="button" className="btn btn-outline-dark btn-sm" disabled>
+                      <button
+                        type="button"
+                        className="btn btn-outline-dark btn-sm"
+                        disabled
+                      >
                         {v.quantity}
                       </button>
                       <button
@@ -137,7 +143,9 @@ function CartList({
                       </button>
                     </div>
                   </td>
-                  <td className="text-center align-middle">${Math.round(v.subtotal)}</td>
+                  <td className="text-center align-middle">
+                    ${Math.round(v.subtotal)}
+                  </td>
                   <td className="text-center align-middle">
                     <button
                       type="button"
@@ -169,9 +177,10 @@ function CartList({
 export default function CouponTest() {
   const router = useRouter()
   const { auth } = useAuth()
-  const { cart, addItem, removeItem, updateItemQty, clearCart, isInCart } = useCart()
+  const { cart, addItem, removeItem, updateItemQty, clearCart, isInCart } =
+    useCart()
   const { store711, openWindow, closeWindow } = useShip711StoreOpener(
-    'http://localhost:3005/api/shipment/711',
+    'https://ez3c-shop.de.r.appspot.com/api/shipment/711',
     { autoCloseMins: 3 }
   )
 
@@ -219,10 +228,10 @@ export default function CouponTest() {
     setIsLoading(true)
     try {
       const selectedProducts = cart.items
-        .filter(item => selectedItems[item.id])
-        .map(item => ({
+        .filter((item) => selectedItems[item.id])
+        .map((item) => ({
           ...item,
-          price: Math.round(item.price)
+          price: Math.round(item.price),
         }))
       const orderData = {
         amount: netTotal,
@@ -231,8 +240,8 @@ export default function CouponTest() {
         couponId: selectedCouponId,
         shipping: {
           storeName: store711.storename,
-          storeAddress: store711.storeaddress
-        }
+          storeAddress: store711.storeaddress,
+        },
       }
 
       const res = await axiosInstance.post('/line-pay/create-order', orderData)
@@ -253,7 +262,7 @@ export default function CouponTest() {
 
   const goLinePay = () => {
     if (window.confirm('確認要導向至LINE Pay進行付款?')) {
-      window.location.href = `http://localhost:3005/api/line-pay/reserve?orderId=${order.orderId}`
+      window.location.href = `https://ez3c-shop.de.r.appspot.com/api/line-pay/reserve?orderId=${order.orderId}`
     }
   }
 
@@ -296,8 +305,8 @@ export default function CouponTest() {
       <h1 className="mb-4">購物車</h1>
       <div className="row">
         <div className="col-lg-8 mb-4">
-          <CartList 
-            selectedItems={selectedItems} 
+          <CartList
+            selectedItems={selectedItems}
             setSelectedItems={setSelectedItems}
             selectAll={selectAll}
             setSelectAll={setSelectAll}
@@ -322,8 +331,12 @@ export default function CouponTest() {
                   </option>
                 ))}
               </select>
-              <p><strong>選中商品總價:</strong> ${calculateSelectedTotal()}</p>
-              <p><strong>折扣後金額:</strong> ${netTotal}</p>
+              <p>
+                <strong>選中商品總價:</strong> ${calculateSelectedTotal()}
+              </p>
+              <p>
+                <strong>折扣後金額:</strong> ${netTotal}
+              </p>
               <h5 className="card-title mt-4">7-11 運送商店</h5>
               <button
                 className="btn btn-secondary w-100 mb-2"
@@ -331,12 +344,20 @@ export default function CouponTest() {
               >
                 選擇 7-11 門市
               </button>
-              <p><strong>門市名稱:</strong> {store711.storename || '尚未選擇'}</p>
-              <p><strong>門市地址:</strong> {store711.storeaddress || '尚未選擇'}</p>
-              <button 
-                className="btn btn-primary w-100" 
+              <p>
+                <strong>門市名稱:</strong> {store711.storename || '尚未選擇'}
+              </p>
+              <p>
+                <strong>門市地址:</strong> {store711.storeaddress || '尚未選擇'}
+              </p>
+              <button
+                className="btn btn-primary w-100"
                 onClick={createOrder}
-                disabled={isLoading || calculateSelectedTotal() === 0 || !store711.storename}
+                disabled={
+                  isLoading ||
+                  calculateSelectedTotal() === 0 ||
+                  !store711.storename
+                }
               >
                 {isLoading ? '處理中...' : '產生訂單'}
               </button>
@@ -351,7 +372,7 @@ export default function CouponTest() {
           </div>
         </div>
       </div>
-      
+
       <Toaster />
     </div>
   )

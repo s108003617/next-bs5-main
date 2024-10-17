@@ -11,6 +11,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import PreviewUploadImage from '@/components/user-test/preview-upload-image'
 import { avatarBaseUrl } from '@/configs'
+import Image from 'next/image'
 
 const initUserProfile = {
   name: '',
@@ -83,12 +84,12 @@ export default function Profile() {
       if (res2.data.status === 'success') {
         toast.success('會員頭像修改成功')
         // Update the auth context with the new avatar
-        setAuth(prevAuth => ({
+        setAuth((prevAuth) => ({
           ...prevAuth,
           userData: {
             ...prevAuth.userData,
-            avatar: res2.data.data.avatar
-          }
+            avatar: res2.data.data.avatar,
+          },
         }))
       }
     }
@@ -96,14 +97,14 @@ export default function Profile() {
     if (res.data.status === 'success') {
       toast.success('會員資料修改成功')
       // Update the auth context with the new user data
-      setAuth(prevAuth => ({
+      setAuth((prevAuth) => ({
         ...prevAuth,
         userData: {
           ...prevAuth.userData,
           name: user.name,
           email: user.email,
           // Only update fields that are part of initUserData
-        }
+        },
       }))
     } else {
       toast.error('會員資料修改失敗')
@@ -125,7 +126,7 @@ export default function Profile() {
   return (
     <div className="container-fluid">
       <div className="row">
-      <nav
+        <nav
           id="sidebar"
           className="col-md-3 col-lg-2 d-md-block bg-light sidebar"
         >
@@ -173,7 +174,7 @@ export default function Profile() {
               />
             ) : (
               <div>
-                <img
+                <Image
                   src="/blank.webp"
                   alt=""
                   width="200"
@@ -200,7 +201,9 @@ export default function Profile() {
             </div>
 
             <div className="mb-3">
-              <label className="form-label">姓別</label>
+              <label className="form-label" htmlFor="gender-select">
+                姓別
+              </label>
               <div>
                 <div className="form-check form-check-inline">
                   <input
@@ -247,9 +250,7 @@ export default function Profile() {
                 maxLength={10}
               />
               {!isPhoneValid && (
-                <div className="invalid-feedback">
-                  請輸入有效的手機號碼 
-                </div>
+                <div className="invalid-feedback">請輸入有效的手機號碼</div>
               )}
             </div>
 

@@ -1,4 +1,5 @@
 import React from 'react'
+import Image from 'next/image'
 
 export default function CartIndex() {
   return (
@@ -9,7 +10,7 @@ export default function CartIndex() {
           <div className="card mb-3 border-0 cart-card">
             <div className="row g-0">
               <div className="col-md-3">
-                <img
+                <Image
                   src="/images/product/thumb/t1.jpg"
                   className="img-fluid rounded-start"
                   alt="..."
@@ -58,7 +59,7 @@ export default function CartIndex() {
           <div className="card mb-3 border-0 cart-card">
             <div className="row g-0">
               <div className="col-md-3">
-                <img
+                <Image
                   src="/images/product/thumb/t1.jpg"
                   className="img-fluid rounded-start"
                   alt="..."
@@ -107,7 +108,7 @@ export default function CartIndex() {
           <div className="card mb-3 border-0 cart-card">
             <div className="row g-0">
               <div className="col-md-3">
-                <img
+                <Image
                   src="/images/product/thumb/t1.jpg"
                   className="img-fluid rounded-start"
                   alt="..."

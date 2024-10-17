@@ -9,6 +9,7 @@ import toast, { Toaster } from 'react-hot-toast'
 import Link from 'next/link'
 import PreviewUploadImage from '@/components/user-test/preview-upload-image'
 import { avatarBaseUrl } from '@/configs'
+import Image from 'next/image'
 
 // 定義要在此頁呈現/編輯的會員資料初始物件
 const initUserProfile = {
@@ -139,7 +140,7 @@ export default function Profile() {
         />
       ) : (
         <div>
-          <img src="/blank.webp" alt="" width="200" height="200" />
+          <Image src="/blank.webp" alt="" width="200" height="200" />
           <div>
             <button onClick={handleSubmit}> </button>
           </div>

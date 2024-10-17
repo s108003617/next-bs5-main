@@ -13,11 +13,13 @@ export default function CartList({ checkedItems, onItemCheck }) {
 
   useEffect(() => {
     const newSelectedItems = {}
-    items.forEach(item => {
+    items.forEach((item) => {
       newSelectedItems[item.id] = selectedItems[item.id] || false
     })
     setSelectedItems(newSelectedItems)
-    setAllSelected(items.length > 0 && items.every(item => newSelectedItems[item.id]))
+    setAllSelected(
+      items.length > 0 && items.every((item) => newSelectedItems[item.id])
+    )
   }, [items])
 
   if (!hydrated) {
@@ -27,25 +29,27 @@ export default function CartList({ checkedItems, onItemCheck }) {
   const handleCheckboxChange = (id) => {
     const newSelectedItems = { ...selectedItems, [id]: !selectedItems[id] }
     setSelectedItems(newSelectedItems)
-    setAllSelected(items.every(item => newSelectedItems[item.id]))
+    setAllSelected(items.every((item) => newSelectedItems[item.id]))
     onItemCheck(id)
   }
 
   const handleSelectAll = () => {
     const newAllSelected = !allSelected
     const newSelectedItems = {}
-    items.forEach(item => {
+    items.forEach((item) => {
       newSelectedItems[item.id] = newAllSelected
     })
     setSelectedItems(newSelectedItems)
     setAllSelected(newAllSelected)
-    items.forEach(item => onItemCheck(item.id))
+    items.forEach((item) => onItemCheck(item.id))
   }
 
   const getSelectedTotal = () => {
-    return Math.round(items
-      .filter(item => selectedItems[item.id])
-      .reduce((total, item) => total + item.subtotal, 0))
+    return Math.round(
+      items
+        .filter((item) => selectedItems[item.id])
+        .reduce((total, item) => total + item.subtotal, 0)
+    )
   }
 
   return (
@@ -66,7 +70,8 @@ export default function CartList({ checkedItems, onItemCheck }) {
           color: #495057;
           font-size: 0.875rem;
         }
-        .cart-list td, .cart-list th {
+        .cart-list td,
+        .cart-list th {
           vertical-align: middle;
         }
         .cart-summary {
@@ -100,7 +105,9 @@ export default function CartList({ checkedItems, onItemCheck }) {
                   onChange={handleSelectAll}
                   id="selectAll"
                 />
-                <label className="form-check-label" htmlFor="selectAll">全選</label>
+                <label className="form-check-label" htmlFor="selectAll">
+                  全選
+                </label>
               </div>
             </th>
             <th>商品</th>
@@ -122,24 +129,42 @@ export default function CartList({ checkedItems, onItemCheck }) {
                     onChange={() => handleCheckboxChange(item.id)}
                     id={`item-${item.id}`}
                   />
-                  <label className="form-check-label" htmlFor={`item-${item.id}`}></label>
+                  <label
+                    className="form-check-label"
+                    htmlFor={`item-${item.id}`}
+                  >
+                    {item.name}{' '}
+                    {/* 假設 item 有一個 name 屬性，這是你想顯示的文本 */}
+                  </label>
                 </div>
               </td>
               <td>
                 <div>{item.name}</div>
-                
               </td>
               <td>${Math.round(item.price)}</td>
               <td>
                 <div className="quantity-control">
-                  <button className="btn btn-sm btn-outline-secondary" onClick={() => decrement(item.id)}>-</button>
+                  <button
+                    className="btn btn-sm btn-outline-secondary"
+                    onClick={() => decrement(item.id)}
+                  >
+                    -
+                  </button>
                   <span>{item.quantity}</span>
-                  <button className="btn btn-sm btn-outline-secondary" onClick={() => increment(item.id)}>+</button>
+                  <button
+                    className="btn btn-sm btn-outline-secondary"
+                    onClick={() => increment(item.id)}
+                  >
+                    +
+                  </button>
                 </div>
               </td>
               <td>${Math.round(item.subtotal)}</td>
               <td>
-                <button className="btn btn-sm btn-outline-danger" onClick={() => removeItem(item.id)}>
+                <button
+                  className="btn btn-sm btn-outline-danger"
+                  onClick={() => removeItem(item.id)}
+                >
                   刪除
                 </button>
               </td>
@@ -150,17 +175,20 @@ export default function CartList({ checkedItems, onItemCheck }) {
       <div className="cart-summary">
         <div className="d-flex justify-content-between align-items-center">
           <div>
-            <span>已選擇 {Object.values(selectedItems).filter(Boolean).length} 件商品</span>
+            <span>
+              已選擇 {Object.values(selectedItems).filter(Boolean).length}{' '}
+              件商品
+            </span>
             <span className="ms-3">選擇商品總計: ${getSelectedTotal()}</span>
           </div>
           <div>
             <span>總計: ${getSelectedTotal()}</span>
-            <span className="ms-3">{Object.values(selectedItems).filter(Boolean).length} 件商品</span>
+            <span className="ms-3">
+              {Object.values(selectedItems).filter(Boolean).length} 件商品
+            </span>
           </div>
         </div>
-        {cart.isEmpty && (
-          <p className="mt-2 text-muted">購物車為空</p>
-        )}
+        {cart.isEmpty && <p className="mt-2 text-muted">購物車為空</p>}
       </div>
     </div>
   )

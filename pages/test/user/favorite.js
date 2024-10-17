@@ -18,22 +18,23 @@ const Favorites = () => {
   const fetchFavorites = async () => {
     try {
       setLoading(true)
-      const response = await fetch('http://localhost:3005/api/favorites1', {
-        credentials: 'include',
-      })
+      const response = await fetch(
+        'https://ez3c-shop.de.r.appspot.com/api/favorites1',
+        {
+          credentials: 'include',
+        }
+      )
       if (!response.ok) {
         throw new Error('Failed to fetch favorites')
       }
       const data = await response.json()
       if (data.status === 'success') {
         setFavorites(data.data.favorites)
-        
       } else {
         throw new Error(data.message || 'Failed to fetch favorites')
       }
     } catch (error) {
       setError(error.message)
-      
     } finally {
       setLoading(false)
     }
@@ -42,7 +43,7 @@ const Favorites = () => {
   const cancelFavorite = async (favoriteId) => {
     try {
       const response = await fetch(
-        `http://localhost:3005/api/favorites1?favoriteId=${favoriteId}`,
+        `https://ez3c-shop.de.r.appspot.com/api/favorites1?favoriteId=${favoriteId}`,
         {
           method: 'DELETE',
           credentials: 'include',
@@ -129,9 +130,11 @@ const Favorites = () => {
                 <FaHeart size={64} className="text-muted" />
               </div>
               <h2 className="h4 mb-3">目前沒有收藏項目</h2>
-              <p className="text-muted mb-4">您還沒有收藏任何商品。開始瀏覽並收藏您喜歡的商品吧！</p>
-              <Link 
-                href="http://localhost:3000/test/cart/product-list" 
+              <p className="text-muted mb-4">
+                您還沒有收藏任何商品。開始瀏覽並收藏您喜歡的商品吧！
+              </p>
+              <Link
+                href="https://ez3c-shop.de.r.appspot.com/test/cart/product-list"
                 className="btn btn-primary btn-lg shadow-sm transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-md"
               >
                 <span className="me-2">前往收藏</span>
@@ -170,17 +173,18 @@ const Favorites = () => {
                         )}
                       </td>
                       <td className="text-center">
-                        <span
+                        <button
                           className="text-primary"
-                          style={{
-                            cursor: 'pointer',
-                          }}
+                          style={{ cursor: 'pointer' }}
                           onClick={() => handleProductClick(favorite.pid)}
+                          aria-label={`查看產品 ${
+                            favorite.product ? favorite.product.name : '不存在'
+                          }`} // 增加可讀性
                         >
                           {favorite.product
                             ? favorite.product.name
                             : '產品不存在'}
-                        </span>
+                        </button>
                       </td>
                       <td className="text-center">
                         {favorite.product ? (

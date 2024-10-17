@@ -30,7 +30,7 @@ export default function Detail() {
 
   // 與伺服器作fetch獲得資料
   const getProduct = async (pid) => {
-    const url = 'http://localhost:3005/api/my-products/' + pid
+    const url = 'https://ez3c-shop.de.r.appspot.com/api/my-products/' + pid
 
     // 使用try-catch語句，讓和伺服器連線的程式能作錯誤處理
     try {

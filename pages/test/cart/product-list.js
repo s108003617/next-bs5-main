@@ -158,7 +158,9 @@ export default function ProductList() {
         <Button
           variant="primary"
           onClick={() =>
-            router.push('http://localhost:3000/test/cart/coupon-test')
+            router.push(
+              'https://ez3c-shop.de.r.appspot.com/test/cart/coupon-test'
+            )
           }
         >
           前往購物車結帳
@@ -219,7 +221,7 @@ export default function ProductList() {
   return (
     <>
       <h1>商品列表頁</h1>
-      
+
       <div className="my-3">
         <input
           type="text"

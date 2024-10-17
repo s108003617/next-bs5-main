@@ -4,9 +4,25 @@ import useSWR from 'swr'
 /**
  * 檢查會員狀態使用
  */
+// export const checkAuth = async () => {
+//   return await axiosInstance.get('/auth/check')
+// }
 export const checkAuth = async () => {
-  return await axiosInstance.get('/auth/check')
+  try {
+    const response = await axiosInstance.get('/auth/check')
+
+    if (response.status === 304) {
+      console.log('No new data; using cached version.')
+      return { data: { status: 'success', data: null } } // 確保返回的結構一致
+    }
+
+    return response.data // 假設這裡是正確的結構
+  } catch (error) {
+    console.error('Check Auth Error:', error)
+    return { data: { status: 'error' } } // 確保這裡的結構也是一致的
+  }
 }
+
 /**
  * Google Login(Firebase)登入用，providerData為登入後得到的資料
  */

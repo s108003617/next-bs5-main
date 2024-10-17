@@ -63,7 +63,7 @@ export default function ProductStateList() {
     const searchParams = new URLSearchParams(params)
 
     const res = await axios.get(
-      `http://localhost:3005/api/products?${searchParams.toString()}`
+      `https://ez3c-shop.de.r.appspot.com/api/products?${searchParams.toString()}`
     )
 
     //console.log(res.data)

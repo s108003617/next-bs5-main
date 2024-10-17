@@ -31,7 +31,7 @@ const menuItems = [
   {
     id: 4,
     label: '商品',
-    href: 'http://localhost:3000/test/cart/product-list',
+    href: 'https://ez3c-shop.de.r.appspot.com/test/cart/product-list',
   },
   {
     id: 5,

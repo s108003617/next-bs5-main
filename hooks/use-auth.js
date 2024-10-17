@@ -86,7 +86,7 @@ export const AuthProvider = ({ children }) => {
     const res = await checkAuth()
 
     // 伺服器api成功的回應為 { status:'success', data:{ user } }
-    if (res.data.status === 'success') {
+    if (res.data && res.data.status === 'success') {
       // 只需要initUserData的定義屬性值
       const dbUser = res.data.data.user
       const userData = { ...initUserData }
@@ -100,6 +100,7 @@ export const AuthProvider = ({ children }) => {
       setAuth({ isAuth: true, userData })
     } else {
       console.warn(res.data)
+      console.error('無效的響應格式:', res)
 
       // 在這裡實作隱私頁面路由的跳轉
       if (protectedRoutes.includes(router.pathname)) {
